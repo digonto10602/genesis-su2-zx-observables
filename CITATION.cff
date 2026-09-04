@@ -1,0 +1,10 @@
+cff-version: 1.2.0
+title: "SU2ZX: observable-preserving compilation for SU(2) plaquette chains"
+message: "Please cite this repository and the physics/method references in docs/REFERENCES.md."
+type: software
+authors:
+  - family-names: Islam
+    given-names: Md Habib E
+version: 0.1.0
+date-released: 2026-09-04
+license: MIT

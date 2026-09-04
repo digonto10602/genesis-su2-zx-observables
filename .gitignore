@@ -1,0 +1,16 @@
+.mamba/
+.work/
+.codex/
+graphify-out/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.env
+.env.*
+!.env.example
+artifacts/logs/*.tmp
+artifacts/qpu/*token*
+artifacts/qpu/*credential*

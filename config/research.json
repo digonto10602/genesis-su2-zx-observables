@@ -1,0 +1,15 @@
+{
+  "num_plaquettes": 5,
+  "x": 2.0,
+  "j_max": "1/2",
+  "initial_ones": [2],
+  "primary_repetitions": 2,
+  "trotter_repetitions": [1, 2, 4, 8],
+  "time_min": 0.0,
+  "time_max": 0.32,
+  "time_points": 81,
+  "hardware_times": [0.0, 0.08, 0.16, 0.24, 0.32],
+  "shots": 4096,
+  "seed": 7,
+  "selector_seed": 11
+}
