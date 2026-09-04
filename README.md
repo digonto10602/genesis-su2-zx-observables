@@ -8,7 +8,7 @@ represent the real-time dynamics.
 The complete numerical interpretation, status table, plots, and limitations are in
 [RESEARCH_RESULTS.md](RESEARCH_RESULTS.md). The main local findings are:
 
-- mandatory physics gates: 12 tests passed;
+- mandatory physics and guarded-QPU tests: 13 passed;
 - six-basis energy reconstruction error: at most `1.257e-13`;
 - compiler resource gate: PASS (`20.3%` median native two-qubit and `23.5%`
   two-qubit-depth reduction for PyZX Basic versus Qiskit L3);
