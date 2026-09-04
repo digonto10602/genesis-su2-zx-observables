@@ -1,0 +1,43 @@
+{
+  "top1_accuracy": 1.0,
+  "normalized_regret": 0.0,
+  "fixed_normalized_regret": {
+    "qiskit": 0.24480960124162274,
+    "basic": 0.0,
+    "teleport": 0.10520302251759941,
+    "full_reduce": 1.1726861312765307
+  },
+  "oracle_normalized_regret": 0.0,
+  "rows": 240,
+  "families": 12,
+  "cost_weight_sensitivity": [
+    {
+      "depth_weight": 0.0,
+      "calibration_error_weight": 20.0,
+      "top1_accuracy": 1.0,
+      "normalized_regret": 0.0,
+      "best_fixed_normalized_regret": 0.0
+    },
+    {
+      "depth_weight": 0.02,
+      "calibration_error_weight": 0.0,
+      "top1_accuracy": 1.0,
+      "normalized_regret": 0.0,
+      "best_fixed_normalized_regret": 0.0
+    },
+    {
+      "depth_weight": 0.02,
+      "calibration_error_weight": 20.0,
+      "top1_accuracy": 1.0,
+      "normalized_regret": 0.0,
+      "best_fixed_normalized_regret": 0.0
+    },
+    {
+      "depth_weight": 0.1,
+      "calibration_error_weight": 50.0,
+      "top1_accuracy": 1.0,
+      "normalized_regret": 0.0,
+      "best_fixed_normalized_regret": 0.0
+    }
+  ]
+}
