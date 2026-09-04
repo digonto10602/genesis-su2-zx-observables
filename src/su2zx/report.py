@@ -180,7 +180,7 @@ def main() -> None:
 
     report = f"""# SU2ZX research results
 
-Generated: {datetime.now(UTC).isoformat()}  
+Generated: {datetime.now(UTC).isoformat()}<br>
 Commit: `{commit_sha(root)}`
 
 ## Run status
