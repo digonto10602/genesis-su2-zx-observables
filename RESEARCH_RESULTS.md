@@ -1,7 +1,7 @@
 # SU2ZX research results
 
-Generated: 2026-09-04T18:23:21.552177+00:00<br>
-Commit: `26c4e2d0f5c38c4ba86730fa7f17ed6f7bda626c`
+Generated: 2026-09-04T18:24:12.007397+00:00<br>
+Commit: `a8362005de9bc08f2cc64a216698933c3f925678`
 
 ## Run status
 
@@ -238,7 +238,7 @@ Raw numerical outputs are in `artifacts/data/`; figures are in `artifacts/figure
 | CUDA-Q CPU agreement | LOCAL CPU PASS | `artifacts/data/accelerator_status.json` |
 | CUDA-Q/cuTensorNet GPU | BLOCKED | GTX 1060 Max-Q capability 6.1 is below 7.5 |
 | Hardware-physics hypothesis | NOT RUN | authorization/credentials absent; `artifacts/qpu/` has no result |
-| Public repository | PLANNED - LOCAL VALIDATION COMPLETE | [genesis-su2-zx-observables](https://github.com/digonto10602/genesis-su2-zx-observables) |
+| Public repository | PUBLIC - VERIFIED | [genesis-su2-zx-observables](https://github.com/digonto10602/genesis-su2-zx-observables) |
 
 ## Limitations
 
