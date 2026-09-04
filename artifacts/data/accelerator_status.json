@@ -1,0 +1,63 @@
+{
+  "cudaq_version": "0.15.1",
+  "cudaq_cpu_status": "LOCAL CPU PASS",
+  "cudaq_cpu_references": [
+    {
+      "target": "qpp-cpu",
+      "plaquettes": 1,
+      "x": 2.0,
+      "time": 0.32,
+      "repetitions": 2,
+      "max_bond": null,
+      "energy": 2.6138574771165537,
+      "qiskit_energy": 2.6138574771165524,
+      "absolute_energy_error": 1.3322676295501878e-15,
+      "survival_probability": 0.13406332431059956,
+      "probability_tvd_to_qiskit": 0.0,
+      "state_norm_error": 1.3322676295501878e-15,
+      "shots": 0
+    },
+    {
+      "target": "qpp-cpu",
+      "plaquettes": 2,
+      "x": 2.0,
+      "time": 0.32,
+      "repetitions": 2,
+      "max_bond": null,
+      "energy": 2.653309352809297,
+      "qiskit_energy": 2.653309352809286,
+      "absolute_energy_error": 1.1102230246251565e-14,
+      "survival_probability": 0.09946802260848606,
+      "probability_tvd_to_qiskit": 2.636779683484747e-16,
+      "state_norm_error": 4.551914400963142e-15,
+      "shots": 0
+    },
+    {
+      "target": "qpp-cpu",
+      "plaquettes": 5,
+      "x": 2.0,
+      "time": 0.32,
+      "repetitions": 2,
+      "max_bond": null,
+      "energy": 3.575290444838755,
+      "qiskit_energy": 3.575290444838649,
+      "absolute_energy_error": 1.0613732115416497e-13,
+      "survival_probability": 0.0015845926313363505,
+      "probability_tvd_to_qiskit": 1.0289078616887437e-15,
+      "state_norm_error": 1.887379141862766e-14,
+      "shots": 0
+    }
+  ],
+  "cudaq_gpu_status": "BLOCKED - UNSUPPORTED GPU ARCHITECTURE",
+  "tensornet_status": "BLOCKED - UNSUPPORTED GPU ARCHITECTURE",
+  "tensornet_mps_status": "BLOCKED - UNSUPPORTED GPU ARCHITECTURE",
+  "direct_cutensornet_status": "BLOCKED - UNSUPPORTED GPU ARCHITECTURE",
+  "minimum_compute_capability": "7.5",
+  "requirement_url": "https://nvidia.github.io/cuda-quantum/latest/using/install/local_installation.html",
+  "gpu": {
+    "name": "NVIDIA GeForce GTX 1060 with Max-Q Design",
+    "vram": "6144 MiB",
+    "driver": "580.178.04",
+    "compute_capability": "6.1"
+  }
+}
