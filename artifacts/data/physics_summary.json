@@ -1,5 +1,29 @@
 {
   "initial_energy": 2.999999999999995,
   "max_norm_error": 1.2034817586936697e-13,
-  "max_six_basis_energy_error": 1.2567724638756772e-13
+  "max_six_basis_energy_error": 1.2567724638756772e-13,
+  "trotter_convergence_fit": {
+    "error_metric": "maximum TVD over sampled nonzero times",
+    "fit": "ordinary least squares of log(error) on log(repetitions)",
+    "order_p": 1.8657771603494833,
+    "slope_standard_error": 0.0649489898671586,
+    "repetitions": [
+      1,
+      2,
+      4,
+      8
+    ]
+  },
+  "symmetry_ordering": {
+    "current": {
+      "max_tvd": 0.04256837745235664,
+      "max_energy_drift": 0.5752904448386493,
+      "max_mirror_asymmetry": 0.0011499997348421998
+    },
+    "symmetry": {
+      "max_tvd": 0.0415574171009975,
+      "max_energy_drift": 0.241867651132325,
+      "max_mirror_asymmetry": 3.3306690738754696e-16
+    }
+  }
 }

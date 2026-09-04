@@ -8,6 +8,8 @@ Conventions:
 
 from __future__ import annotations
 
+import hashlib
+import json
 from collections.abc import Mapping, Sequence
 from dataclasses import dataclass
 
@@ -146,6 +148,34 @@ def pauli_rotation(circuit: QuantumCircuit, word: str, theta: float) -> None:
             circuit.s(q)
 
 
+def ordered_hamiltonian_terms(
+    num_plaquettes: int, x: float, ordering: str = "current"
+) -> list[PauliTerm]:
+    """Return the unchanged Hamiltonian terms in a documented product order.
+
+    ``symmetry`` groups each Pauli word with its spatial reflection.  Members of
+    every such orbit commute for this Hamiltonian, so each grouped exponential is
+    reflection invariant even though different orbit sums need not commute.
+    """
+    terms = plaquette_chain_terms(num_plaquettes, x, include_identity=False)
+    if ordering == "current":
+        return terms
+    if ordering == "reversed":
+        return list(reversed(terms))
+    if ordering != "symmetry":
+        raise ValueError(f"unknown term ordering {ordering!r}")
+
+    orbits: dict[str, list[PauliTerm]] = {}
+    for term in terms:
+        key = min(term.word, term.word[::-1])
+        orbits.setdefault(key, []).append(term)
+    return [
+        term
+        for key in sorted(orbits)
+        for term in sorted(orbits[key], key=lambda item: item.word)
+    ]
+
+
 def strang_evolution(
     num_plaquettes: int,
     x: float,
@@ -153,6 +183,7 @@ def strang_evolution(
     repetitions: int,
     *,
     initial_ones: Sequence[int] = (),
+    term_ordering: str = "current",
 ) -> QuantumCircuit:
     """Second-order product formula for exp(-i H_tilde time)."""
     if repetitions < 1:
@@ -161,7 +192,7 @@ def strang_evolution(
     for q in initial_ones:
         circuit.x(q)
 
-    terms = plaquette_chain_terms(num_plaquettes, x, include_identity=False)
+    terms = ordered_hamiltonian_terms(num_plaquettes, x, term_ordering)
     dt = time / repetitions
     for _ in range(repetitions):
         for term in terms:
@@ -175,8 +206,38 @@ def strang_evolution(
         "time": time,
         "repetitions": repetitions,
         "initial_ones": list(initial_ones),
+        "term_ordering": term_ordering,
     }
     return circuit
+
+
+def circuit_hash(circuit: QuantumCircuit, *, normalize_parameters: bool = False) -> str:
+    """Hash ordered gates/connectivity, optionally discarding continuous angles."""
+    instructions = []
+    for item in circuit.data:
+        params = []
+        if not normalize_parameters:
+            params = [format(float(value), ".16g") for value in item.operation.params]
+        instructions.append(
+            {
+                "name": item.operation.name,
+                "qubits": [circuit.find_bit(qubit).index for qubit in item.qubits],
+                "clbits": [circuit.find_bit(bit).index for bit in item.clbits],
+                "params": params,
+            }
+        )
+    payload = {
+        "num_qubits": circuit.num_qubits,
+        "num_clbits": circuit.num_clbits,
+        "instructions": instructions,
+    }
+    encoded = json.dumps(payload, sort_keys=True, separators=(",", ":")).encode()
+    return hashlib.sha256(encoded).hexdigest()
+
+
+def circuit_structure_hash(circuit: QuantumCircuit) -> str:
+    """Hash gate order and connectivity while normalizing continuous parameters."""
+    return circuit_hash(circuit, normalize_parameters=True)
 
 
 def initial_state(num_qubits: int, initial_ones: Sequence[int]) -> np.ndarray:
@@ -336,6 +397,10 @@ def optimize_with_pyzx(source: QuantumCircuit, strategy: str) -> QuantumCircuit:
         candidate_zx = zx.optimize.basic_optimization(
             zxc.copy(), do_swaps=False, quiet=True
         )
+    elif strategy == "basic_swaps":
+        candidate_zx = zx.optimize.basic_optimization(
+            zxc.copy(), do_swaps=True, quiet=True
+        )
     elif strategy == "teleport":
         graph = zx.simplify.teleport_reduce(zxc.to_graph().copy())
         candidate_zx = zx.Circuit.from_graph(graph).to_basic_gates()
@@ -344,6 +409,12 @@ def optimize_with_pyzx(source: QuantumCircuit, strategy: str) -> QuantumCircuit:
         zx.simplify.full_reduce(graph, quiet=True)
         candidate_zx = zx.extract.extract_circuit(
             graph.copy(), up_to_perm=False, quiet=True
+        ).to_basic_gates()
+    elif strategy == "full_reduce_depth":
+        graph = zxc.to_graph()
+        zx.simplify.full_reduce(graph, quiet=True)
+        candidate_zx = zx.extract.lookahead_extract(
+            graph.copy(), optimize_for_depth=True, up_to_perm=False
         ).to_basic_gates()
     else:
         raise ValueError(f"unknown PyZX strategy {strategy!r}")

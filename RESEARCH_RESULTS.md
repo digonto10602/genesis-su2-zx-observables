@@ -1,223 +1,136 @@
-# SU2ZX research results
-
-Generated: 2026-09-04T18:24:12.007397+00:00<br>
-Commit: `a8362005de9bc08f2cc64a216698933c3f925678`
-
-## Run status
-
-| Layer | Status | Evidence |
-|---|---|---|
-| CPU physics and six-basis reconstruction | PASS | `artifacts/data/physics_summary.json` |
-| Generic target compiler resource gate | PASS | `artifacts/data/compiler_dataset.csv` |
-| Learned selector | NULL | `artifacts/data/selector_summary.json` |
-| CUDA-Q `qpp-cpu` | LOCAL CPU PASS | `artifacts/data/accelerator_status.json` |
-| CUDA-Q GPU | BLOCKED - UNSUPPORTED GPU ARCHITECTURE | `artifacts/data/accelerator_status.json` |
-| Tensor-network GPU routes | BLOCKED - UNSUPPORTED GPU ARCHITECTURE | `artifacts/data/accelerator_status.json` |
-| Direct cuTensorNet | BLOCKED - UNSUPPORTED GPU ARCHITECTURE | `artifacts/data/accelerator_status.json` |
-| IBM QPU | NOT RUN - AUTHORIZATION/CREDENTIALS REQUIRED | `artifacts/qpu/` |
+# SU2ZX research results — v0.3.0
 
-`EXECUTED - REVIEW NUMERICAL AGREEMENT` is not automatically a validation pass. It means the optional program ran and its value must still be compared with the CPU reference.
+Generated: 2026-09-04T22:11:55.476510+00:00<br>
+Input Git commit: `fdf631acfeb351dd400ef79c3b63235a1758eeb1`
 
-## Research question
+## Executive summary
 
-Can a backend-aware selector over exactly equivalent Qiskit/PyZX pipelines reduce native two-qubit resources and, when authorized hardware data exist, lower physics-level distribution error for a five-plaquette SU(2) real-time circuit family?
+This run preserves the validated gauge-reduced SU(2), `j_max=1/2` plaquette-chain physics and turns the compiler benchmark into a non-degenerate target-aware problem. All 426 compiler records passed global-phase-aware exact unitary equivalence. Across 70 distinct structural-circuit/target cases, Basic won 54 lexicographic cases and teleport won 16; the stricter native-2Q-only audit found 3 Basic and 15 teleport wins. The winner-diversity gate therefore **PASS**.
 
-The preregistered resource hypothesis requires median native two-qubit-count reduction of at least 15% and native two-qubit-depth reduction of at least 10%. The AI hypothesis requires grouped-CV regret below every fixed strategy. The hardware hypothesis requires a negative selected-minus-Qiskit paired TVD difference for both raw and M3-projected data; it cannot be evaluated without authorized real-device data.
+The ML selector result is **NULL**. Its structural-family-holdout mean regret is 0.0694, versus 0.0356 for always-Basic and 0.1854 for always-Qiskit. It improves on Qiskit but not the strongest fixed baseline, so no ML advantage is claimed.
 
-## Model and conventions
+The symmetry-aware Strang ordering is positive for the sampled five-plaquette trajectory: maximum TVD changes from 0.0425684 to 0.0415574, maximum energy drift from 0.57529 to 0.241868, and maximum mirror asymmetry from 0.00115 to 3.33067e-16, with unchanged source 2Q count.
 
-- Gauge group: SU(2), pure gauge.
-- Truncation: `j_max = 1/2`.
-- Geometry: five spatial plaquettes in a one-plaquette-wide open chain, a tiny 2+1D Hamiltonian geometry.
-- Coupling: `x = 2.0` in `H_tilde = 2H/g^2`, `x=2/g^4` units.
-- Initial Qiskit-order state: `|q4 q3 q2 q1 q0> = |00100>`.
-- Primary product formula: second-order Strang with `r=2`.
-- Exact-Hamiltonian and ideal-Trotter references are stored separately.
+CPU MPS validation is **PASS** for N=5,8 at maximum bond dimension 32; N=12 is exploratory. CUDA-Q CPU remains **LOCAL CPU PASS**. CUDA-Q GPU remains **BLOCKED_BY_HARDWARE** on the compute-capability-6.1 GTX 1060 Max-Q. IBM QPU is **NOT_RUN**; no job was submitted.
 
-This is a compiler and hardware-validation model. It is not continuum SU(2), SU(3) QCD, or a quantum-advantage demonstration.
+## Physics model and boundaries
 
-## Environment and provenance
+`src/su2zx/core.py` remains the sole Hamiltonian and convention source. The model is a pure SU(2), `j_max=1/2`, one-plaquette-wide open spatial chain in a truncated 2+1D Hamiltonian geometry. Qiskit strings and displayed bitstrings use `q_(N-1)...q_0`. This study does not establish continuum SU(2), physical SU(3) QCD, string tension, string breaking, hadronization, or quantum advantage.
 
-- Execution target: Omarchy/Arch Linux, kernel `7.1.9-arch1-2`, Python 3.11.
-- CPU/RAM probe: 12 logical CPUs and 16,429,694,976 bytes of RAM.
-- GPU: `NVIDIA GeForce GTX 1060 with Max-Q Design`, 6144 MiB VRAM, driver `580.178.04`, compute capability `6.1`.
-- CUDA-Q version: `0.15.1`. Current GPU minimum: compute capability 7.5 ([official compatibility source](https://nvidia.github.io/cuda-quantum/latest/using/install/local_installation.html)).
-- The repository scope lock prevented reading `/etc/os-release`; Omarchy is the user-supplied execution environment. `nvcc` was unavailable.
-- Full package pins are preserved in `artifacts/environment-pip-freeze.txt`; commands and test/compiler output are in `artifacts/logs/`.
+The reference hierarchy is exact Hamiltonian → ideal Strang circuit → compiled ideal circuit → noisy/hardware result. No simulator or MPS output is labeled as QPU data.
 
-## Correctness gates
+## Validation
 
-| Gate | Tolerance | Result |
-|---|---:|---|
-| One-plaquette matrix, spectrum, ground state, transition formula | `1e-12` or tighter | PASS |
-| Two-plaquette matrix and `-1.789221846776` ground energy | `1e-12` | PASS |
-| Hermiticity and exact/Trotter normalization for `N=1,2,5` | `1e-12` | PASS |
-| Qiskit little-endian strings/bitstrings | exact assertion | PASS |
-| Manual Pauli rotation versus matrix exponential | exact unitary equivalence | PASS |
-| Strang convergence for `r=1,2,4,8` | strictly decreasing infidelity | PASS |
-| Exact five-plaquette mirror symmetry | `1e-12` | PASS |
-| Six-basis versus direct energy | `<1e-10` | PASS (`1.257e-13`) |
-| Probability-simplex projection | nonnegative, sum within `1e-13` | PASS |
-| PyZX Basic/teleport/full-reduce at `N=2,5` | exact unitary equivalence | PASS |
-| IBM dry-run manifest and fresh-token guard | 60 unique physics circuits | PASS |
+- Current local test result: `17 passed, 2 warnings in 5.42s`.
+- One- and two-plaquette analytic matrices and spectra, Hermiticity, normalization, Qiskit ordering, Pauli rotations, energy reconstruction, reflection symmetry, PyZX equivalence, and guarded IBM dry-run behavior are covered by `tests/`.
+- Maximum state-norm error: `1.203e-13`.
+- Maximum six-basis energy-reconstruction error: `1.257e-13`.
+- Compiler equivalence: `426/426` verified at recorded tolerance `1e-10`.
+- Seed sensitivity: `54/54` verified; maximum native-2Q seed span was `8` gates, confined to stochastic aggressive-reduction cases.
 
-The final local test command was `.mamba/envs/su2zx/bin/python -m pytest -q`: 13 tests passed. Ruff and mypy also passed; see `artifacts/logs/pytest.log`, `artifacts/logs/ruff.log`, and `artifacts/logs/mypy.log`.
+## Trotter analysis
 
-## Observables
+The fit uses ordinary least squares of `log(max TVD)` on `log(r)` for `r=1,2,4,8`. It gives `p = 1.866 ± 0.065` (slope standard error), approaching the expected second-order value. The procedure and points are stored in `artifacts/data/trotter_convergence.csv` and `physics_summary.json`.
 
-| Observable | Definition or estimator | Measurement/meaning |
-|---|---|---|
-| Computational distribution | `p(s)=|<s|psi>|^2` | Z basis; primary information for TVD |
-| Loop occupation | `n_p=(1-Z_p)/2` | Retained `j=1/2` plaquette sector, not quark number |
-| Survival | `L(t)=p(00100)` | Persistence of the initial central excitation |
-| Electric energy | coefficient-weighted I/Z/ZZ expectations | Electric-flux contribution |
-| Magnetic energy | coefficient-weighted one-X expectations | Coherent plaquette-loop mixing |
-| Total energy | `E_E+E_B` | Conserved for exact H; finite-r drift diagnoses Trotter error |
-| Trotter TVD | half the L1 distance to exact-H distribution | Separates product-formula error |
-| Mirror asymmetry | `(abs(n0-n4)+abs(n1-n3))/2` | Symmetry/layout/noise diagnostic |
+![Exact-vs-Strang TVD across time and repetition counts.](artifacts/figures/trotter_tvd_convergence.png)
 
-Six settings, `Z,X0,X1,X2,X3,X4`, reconstruct the entire five-plaquette Hamiltonian because every magnetic term contains exactly one X.
+Exact-vs-Strang TVD across time and repetition counts.
 
-## Exact results at the proposed hardware times
+## Physics observables
 
-| t | L | E_E | E_B | E | TVD | n0 | n1 | n2 | n3 | n4 |
-|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
-| 0 | 1 | 3 | 3.88578e-16 | 3 | 0 | 2.63156e-31 | 2.66274e-31 | 1 | 2.82739e-31 | 2.4871e-31 |
-| 0.08 | 0.69581 | 3.38685 | -0.38685 | 3 | 0 | 0.0978191 | 0.0266497 | 0.903603 | 0.0266497 | 0.0978191 |
-| 0.16 | 0.222567 | 4.50149 | -1.50149 | 3 | 0 | 0.339466 | 0.112381 | 0.674981 | 0.112381 | 0.339466 |
-| 0.24 | 0.0287502 | 5.88127 | -2.88127 | 3 | 0 | 0.595165 | 0.243738 | 0.433808 | 0.243738 | 0.595165 |
-| 0.32 | 0.00258519 | 6.63316 | -3.63316 | 3 | 0 | 0.733194 | 0.369347 | 0.264623 | 0.369347 | 0.733194 |
+Stored observables include local plaquette occupation, central-state survival, electric, magnetic and total energy, norm, TVD, and mirror asymmetry. They are loop-sector diagnostics of the truncated model, not quark or hadron observables.
 
-## Primary ideal Trotter results
+![Plaquette occupations for exact and ideal-Trotter evolution.](artifacts/figures/loop_occupations_exact_vs_trotter.png)
 
-| t | L | E_E | E_B | E | TVD | n0 | n1 | n2 | n3 | n4 |
-|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
-| 0 | 1 | 3 | 5.10926e-16 | 3 | 9.32587e-15 | 3.50596e-35 | 6.23477e-34 | 1 | 2.3834e-34 | 2.38558e-34 |
-| 0.08 | 0.695665 | 3.38735 | -0.387631 | 2.99972 | 0.000207422 | 0.0978496 | 0.0267672 | 0.903631 | 0.0266666 | 0.0978526 |
-| 0.16 | 0.221422 | 4.50736 | -1.47932 | 3.02804 | 0.00321733 | 0.339722 | 0.113835 | 0.674976 | 0.112945 | 0.339822 |
-| 0.24 | 0.0272322 | 5.9079 | -2.68171 | 3.22619 | 0.0124777 | 0.596818 | 0.249175 | 0.431618 | 0.247371 | 0.597158 |
-| 0.32 | 0.00158459 | 6.72305 | -3.14776 | 3.57529 | 0.0425684 | 0.743637 | 0.381336 | 0.25395 | 0.379175 | 0.743498 |
+Plaquette occupations for exact and ideal-Trotter evolution.
 
-The CPU gate is based on an initial energy of `3`, maximum norm error `1.203e-13`, and maximum six-basis energy-reconstruction error `1.257e-13`.
+![Central-state survival probability.](artifacts/figures/survival_probability.png)
 
-## Physics plots
+Central-state survival probability.
 
-### Loop occupations
+![Electric, magnetic, and total energy.](artifacts/figures/energy_components.png)
 
-![Loop occupations](artifacts/figures/loop_occupations_exact_vs_trotter.png)
+Electric, magnetic, and total energy.
 
-Solid curves are dense exact-Hamiltonian evolution; dashed curves are the primary ideal Strang circuit. Motion away from the central plaquette shows mixing among retained gauge-invariant loop sectors. Differences between paired curves are Trotter error, not hardware noise.
+## Symmetry-aware Trotter ordering
 
+The `symmetry` ordering groups every Pauli word with its spatial reflection without changing the Hamiltonian. On the sampled N=5, r=2 trajectory it eliminates ordering-induced mirror asymmetry to floating-point scale and reduces energy drift; its TVD improvement is smaller. These are ideal-algorithm results, not device-noise results.
 
-### Survival probability
+![Current versus reflection-paired Strang ordering.](artifacts/figures/symmetry_aware_ordering.png)
 
-![Survival probability](artifacts/figures/survival_probability.png)
+Current versus reflection-paired Strang ordering.
 
-The curve tracks the probability of measuring the initial `00100` state. Comparing repetitions exposes product-formula convergence. It is a real-time loop-sector diagnostic, not a hadron survival probability.
+## Compiler experiment
 
+- raw circuits: **35**;
+- unique parameterized circuits: **35**;
+- unique structural circuits: **30**;
+- explicit angle-only duplicates: **5**;
+- target configurations: **35** across **5** topology classes;
+- primary compiler evaluations: **426**;
+- three-seed sensitivity evaluations: **54**;
+- verified primary evaluations: **426**.
 
-### Electric, magnetic, and total energy
+The families cover N=2–6, r=1,2,4,8, current/reversed/reflection-paired ordering, and nonzero x/t variants. Targets are labeled synthetic line, ring, grid, heavy-hex-like, and sparse irregular graphs. Favorable, spread, and transpiler-selected placements are recorded. Strategies use the same ECR basis, target, layout constraint, optimization level, and seed within a case.
 
-![Electric, magnetic, and total energy](artifacts/figures/energy_components.png)
+The primary objective is lexicographic: native 2Q count, then native 2Q depth, then estimated duration. Error-cost fields are stored separately and are not silently mixed into it.
 
-Exact evolution conserves total energy while exchanging weight between electric and magnetic terms. The finite-r circuit can drift relative to the original Hamiltonian because it exactly conserves neither noncommuting component. This separates algorithmic error from later device error.
+| Strategy | Median native 2Q | Median native 2Q depth | Median routing ratio |
+|---|---:|---:|---:|
+| basic | 72.0 | 61.0 | 0.758 |
+| basic_swaps | 72.0 | 61.0 | 0.766 |
+| full_reduce | 98.0 | 89.0 | 1.522 |
+| full_reduce_depth | 99.0 | 87.0 | 1.533 |
+| qiskit | 80.0 | 72.0 | 0.809 |
+| teleport | 68.0 | 60.0 | 0.691 |
 
+![Native two-qubit count and depth by exact strategy.](artifacts/figures/compiler_native_resources.png)
 
-### Trotter TVD convergence
+Native two-qubit count and depth by exact strategy.
 
-![Trotter TVD convergence](artifacts/figures/trotter_tvd_convergence.png)
+![Native/logical two-qubit routing penalty by strategy.](artifacts/figures/compiler_routing_penalty.png)
 
-TVD compares each ideal product-formula computational distribution with exact-Hamiltonian evolution. Decreasing error with increasing r validates the expected second-order trend. Real hardware must instead use the exact ideal Trotter distribution as its primary reference.
+Native/logical two-qubit routing penalty by strategy.
 
+## Winner distribution
 
-### Mirror-symmetry diagnostic
+After aggregating angle-only duplicates by structure/target, winners are `{"basic": 54, "teleport": 16}`. Strict native-2Q winners are `{"basic": 3, "teleport": 15}`. Basic and teleport each have at least three strict wins, the operational threshold used here to reject a single-anomaly interpretation. Qiskit tie-break wins in raw cases are not presented as strict native-2Q wins.
 
-![Mirror-symmetry diagnostic](artifacts/figures/mirror_asymmetry.png)
+![Lexicographic strategy winners.](artifacts/figures/strategy_winner_distribution.png)
 
-The exact Hamiltonian and central initial state are reflection symmetric, so the exact curve remains at floating-point scale. The ordered finite-r Pauli product formula can introduce a small algorithmic asymmetry even without device noise; this is part of Trotter error. A real-device comparison must subtract that ideal-circuit baseline before attributing additional asymmetry to layout or noise.
+Lexicographic strategy winners.
 
+![Winner distribution across synthetic topology classes.](artifacts/figures/strategy_winner_by_topology.png)
 
-## Compiler and selector
+Winner distribution across synthetic topology classes.
 
-The compiler dataset uses a generic five-node linear ECR target, not an IBM device. It contains `240` strategy records. Median Basic-versus-Qiskit native two-qubit reduction is `20.3%`; median two-qubit-depth reduction is `23.5%`. Resource status is `PASS`.
+## ML result: NULL
 
-All candidate records carry exact-equivalence validation: `True`. The aggressive full-reduce negative control has a median native two-qubit penalty of `68.6%` relative to Qiskit after routing, demonstrating that logical ZX simplification can create topology-hostile interactions. Native durations, routing overhead, SWAP counts, compilation times, counts, and depths are retained per row; median durations by strategy are `{"basic": 4.391981399999991e-05, "full_reduce": 9.174238799999988e-05, "qiskit": 5.959123799999985e-05, "teleport": 5.3503553999999886e-05}` seconds on the generic target model, not measured hardware wall time.
+Features are available before compiler selection; no competing-strategy output is an input. Structural-family, leave-one-size-out, and leave-one-topology-out validation are stored in `selector_summary.json`. Primary top-1 accuracy is 0.324, median regret 0.0000, worst-case regret 0.5143, and oracle-equality fraction 0.704. The simple distance rule has regret 0.0666; the majority policy is always-basic with regret 0.0356. Oracle regret is zero.
 
-Selector top-1 accuracy is `1` and learned normalized regret is `0`. AI status is `NULL`. A null status means a fixed policy tied or beat the learned model and no AI advantage should be claimed.
+The highest random-forest cost-model importances are source 2Q count, source gate count, and source depth. This does not establish causality; it indicates circuit scale dominated this bounded dataset more than topology summaries.
 
-### Cost-weight sensitivity
+![Grouped selector regret versus fixed and oracle policies.](artifacts/figures/selector_accuracy_regret.png)
 
-| Depth weight | Calibration-error weight | Top-1 | Learned regret | Best fixed regret |
-|---:|---:|---:|---:|---:|
-| 0 | 20 | 1 | 0 | 0 |
-| 0.02 | 0 | 1 | 0 | 0 |
-| 0.02 | 20 | 1 | 0 | 0 |
-| 0.1 | 50 | 1 | 0 | 0 |
+Grouped selector regret versus fixed and oracle policies.
 
-The learned selector ties always-Basic at zero regret in every tested weighting, so the result remains **NULL**, despite perfect top-1 prediction.
+## Tensor-network result: PASS
 
-### Native compiler resources
+Qiskit Aer’s CPU MPS backend was validated at N=5,8 against the ideal Strang statevector. At bond dimension 32, maximum validated TVD is 9.599e-08, maximum energy error is 2.147e-09, and minimum fidelity is 1.000000000000. N=12 is exploratory without a dense exact-Hamiltonian reference.
 
-![Native compiler resources](artifacts/figures/compiler_native_resources.png)
+![CPU MPS bond-dimension error and runtime.](artifacts/figures/tensor_network_convergence.png)
 
-This plot compares strategies only after target-aware translation and routing. Native two-qubit gates and depth are more relevant than the logical gate count because they dominate much of the hardware error budget.
+CPU MPS bond-dimension error and runtime.
 
+## CUDA-Q and IBM status
 
-### Logical versus routed cost
+CUDA-Q `qpp-cpu` is `LOCAL CPU PASS` using the shared conventions. CUDA-Q GPU and GPU tensor-network routes are `BLOCKED_BY_HARDWARE`; the local GTX 1060 Max-Q has compute capability 6.1. No driver, system, or global environment was modified.
 
-![Logical versus routed cost](artifacts/figures/compiler_routing_penalty.png)
+IBM QPU is `NOT_RUN`. The guarded bundle requires `ALLOW_IBM_QPU_SUBMISSION=1`, `--submit`, and the exact fresh dry-run token; this run supplied none. The repository contains hardware-ready preparation but no QPU result and no paid job.
 
-Points above a favorable logical trend expose extraction-induced nonlocality. Aggressive full reduction can lower logical count while raising routed native cost, which is why the selector must see topology and target information.
+## Limitations
 
-
-### Selector regret
-
-![Selector regret](artifacts/figures/selector_accuracy_regret.png)
-
-The learned policy is compared with always-Qiskit, fixed PyZX strategies, and the oracle. A useful selector must beat every fixed baseline on grouped `(x,r)` holdouts; row-wise random splitting is prohibited.
-
-
-## CUDA-Q and tensor networks
-
-CUDA-Q `qpp-cpu` status: **LOCAL CPU PASS**. CUDA-Q GPU status: **BLOCKED - UNSUPPORTED GPU ARCHITECTURE**. Direct cuTensorNet status: **BLOCKED - UNSUPPORTED GPU ARCHITECTURE**. The `qpp-cpu` cross-checks at `N=1,2,5` have maximum energy error `1.061e-13` and maximum distribution TVD `1.029e-15` versus the shared Qiskit Strang circuit. GPU and tensor-network routes were not launched because compute capability 6.1 is below the documented 7.5 minimum. Package installation or target listing is not counted as GPU execution. MPS convergence therefore cannot be evaluated and no tensor-network plot is fabricated.
-
-### Tensor-network convergence
-
-Status: not generated. Check the relevant phase log.
-
-
-## IBM hardware
-
-Status: **NOT RUN - AUTHORIZATION/CREDENTIALS REQUIRED**.
-
-If this says `NOT RUN`, no real-device conclusion is available. The guarded program must first print the backend, physical path, 60 physics circuits, eight balanced M3 calibration circuits, shots, and total usage estimate. Simulator or fake-backend output must never be relabeled as hardware data.
-
-No IBM credential or `ALLOW_IBM_QPU_SUBMISSION=1` variable was present in the scoped environment. Reading account files outside the repository was prohibited, so backend discovery and dry-run compilation were not attempted. No job was submitted and no simulator result is represented as QPU data.
-
-Hardware paired summary, when present: `not available`.
-
-### Hardware TVD comparison
-
-Status: not generated. Check the relevant phase log.
-
-
-### Hardware survival and energy
-
-Status: not generated. Check the relevant phase log.
-
-
-### Raw versus M3-projected results
-
-Status: not generated. Check the relevant phase log.
-
-
-When hardware exists, the primary metric is time-averaged TVD to the exact ideal Trotter circuit. Comparison to exact Hamiltonian evolution is reported separately because it includes Trotter error. M3 quasiprobabilities are used directly for linear expectations; M3 TVD is calculated only after explicit probability-simplex projection.
-
-## Relation to lattice QCD
-
-The project shares gauge links, Gauss constraints, electric terms, magnetic plaquettes, Wilson-loop motivation, regulator questions, and real-time challenges with lattice QCD. It differs in gauge group (SU(2) versus SU(3)), absence of dynamical quarks, dimension, volume, and severe representation truncation.
-
-No string tension is extracted: that requires several separations, volumes, cutoffs, lattice spacings, and controlled long-time/static-charge energies. No string breaking is present because the model has no dynamical matter. Hadronization additionally requires energetic colored initial states and gauge-invariant hadronic yields or correlations.
+Targets are synthetic rather than calibration snapshots; the balanced-incomplete target design is not a full Cartesian grid; three strict Basic wins reject a single anomaly but remain a small minority; and the model does not beat always-Basic. Estimated durations/errors are target-model estimates, not measured hardware performance. N=12 MPS lacks dense exact-Hamiltonian comparison. GPU and real-QPU conclusions remain unavailable.
 
 ## Reproduction
 
@@ -226,24 +139,12 @@ bash scripts/bootstrap_env.sh
 bash scripts/run_all.sh
 ```
 
-Raw numerical outputs are in `artifacts/data/`; figures are in `artifacts/figures/`; logs are in `artifacts/logs/`. See `artifacts/environment.md` and `artifacts/environment-pip-freeze.txt` for provenance.
+Machine-readable data are under `artifacts/data/`, figures under `artifacts/figures/`, provenance under `artifacts/provenance/`, and validation logs under `artifacts/logs/`.
 
-## Success-gate summary
+## Next research questions
 
-| Hypothesis/gate | Outcome | Evidence |
-|---|---|---|
-| Mandatory CPU physics | PASS | `artifacts/logs/pytest.log`, `artifacts/data/physics_summary.json` |
-| Compiler-resource threshold | PASS | `artifacts/data/compiler_dataset.csv` |
-| AI selector beats every fixed policy | NULL | `artifacts/data/selector_summary.json` |
-| CUDA-Q CPU agreement | LOCAL CPU PASS | `artifacts/data/accelerator_status.json` |
-| CUDA-Q/cuTensorNet GPU | BLOCKED | GTX 1060 Max-Q capability 6.1 is below 7.5 |
-| Hardware-physics hypothesis | NOT RUN | authorization/credentials absent; `artifacts/qpu/` has no result |
-| Public repository | PUBLIC - VERIFIED | [genesis-su2-zx-observables](https://github.com/digonto10602/genesis-su2-zx-observables) |
-
-## Limitations
-
-The target is generic rather than a calibration snapshot from a named IBM backend; the compiler result does not imply improved hardware fidelity. The family is tiny, fixed at five plaquettes for selection, and the synthetic target seed is fixed. No uncertainty bars are available for exact statevector quantities. GPU tensor-network scaling and real-QPU mitigation are blocked/not run, so neither hardware performance nor large-system convergence can be inferred.
-
-## Next 90 days
-
-Extend to several chain lengths and calibration snapshots, repeat authorized QPU comparisons in independent windows, add static charges and flux-tube observables, and only then introduce dynamical matter in a gauge-invariant loop-string-hadron encoding. Retain exact rewrite checks and classical/tensor-network references at every stage.
+1. Does strict winner diversity persist on named backend calibration snapshots and independent target seeds?
+2. Can block-local or routing-aware ZX extraction create more strict wins without sacrificing exactness?
+3. Which pre-compilation graph embeddings improve regret beyond always-Basic under topology holdout?
+4. How does symmetry-aware ordering behave across sizes, times, and compiled hardware costs?
+5. Can CPU MPS reach larger N using local-observable extraction without materializing a full statevector?

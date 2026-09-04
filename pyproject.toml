@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "su2zx"
-version = "0.1.0"
+version = "0.3.0"
 description = "Observable-preserving ZX compilation for truncated SU(2) plaquette chains"
 readme = "README.md"
 requires-python = ">=3.11,<3.14"
@@ -31,6 +31,7 @@ su2zx-compiler = "su2zx.compiler_study:main"
 su2zx-report = "su2zx.report:main"
 su2zx-qpu = "su2zx.qpu:main"
 su2zx-qpu-analysis = "su2zx.qpu_analysis:main"
+su2zx-tn = "su2zx.tn_study:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]
@@ -50,3 +51,4 @@ select = ["E", "F", "I", "UP"]
 python_version = "3.11"
 warn_unused_ignores = true
 ignore_missing_imports = true
+exclude = ["zip_results/"]

@@ -120,6 +120,68 @@ def generate_data(config: dict, output: Path) -> tuple[pd.DataFrame, pd.DataFram
     observables = pd.DataFrame(rows)
     observables.to_csv(data / "physics_observables.csv", index=False)
 
+    convergence = []
+    for r in repetitions:
+        selected = observables[
+            (observables.method == f"strang_r{r}") & (observables.time > 0)
+        ]
+        convergence.append(
+            {
+                "repetitions": r,
+                "max_tvd": float(selected.tvd_to_exact_hamiltonian.max()),
+                "final_tvd": float(selected.iloc[-1].tvd_to_exact_hamiltonian),
+            }
+        )
+    convergence_frame = pd.DataFrame(convergence)
+    convergence_frame.to_csv(data / "trotter_convergence.csv", index=False)
+    positive = convergence_frame[convergence_frame.max_tvd > 0]
+    if len(positive) >= 3:
+        x_fit = np.log(positive.repetitions.to_numpy(dtype=float))
+        y_fit = np.log(positive.max_tvd.to_numpy(dtype=float))
+        slope, intercept = np.polyfit(x_fit, y_fit, 1)
+        residual = y_fit - (slope * x_fit + intercept)
+        denominator = float(np.sum((x_fit - x_fit.mean()) ** 2))
+        slope_error = (
+            float(np.sqrt(np.sum(residual**2) / (len(x_fit) - 2) / denominator))
+            if len(x_fit) > 2 and denominator > 0
+            else float("nan")
+        )
+        convergence_order = float(-slope)
+        convergence_uncertainty = slope_error
+    else:
+        convergence_order = float("nan")
+        convergence_uncertainty = float("nan")
+
+    symmetry_rows: list[dict] = []
+    for ordering in ("current", "symmetry"):
+        for time, reference in zip(times, exact, strict=True):
+            circuit = strang_evolution(
+                n,
+                x,
+                float(time),
+                int(config["primary_repetitions"]),
+                initial_ones=initial_ones,
+                term_ordering=ordering,
+            )
+            state = circuit_state(circuit)
+            row = state_row(ordering, float(time), state, reference, electric, magnetic)
+            symmetry_rows.append(
+                {
+                    "term_ordering": ordering,
+                    "time": float(time),
+                    "tvd_to_exact_hamiltonian": row["tvd_to_exact_hamiltonian"],
+                    "energy_drift": abs(float(row["total_energy"]) - 3.0),
+                    "mirror_asymmetry": row["mirror_asymmetry"],
+                    "source_gate_count": circuit.size(),
+                    "source_depth": circuit.depth(),
+                    "source_2q_count": sum(
+                        len(instruction.qubits) == 2 for instruction in circuit.data
+                    ),
+                }
+            )
+    symmetry_frame = pd.DataFrame(symmetry_rows)
+    symmetry_frame.to_csv(data / "symmetry_ordering.csv", index=False)
+
     probability_rows: list[dict] = []
     reconstruction_rows: list[dict] = []
     hardware_times = [float(value) for value in config["hardware_times"]]
@@ -161,6 +223,21 @@ def generate_data(config: dict, output: Path) -> tuple[pd.DataFrame, pd.DataFram
         "max_six_basis_energy_error": float(
             max(row["absolute_error"] for row in reconstruction_rows)
         ),
+        "trotter_convergence_fit": {
+            "error_metric": "maximum TVD over sampled nonzero times",
+            "fit": "ordinary least squares of log(error) on log(repetitions)",
+            "order_p": convergence_order,
+            "slope_standard_error": convergence_uncertainty,
+            "repetitions": repetitions,
+        },
+        "symmetry_ordering": {
+            ordering: {
+                "max_tvd": float(group.tvd_to_exact_hamiltonian.max()),
+                "max_energy_drift": float(group.energy_drift.max()),
+                "max_mirror_asymmetry": float(group.mirror_asymmetry.max()),
+            }
+            for ordering, group in symmetry_frame.groupby("term_ordering")
+        },
     }
     (data / "physics_summary.json").write_text(
         json.dumps(summary, indent=2), encoding="utf-8"
@@ -231,6 +308,24 @@ def generate_plots(frame: pd.DataFrame, output: Path, primary_r: int) -> None:
     ax.legend(frameon=False)
     ax.grid(axis="y", alpha=0.25)
     save_figure(fig, figures, "mirror_asymmetry")
+
+    symmetry_path = output / "data" / "symmetry_ordering.csv"
+    if symmetry_path.exists():
+        symmetry = pd.read_csv(symmetry_path)
+        fig, axes = plt.subplots(1, 3, figsize=(12, 3.8))
+        metrics = (
+            ("tvd_to_exact_hamiltonian", "TVD to exact Hamiltonian"),
+            ("energy_drift", "absolute energy drift"),
+            ("mirror_asymmetry", "mirror asymmetry"),
+        )
+        for ordering, group in symmetry.groupby("term_ordering", sort=False):
+            for axis, (column, ylabel) in zip(axes, metrics, strict=True):
+                axis.plot(group.time, group[column], label=ordering)
+                axis.set(xlabel="dimensionless time t", ylabel=ylabel)
+                axis.grid(axis="y", alpha=0.25)
+        axes[0].legend(frameon=False)
+        fig.suptitle(f"Term-ordering comparison at Strang r={primary_r}")
+        save_figure(fig, figures, "symmetry_aware_ordering")
 
 
 def main() -> None:

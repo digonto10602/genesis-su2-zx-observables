@@ -91,8 +91,7 @@ scipy==1.17.1
 six==1.17.0
 stack-data==0.6.3
 stevedore==5.9.1
-# Editable install with no version control (su2zx==0.1.0)
--e /home/digimonk/Projects/SU2ZX_Foundation_Code_Package/SU2ZX
+-e git+https://github.com/digonto10602/genesis-su2-zx-observables.git@fdf631acfeb351dd400ef79c3b63235a1758eeb1#egg=su2zx
 threadpoolctl==3.6.0
 tqdm==4.70.0
 traitlets==5.16.1

@@ -6,7 +6,9 @@ from qiskit.quantum_info import Operator
 from scipy.linalg import expm
 
 from su2zx.core import (
+    circuit_hash,
     circuit_state,
+    circuit_structure_hash,
     exact_state,
     expectation,
     hamiltonian,
@@ -108,3 +110,20 @@ def test_pyzx_candidates_are_exact() -> None:
         for strategy in ("basic", "teleport", "full_reduce"):
             candidate = optimize_with_pyzx(source, strategy)
             assert Operator(source).equiv(Operator(candidate))
+
+
+def test_structure_hash_normalizes_angles_but_not_gate_order() -> None:
+    left = strang_evolution(5, 1.0, 0.08, 2, initial_ones=(2,))
+    right = strang_evolution(5, 4.0, 0.32, 2, initial_ones=(2,))
+    symmetric = strang_evolution(
+        5, 1.0, 0.08, 2, initial_ones=(2,), term_ordering="symmetry"
+    )
+    assert circuit_hash(left) != circuit_hash(right)
+    assert circuit_structure_hash(left) == circuit_structure_hash(right)
+    assert circuit_structure_hash(left) != circuit_structure_hash(symmetric)
+
+
+def test_additional_pyzx_strategies_are_exact() -> None:
+    source = strang_evolution(2, 1.0, 0.08, 1)
+    for strategy in ("basic_swaps", "full_reduce_depth"):
+        assert Operator(source).equiv(Operator(optimize_with_pyzx(source, strategy)))

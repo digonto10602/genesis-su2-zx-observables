@@ -1,0 +1,33 @@
+{
+  "version": "v0.3.0",
+  "numeric_features": [
+    "num_plaquettes",
+    "x",
+    "time",
+    "repetitions",
+    "source_gate_count",
+    "source_depth",
+    "source_2q_count",
+    "interaction_edge_count",
+    "interaction_mean_degree",
+    "interaction_max_degree",
+    "interaction_range",
+    "pauli_term_count",
+    "mean_pauli_weight",
+    "target_node_count",
+    "target_edge_count",
+    "target_average_degree",
+    "target_diameter",
+    "target_mean_shortest_path",
+    "mapping_mean_interaction_distance",
+    "mapping_max_interaction_distance"
+  ],
+  "categorical_features": [
+    "strategy",
+    "term_ordering",
+    "target_topology",
+    "layout_name"
+  ],
+  "leakage_rule": "No competing-strategy post-compilation resource is an input.",
+  "primary_group": "circuit_structure_hash"
+}

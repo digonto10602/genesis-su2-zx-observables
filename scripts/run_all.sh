@@ -27,6 +27,8 @@ fi
   2>&1 | tee "$ROOT/artifacts/logs/study.log"
 "$PYTHON" -m su2zx.compiler_study --config config/research.json --output artifacts \
   2>&1 | tee "$ROOT/artifacts/logs/compiler.log"
+"$PYTHON" -m su2zx.tn_study --output artifacts \
+  2>&1 | tee "$ROOT/artifacts/logs/tensor_network_cpu.log"
 
 if "$PYTHON" -c 'import cudaq' >/dev/null 2>&1; then
   for N in 1 2 5; do
@@ -60,6 +62,12 @@ cpu_pass = len(references) == 3 and all(
     and item["state_norm_error"] < 1e-8
     for item in references
 )
+tn_summary_path = root / "artifacts" / "data" / "tensor_network_summary.json"
+tn_summary = (
+    json.loads(tn_summary_path.read_text(encoding="utf-8"))
+    if tn_summary_path.exists()
+    else {}
+)
 record = os.environ.get("SU2ZX_GPU_RECORD", "")
 parts = [part.strip() for part in record.split(",")]
 gpu = {
@@ -72,10 +80,10 @@ payload = {
     "cudaq_version": version("cudaq"),
     "cudaq_cpu_status": "LOCAL CPU PASS" if cpu_pass else "BLOCKED",
     "cudaq_cpu_references": references,
-    "cudaq_gpu_status": "BLOCKED - UNSUPPORTED GPU ARCHITECTURE",
-    "tensornet_status": "BLOCKED - UNSUPPORTED GPU ARCHITECTURE",
-    "tensornet_mps_status": "BLOCKED - UNSUPPORTED GPU ARCHITECTURE",
-    "direct_cutensornet_status": "BLOCKED - UNSUPPORTED GPU ARCHITECTURE",
+    "tensor_network_cpu_status": tn_summary.get("status", "NOT RUN"),
+    "cudaq_gpu_status": "BLOCKED_BY_HARDWARE",
+    "tensornet_mps_gpu_status": "BLOCKED_BY_HARDWARE",
+    "direct_cutensornet_status": "BLOCKED_BY_HARDWARE",
     "minimum_compute_capability": "7.5",
     "requirement_url": "https://nvidia.github.io/cuda-quantum/latest/using/install/local_installation.html",
     "gpu": gpu,

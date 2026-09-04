@@ -5,6 +5,6 @@ type: software
 authors:
   - family-names: Islam
     given-names: Md Habib E
-version: 0.1.0
+version: 0.3.0
 date-released: 2026-09-04
 license: MIT

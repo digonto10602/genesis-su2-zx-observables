@@ -11,5 +11,8 @@
   "hardware_times": [0.0, 0.08, 0.16, 0.24, 0.32],
   "shots": 4096,
   "seed": 7,
-  "selector_seed": 11
+  "selector_seed": 11,
+  "compiler_optimization_level": 2,
+  "compiler_transpiler_seeds": [11, 29, 47],
+  "research_version": "v0.3.0"
 }

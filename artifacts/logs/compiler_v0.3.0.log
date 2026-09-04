@@ -1,0 +1,55 @@
+{
+  "version": "v0.3.0",
+  "rows": 426,
+  "verified_rows": 426,
+  "cases": 71,
+  "raw_circuits": 35,
+  "unique_parameterized_circuits": 35,
+  "unique_structural_circuits": 30,
+  "duplicate_structural_circuits": 5,
+  "target_configurations": 35,
+  "topology_classes": 5,
+  "strategies": [
+    "qiskit",
+    "basic",
+    "basic_swaps",
+    "teleport",
+    "full_reduce",
+    "full_reduce_depth"
+  ],
+  "winner_distribution": {
+    "basic": 36,
+    "qiskit": 19,
+    "teleport": 16
+  },
+  "strict_native_2q_winner_distribution": {
+    "teleport": 15,
+    "basic": 3
+  },
+  "native_2q_depth_winner_distribution": {},
+  "duration_or_exact_tie_winner_distribution": {
+    "qiskit": 19,
+    "basic": 33,
+    "teleport": 1
+  },
+  "meaningful_winners": {
+    "teleport": 15
+  },
+  "winner_diversity_gate": false,
+  "fixed_normalized_regret": {
+    "qiskit": 0.18540559535970777,
+    "basic": 0.03560563563892856,
+    "basic_swaps": 0.04625215044103983,
+    "teleport": 0.07229410940393088,
+    "full_reduce": 0.5811761580403603,
+    "full_reduce_depth": 0.5304447258909882
+  },
+  "majority_winner_strategy": "basic",
+  "majority_winner_normalized_regret": 0.03560563563892856,
+  "rule_based_selector": "basic if mapped interaction distance <= 1.5 else qiskit",
+  "rule_based_normalized_regret": 0.06664293147864177,
+  "oracle_normalized_regret": 0.0,
+  "feature_leakage_check": "PASS: all FEATURES are available before strategy compilation",
+  "ml_status": "NOT_IDENTIFIABLE",
+  "reason": "fewer than two strategies won at least three and five percent of cases"
+}

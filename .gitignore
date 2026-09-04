@@ -8,6 +8,7 @@ graphify-out/
 __pycache__/
 *.py[cod]
 *.egg-info/
+zip_results/
 .env
 .env.*
 !.env.example

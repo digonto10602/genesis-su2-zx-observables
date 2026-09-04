@@ -1,0 +1,132 @@
+{
+  "version": "v0.3.0",
+  "utc_timestamp": "2026-09-04T22:09:04.860308+00:00",
+  "git": {
+    "commit": "fdf631acfeb351dd400ef79c3b63235a1758eeb1",
+    "branch": "main",
+    "dirty": true
+  },
+  "python": "3.11.16 (main, Sep  2 2026, 23:39:52) [GCC 15.3.0]",
+  "packages": {
+    "qiskit": "2.5.2",
+    "qiskit_aer": "0.17.2",
+    "qiskit_ibm_runtime": "0.49.0",
+    "pyzx": "0.10.6",
+    "cudaq": "0.15.1",
+    "numpy": "2.4.6",
+    "scipy": "1.17.1",
+    "pandas": "3.0.5",
+    "scikit_learn": "1.9.0",
+    "matplotlib": "3.11.1",
+    "pytest": "9.1.1",
+    "ruff": "0.16.6",
+    "mypy": "2.3.1"
+  },
+  "hardware": {
+    "platform": "Linux-7.1.9-arch1-2-x86_64-with-glibc2.44",
+    "kernel": "7.1.9-arch1-2",
+    "machine": "x86_64",
+    "logical_cpus": 12,
+    "memory_free_b": "total        used        free      shared  buff/cache   available\nMem:     16429694976  8547373056  1091608576  1126903808  9017761792  7882321920\nSwap:    32858783744           0 32858783744",
+    "gpu": {
+      "name": "NVIDIA GeForce GTX 1060 with Max-Q Design",
+      "compute_capability": "6.1",
+      "driver": "580.178.04",
+      "memory_total": "6144 MiB",
+      "memory_free": "6024 MiB"
+    }
+  },
+  "random_seeds": {
+    "dataset": 7,
+    "selector": 11,
+    "transpiler": [
+      11,
+      29,
+      47
+    ]
+  },
+  "experiment": {
+    "sizes": [
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "trotter_repetitions": [
+      1,
+      2,
+      4,
+      8
+    ],
+    "term_orderings": [
+      "current",
+      "reversed",
+      "symmetry"
+    ],
+    "topologies": [
+      "line",
+      "ring",
+      "grid",
+      "heavy_hex_like",
+      "irregular"
+    ],
+    "compiler_strategies": [
+      "qiskit",
+      "basic",
+      "basic_swaps",
+      "teleport",
+      "full_reduce",
+      "full_reduce_depth"
+    ]
+  },
+  "blocked_features": {
+    "cuda_q_gpu": "BLOCKED_BY_HARDWARE",
+    "tensor_network_gpu": "BLOCKED_BY_HARDWARE",
+    "ibm_qpu": "NOT_RUN"
+  },
+  "generated_datasets": [
+    "artifacts/data/accelerator_status.json",
+    "artifacts/data/basis_probabilities.csv",
+    "artifacts/data/compiler_dataset.csv",
+    "artifacts/data/compiler_seed_sensitivity.csv",
+    "artifacts/data/compiler_winners.csv",
+    "artifacts/data/measurement_reconstruction.csv",
+    "artifacts/data/ml_feature_definitions.json",
+    "artifacts/data/ml_group_assignments.csv",
+    "artifacts/data/physics_observables.csv",
+    "artifacts/data/physics_summary.json",
+    "artifacts/data/publication.json",
+    "artifacts/data/selector_summary.json",
+    "artifacts/data/symmetry_ordering.csv",
+    "artifacts/data/tensor_network_cpu.csv",
+    "artifacts/data/tensor_network_summary.json",
+    "artifacts/data/trotter_convergence.csv"
+  ],
+  "generated_figures": [
+    "artifacts/figures/compiler_native_resources.pdf",
+    "artifacts/figures/compiler_native_resources.png",
+    "artifacts/figures/compiler_routing_penalty.pdf",
+    "artifacts/figures/compiler_routing_penalty.png",
+    "artifacts/figures/energy_components.pdf",
+    "artifacts/figures/energy_components.png",
+    "artifacts/figures/loop_occupations_exact_vs_trotter.pdf",
+    "artifacts/figures/loop_occupations_exact_vs_trotter.png",
+    "artifacts/figures/mirror_asymmetry.pdf",
+    "artifacts/figures/mirror_asymmetry.png",
+    "artifacts/figures/selector_accuracy_regret.pdf",
+    "artifacts/figures/selector_accuracy_regret.png",
+    "artifacts/figures/strategy_winner_by_topology.pdf",
+    "artifacts/figures/strategy_winner_by_topology.png",
+    "artifacts/figures/strategy_winner_distribution.pdf",
+    "artifacts/figures/strategy_winner_distribution.png",
+    "artifacts/figures/survival_probability.pdf",
+    "artifacts/figures/survival_probability.png",
+    "artifacts/figures/symmetry_aware_ordering.pdf",
+    "artifacts/figures/symmetry_aware_ordering.png",
+    "artifacts/figures/tensor_network_convergence.pdf",
+    "artifacts/figures/tensor_network_convergence.png",
+    "artifacts/figures/trotter_tvd_convergence.pdf",
+    "artifacts/figures/trotter_tvd_convergence.png"
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "version": "v0.3.0",
+  "status": "PASS",
+  "backend": "Qiskit Aer matrix_product_state CPU",
+  "validated_sizes": [
+    5,
+    8
+  ],
+  "exploratory_sizes": [
+    12
+  ],
+  "validation_bond_dimension": 32,
+  "validation_tolerance": 1e-14,
+  "max_validated_tvd_to_ideal_trotter": 9.598896914554791e-08,
+  "max_validated_energy_error_to_ideal_trotter": 2.146951061376967e-09,
+  "minimum_validated_state_fidelity_to_ideal_trotter": 0.9999999999997504,
+  "note": "N=12 is an exploratory ideal-circuit MPS result; no dense exact-Hamiltonian reference was computed for that size."
+}

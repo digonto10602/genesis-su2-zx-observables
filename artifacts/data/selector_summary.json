@@ -1,43 +1,124 @@
 {
-  "top1_accuracy": 1.0,
-  "normalized_regret": 0.0,
-  "fixed_normalized_regret": {
-    "qiskit": 0.24480960124162274,
-    "basic": 0.0,
-    "teleport": 0.10520302251759941,
-    "full_reduce": 1.1726861312765307
+  "version": "v0.3.0",
+  "rows": 426,
+  "verified_rows": 426,
+  "cases": 71,
+  "distinct_structural_target_cases": 70,
+  "raw_circuits": 35,
+  "unique_parameterized_circuits": 35,
+  "unique_structural_circuits": 30,
+  "duplicate_structural_circuits": 5,
+  "target_configurations": 35,
+  "topology_classes": 5,
+  "strategies": [
+    "qiskit",
+    "basic",
+    "basic_swaps",
+    "teleport",
+    "full_reduce",
+    "full_reduce_depth"
+  ],
+  "winner_distribution": {
+    "basic": 54,
+    "teleport": 16
   },
+  "strict_native_2q_winner_distribution": {
+    "basic": 3,
+    "teleport": 15
+  },
+  "native_2q_depth_winner_distribution": {},
+  "duration_or_exact_tie_winner_distribution": {
+    "basic": 51,
+    "teleport": 1
+  },
+  "meaningful_winners": {
+    "basic": 3,
+    "teleport": 15
+  },
+  "winner_diversity_gate": true,
+  "fixed_normalized_regret": {
+    "qiskit": 0.18540559535970777,
+    "basic": 0.03560563563892857,
+    "basic_swaps": 0.046252150441039835,
+    "teleport": 0.07229410940393088,
+    "full_reduce": 0.5811761580403603,
+    "full_reduce_depth": 0.5304447258909882
+  },
+  "majority_winner_strategy": "basic",
+  "majority_winner_normalized_regret": 0.03560563563892857,
+  "rule_based_selector": "basic if mapped interaction distance <= 1.5 else qiskit",
+  "rule_based_normalized_regret": 0.0666429314786418,
   "oracle_normalized_regret": 0.0,
-  "rows": 240,
-  "families": 12,
-  "cost_weight_sensitivity": [
-    {
-      "depth_weight": 0.0,
-      "calibration_error_weight": 20.0,
-      "top1_accuracy": 1.0,
-      "normalized_regret": 0.0,
-      "best_fixed_normalized_regret": 0.0
+  "feature_leakage_check": "PASS: all FEATURES are available before strategy compilation",
+  "ml_status": "NULL",
+  "validation": {
+    "structural_family_holdout": {
+      "top1_strategy_accuracy": 0.323943661971831,
+      "mean_regret": 0.06942161444922222,
+      "median_regret": 0.0,
+      "worst_case_regret": 0.5142857142857202,
+      "fraction_equal_to_oracle": 0.704225352112676
     },
-    {
-      "depth_weight": 0.02,
-      "calibration_error_weight": 0.0,
-      "top1_accuracy": 1.0,
-      "normalized_regret": 0.0,
-      "best_fixed_normalized_regret": 0.0
+    "leave_one_size_out": {
+      "top1_strategy_accuracy": 0.2112676056338028,
+      "mean_regret": 0.05337860796317254,
+      "median_regret": 0.0,
+      "worst_case_regret": 0.5142857142857202,
+      "fraction_equal_to_oracle": 0.7183098591549296
     },
-    {
-      "depth_weight": 0.02,
-      "calibration_error_weight": 20.0,
-      "top1_accuracy": 1.0,
-      "normalized_regret": 0.0,
-      "best_fixed_normalized_regret": 0.0
-    },
-    {
-      "depth_weight": 0.1,
-      "calibration_error_weight": 50.0,
-      "top1_accuracy": 1.0,
-      "normalized_regret": 0.0,
-      "best_fixed_normalized_regret": 0.0
+    "leave_one_topology_out": {
+      "top1_strategy_accuracy": 0.5070422535211268,
+      "mean_regret": 0.03811076468346296,
+      "median_regret": 0.0,
+      "worst_case_regret": 0.5142857142857202,
+      "fraction_equal_to_oracle": 0.8591549295774648
     }
-  ]
+  },
+  "top1_accuracy": 0.323943661971831,
+  "normalized_regret": 0.06942161444922222,
+  "mean_regret": 0.06942161444922222,
+  "median_regret": 0.0,
+  "worst_case_regret": 0.5142857142857202,
+  "fraction_equal_to_oracle": 0.704225352112676,
+  "improvement_vs_always_qiskit": 0.11598398091048555,
+  "improvement_vs_always_basic": -0.03381597881029365,
+  "feature_importance": {
+    "source_2q_count": 0.3203866500054796,
+    "source_gate_count": 0.27633276033902865,
+    "source_depth": 0.2512354778023331,
+    "strategy_full_reduce": 0.05363760971467083,
+    "strategy_full_reduce_depth": 0.045497760501395326,
+    "pauli_term_count": 0.006060617046269335,
+    "num_plaquettes": 0.005822159339354531,
+    "interaction_edge_count": 0.005487486491109859,
+    "strategy_qiskit": 0.005429550611707319,
+    "mean_pauli_weight": 0.005216469102603608,
+    "interaction_mean_degree": 0.005072492354724504,
+    "interaction_max_degree": 0.004647450421808514,
+    "repetitions": 0.0030594505944279648,
+    "target_mean_shortest_path": 0.0023602310164814845,
+    "target_average_degree": 0.0018339802101313863,
+    "target_diameter": 0.0008831165746964371,
+    "strategy_teleport": 0.000822471272524212,
+    "target_edge_count": 0.0007252599868528377,
+    "layout_name_transpiler": 0.000630291278840884,
+    "mapping_mean_interaction_distance": 0.000617687407563222,
+    "mapping_max_interaction_distance": 0.0005962016161164536,
+    "target_node_count": 0.0004998837961698752,
+    "strategy_basic_swaps": 0.0004377808243202488,
+    "strategy_basic": 0.00040624544813854083,
+    "target_topology_grid": 0.0003753598713339003,
+    "layout_name_spread": 0.0003625403407080428,
+    "term_ordering_current": 0.000335906615039659,
+    "target_topology_line": 0.00029711129934393215,
+    "term_ordering_reversed": 0.0001933620718125441,
+    "target_topology_irregular": 0.00018101321678184058,
+    "time": 0.00015167791616511607,
+    "x": 0.0001501364173107245,
+    "layout_name_favorable": 9.43942157330326e-05,
+    "target_topology_ring": 8.474074101906025e-05,
+    "target_topology_heavy_hex_like": 4.521685317401438e-05,
+    "term_ordering_symmetry": 2.945668482937173e-05,
+    "interaction_range": 0.0
+  }
 }
