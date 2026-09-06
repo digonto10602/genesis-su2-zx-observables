@@ -1,40 +1,24 @@
-# SU2ZX v0.3.0 run manifest
+# SU2ZX v0.4.0 run manifest
 
-- Archive timestamp: 2026-09-04T22:22:59Z
-- Input Git commit: `fdf631acfeb351dd400ef79c3b63235a1758eeb1`
-- Branch: `main`
-- Physics validation: PASS
-- Regression tests: PASS, 17 tests
-- Ruff: PASS
-- Mypy: PASS
-- Compiler verification: PASS, 426/426 primary and 54/54 seed records
-- Winner diversity: PASS
-- ML selector: NULL
-- Symmetry-aware ordering: POSITIVE for the sampled trajectory
-- CPU tensor network: PASS for validated N=5,8; N=12 exploratory
-- CUDA-Q CPU: PASS
-- CUDA-Q GPU: BLOCKED_BY_HARDWARE
-- Tensor-network GPU: BLOCKED_BY_HARDWARE
-- IBM QPU: NOT_RUN
-- Graphify: PASS, 408 nodes / 678 relationships
+- UTC archive timestamp: 20260906T223648Z
+- Input Git commit: dc0e3c9eed846e34d17099249fb7cbc406499e1c; release commit follows archival by required execution order.
+- Archive: `zip_results/SU2ZX_v0.4.0_20260906T223648Z.zip`
+- Archive SHA256 and exact-file test receipt: `SU2ZX_v0.4.0_20260906T223648Z.zip.sha256` and `SU2ZX_v0.4.0_20260906T223648Z.zip.integrity.json` beside the archive.
+- Baseline physics: PASS; final regression tests, Ruff, formatting, mypy, grouped leakage, frozen rule, seed reproducibility and data integrity: PASS.
+- Compiler: 830/860 outputs pass; 30 excluded; 415 complete pairs.
+- Robust families: Basic 33, Teleport 29, count ties 21; seed-sensitive 0; broader layout/topology result INCONCLUSIVE.
+- ML: NULL. Prospective grouped-selected logistic regret 0.024954; strongest simple regret 0.008966.
+- Symmetry: MIXED. 168 physics and 81 verified compiler records.
+- Strang current-order exponent: full 1.865777, asymptotic 1.978062.
+- TN: direct observables VALIDATED at N=5,8; no-statevector SCALING_DEMONSTRATED through N=32 at t=0.32,r=2.
+- CUDA-Q CPU PASS; GPU BLOCKED_BY_HARDWARE; IBM metadata NOT_AVAILABLE; QPU NOT_RUN.
+- Graphify: PASS, 796 nodes / 1258 relationships.
+- Datasets: artifacts/data/v040/; 16 figures with PNG/PDF and source mappings: artifacts/figures/v040/.
+- Provenance: artifacts/provenance/run_v0.4.0.json; validation logs: artifacts/logs/v040/.
+- GitHub: existing digonto10602/genesis-su2-zx-observables remote; push occurs after commit and is recorded in the final response.
 
-## Included material
+## Archive scope and limitations
 
-The archive includes the root reports and metadata (`README.md`, `AGENTS.md`, `RESEARCH_RESULTS.md`, `VALIDATION.md`, `GRAPHIFY_UPDATE.md`, these release notes and manifest, citation/license, `.graphifyignore`, and `pyproject.toml`); `config/`, `src/`, `tests/`, `scripts/`, and relevant `tools/`; all v0.3.0 `artifacts/data/`, `artifacts/figures/`, `artifacts/provenance/`, and validation/research logs; current CUDA-Q CPU reference JSON; the v0.3.0 prompt and references; and the refreshed `graphify-out/GRAPH_REPORT.md`, `graph.json`, and `graph.html`.
+Includes current code/tests/scripts, research/configuration/prompts, reports, data, plots, provenance, relevant logs and refreshed graph. Historical v0.3.0 data/release notes remain included. Excludes environments, caches, .git, .work, credentials and prior archives. The exact ZIP is tested and hashed after creation; its external integrity receipt names this exact file, avoiding a self-referential archive checksum.
 
-It excludes `.git/`, `.mamba/`, `.work/`, caches, bytecode, package metadata caches, credentials/provider configuration, prior archives, and `zip_results/` itself.
-
-## Major experiments
-
-1. Exact/Strang physics observables and second-order convergence fit.
-2. Reflection-paired symmetry-aware Strang ordering.
-3. Six-strategy exact compiler benchmark over structural, topology, and layout diversity.
-4. Three-seed routing sensitivity.
-5. Leakage-controlled grouped ML strategy selection and fixed/rule/oracle baselines.
-6. Qiskit Aer CPU MPS validation and bounded N=12 exploration.
-7. CUDA-Q qpp-cpu cross-validation and hardware capability gating.
-8. Guarded IBM hardware-ready workflow without QPU submission.
-
-## Known limitations
-
-Compiler targets are synthetic rather than named calibration snapshots; only three strict Basic wins were found; ML does not outperform always-Basic; N=12 MPS has no dense exact-Hamiltonian comparison; CUDA-Q GPU is unsupported on the local device; and IBM hardware was not run.
+Compiler targets are synthetic, calibration seed fixed, basis ECR only, grids bounded. Historical winner selection is enriched. Routed equivalence is randomized numerical validation. Large-N MPS has no exact-Hamiltonian reference; long-time entanglement growth is not studied. No QPU or unsupported GPU execution occurred. No continuum, physical-QCD or quantum-advantage claims.

@@ -126,8 +126,7 @@ def target_cases(num_qubits: int, seed: int) -> list[TargetCase]:
     physical = max(num_qubits + 2, 6)
     favorable = tuple(range(num_qubits))
     spread = tuple(
-        round(q * (physical - 1) / max(num_qubits - 1, 1))
-        for q in range(num_qubits)
+        round(q * (physical - 1) / max(num_qubits - 1, 1)) for q in range(num_qubits)
     )
     return [
         _target_case("line", num_qubits, seed, "favorable", favorable),
@@ -509,9 +508,7 @@ def _fixed_regrets(frame: pd.DataFrame) -> dict[str, float]:
     regrets = {}
     for strategy in STRATEGIES:
         fixed = (
-            frame[frame.strategy == strategy]
-            .set_index("case_id")
-            .cost.reindex(optimum.index)
+            frame[frame.strategy == strategy].set_index("case_id").cost.reindex(optimum.index)
         )
         regrets[strategy] = float(
             ((fixed - optimum) / np.maximum(optimum, 1e-12)).dropna().mean()
@@ -558,15 +555,11 @@ def selector_summary(frame: pd.DataFrame, seed: int) -> dict:
         if len(count_best) == 1:
             strict_two_qubit_wins[winner] = strict_two_qubit_wins.get(winner, 0) + 1
             continue
-        depth_best = count_best[
-            count_best.native_2q_depth == count_best.native_2q_depth.min()
-        ]
+        depth_best = count_best[count_best.native_2q_depth == count_best.native_2q_depth.min()]
         destination = depth_wins if len(depth_best) == 1 else duration_or_ties
         destination[winner] = destination.get(winner, 0) + 1
     meaningful = {
-        strategy: int(count)
-        for strategy, count in strict_two_qubit_wins.items()
-        if count >= 3
+        strategy: int(count) for strategy, count in strict_two_qubit_wins.items() if count >= 3
     }
     majority_strategy = winners.strategy.mode().iloc[0]
     case_features = verified.drop_duplicates("case_id").set_index("case_id")
@@ -651,9 +644,7 @@ def selector_summary(frame: pd.DataFrame, seed: int) -> dict:
 def build_seed_sensitivity(config: dict) -> pd.DataFrame:
     """Probe the stochastic-routing sensitivity on three representative targets."""
     rows = []
-    source = strang_evolution(
-        5, 2.0, 0.24, 2, initial_ones=(2,), term_ordering="current"
-    )
+    source = strang_evolution(5, 2.0, 0.24, 2, initial_ones=(2,), term_ordering="current")
     optimization_level = int(config.get("compiler_optimization_level", 2))
     for seed in [int(value) for value in config.get("compiler_transpiler_seeds", [11, 29, 47])]:
         cases = target_cases(5, seed)

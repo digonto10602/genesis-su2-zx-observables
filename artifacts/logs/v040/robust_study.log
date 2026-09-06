@@ -1,0 +1,96 @@
+compiler 1/86: 10 evaluated rows
+compiler 2/86: 20 evaluated rows
+compiler 3/86: 30 evaluated rows
+compiler 4/86: 40 evaluated rows
+compiler 5/86: 50 evaluated rows
+compiler 6/86: 60 evaluated rows
+compiler 7/86: 70 evaluated rows
+compiler 8/86: 80 evaluated rows
+compiler 9/86: 90 evaluated rows
+compiler 10/86: 100 evaluated rows
+compiler 11/86: 110 evaluated rows
+compiler 12/86: 120 evaluated rows
+compiler 13/86: 130 evaluated rows
+compiler 14/86: 140 evaluated rows
+compiler 15/86: 150 evaluated rows
+compiler 16/86: 160 evaluated rows
+compiler 17/86: 170 evaluated rows
+compiler 18/86: 180 evaluated rows
+compiler 19/86: 190 evaluated rows
+compiler 20/86: 200 evaluated rows
+compiler 21/86: 210 evaluated rows
+compiler 22/86: 220 evaluated rows
+compiler 23/86: 230 evaluated rows
+compiler 24/86: 240 evaluated rows
+compiler 25/86: 250 evaluated rows
+compiler 26/86: 260 evaluated rows
+compiler 27/86: 270 evaluated rows
+compiler 28/86: 280 evaluated rows
+compiler 29/86: 290 evaluated rows
+compiler 30/86: 300 evaluated rows
+compiler 31/86: 310 evaluated rows
+compiler 32/86: 320 evaluated rows
+compiler 33/86: 330 evaluated rows
+compiler 34/86: 340 evaluated rows
+compiler 35/86: 350 evaluated rows
+compiler 36/86: 360 evaluated rows
+compiler 37/86: 370 evaluated rows
+compiler 38/86: 380 evaluated rows
+compiler 39/86: 390 evaluated rows
+compiler 40/86: 400 evaluated rows
+compiler 41/86: 410 evaluated rows
+compiler 42/86: 420 evaluated rows
+compiler 43/86: 430 evaluated rows
+compiler 44/86: 440 evaluated rows
+compiler 45/86: 450 evaluated rows
+compiler 46/86: 460 evaluated rows
+compiler 47/86: 470 evaluated rows
+compiler 48/86: 480 evaluated rows
+compiler 49/86: 490 evaluated rows
+compiler 50/86: 500 evaluated rows
+compiler 51/86: 510 evaluated rows
+compiler 52/86: 520 evaluated rows
+compiler 53/86: 530 evaluated rows
+compiler 54/86: 540 evaluated rows
+compiler 55/86: 550 evaluated rows
+compiler 56/86: 560 evaluated rows
+compiler 57/86: 570 evaluated rows
+compiler 58/86: 580 evaluated rows
+compiler 59/86: 590 evaluated rows
+compiler 60/86: 600 evaluated rows
+compiler 61/86: 610 evaluated rows
+compiler 62/86: 620 evaluated rows
+compiler 63/86: 630 evaluated rows
+compiler 64/86: 640 evaluated rows
+compiler 65/86: 650 evaluated rows
+compiler 66/86: 660 evaluated rows
+compiler 67/86: 670 evaluated rows
+compiler 68/86: 680 evaluated rows
+compiler 69/86: 690 evaluated rows
+compiler 70/86: 700 evaluated rows
+compiler 71/86: 710 evaluated rows
+compiler 72/86: 720 evaluated rows
+compiler 73/86: 730 evaluated rows
+compiler 74/86: 740 evaluated rows
+compiler 75/86: 750 evaluated rows
+compiler 76/86: 760 evaluated rows
+compiler 77/86: 770 evaluated rows
+compiler 78/86: 780 evaluated rows
+compiler 79/86: 790 evaluated rows
+compiler 80/86: 800 evaluated rows
+compiler 81/86: 810 evaluated rows
+compiler 82/86: 820 evaluated rows
+compiler 83/86: 830 evaluated rows
+compiler 84/86: 840 evaluated rows
+compiler 85/86: 850 evaluated rows
+compiler 86/86: 860 evaluated rows
+{
+  "status": "NULL",
+  "best_grouped_model": "forest_delta_regressor",
+  "grouped_mean_regret": 0.018941189187391388,
+  "strongest_simple_grouped_regret": 0.017441466168954516,
+  "prospective_mean_regret": 0.02923745987928183,
+  "strongest_simple_prospective_regret": 0.008966498687387041,
+  "selection_caveat": "Best model selected post-hoc by grouped result; no nested tuning. Positive requires prospective improvement too."
+}
+elapsed 212.0 seconds

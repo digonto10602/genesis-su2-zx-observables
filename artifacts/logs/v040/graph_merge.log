@@ -1,0 +1,10 @@
+[graphify] Replaced 47 node(s) from re-extracted source file(s).
+[graphify] Deduplicated 2 node(s) (2 exact).
+[graphify] WARNING: new graph has 601 nodes but existing graph.json has 603 (net -2). Refusing to overwrite. Possible causes: missing chunk files from a previous session, or fuzzy dedup collapsed same-named symbols across files during an --update on an already-current graph. Run a full rebuild (/graphify .) to be safe, or pass force=True only if you have verified the reduction is legitimate.
+Traceback (most recent call last):
+  File "/home/digimonk/Projects/SU2ZX_Foundation_Code_Package/SU2ZX/tools/refresh_graph_v040.py", line 90, in <module>
+    main()
+  File "/home/digimonk/Projects/SU2ZX_Foundation_Code_Package/SU2ZX/tools/refresh_graph_v040.py", line 31, in main
+    assert to_json(merged, {}, str(graph))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError

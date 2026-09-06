@@ -1,0 +1,15 @@
+{
+  "target": "qpp-cpu",
+  "plaquettes": 1,
+  "x": 2.0,
+  "time": 0.32,
+  "repetitions": 2,
+  "max_bond": null,
+  "energy": 2.6138574771165537,
+  "qiskit_energy": 2.6138574771165524,
+  "absolute_energy_error": 1.3322676295501878e-15,
+  "survival_probability": 0.13406332431059956,
+  "probability_tvd_to_qiskit": 0.0,
+  "state_norm_error": 1.3322676295501878e-15,
+  "shots": 0
+}

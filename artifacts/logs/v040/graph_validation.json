@@ -1,0 +1,15 @@
+{
+  "status": "PASS",
+  "nodes": 796,
+  "edges": 1258,
+  "version": "0.9.53",
+  "graph_sha256": "e017f02cd6deb3de7d292ce2c4ce7c44d6758dedb367e462e901cca79e8899f0",
+  "utc_timestamp": "2026-09-06T22:36:48.287498+00:00",
+  "checks": [
+    "unique nodes",
+    "edge endpoints",
+    "no self loops",
+    "no duplicate pairs",
+    "direct MPS, routed verification, pairwise ML and physics nodes present"
+  ]
+}

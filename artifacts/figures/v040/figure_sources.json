@@ -1,0 +1,66 @@
+{
+  "delta_distribution": {
+    "source": "artifacts/data/v040/pairwise_basic_teleport.csv",
+    "caption": "Seed records are correlated within structural families."
+  },
+  "winner_fraction_seed": {
+    "source": "artifacts/data/v040/pairwise_basic_teleport.csv",
+    "caption": "Targets and their calibration seed are fixed across routing seeds."
+  },
+  "winner_robustness": {
+    "source": "artifacts/data/v040/compiler_seed_robustness.csv",
+    "caption": "Robust winner means at least 80% strict wins and matching median sign."
+  },
+  "selector_regret": {
+    "source": "artifacts/data/v040/pairwise_ml_results.csv",
+    "caption": "Frozen rule and untuned lightweight models against fixed, training-majority and oracle baselines."
+  },
+  "selector_confusion": {
+    "source": "artifacts/data/v040/pairwise_ml_results.csv",
+    "caption": "Count ties remain a distinct class; tie predictions execute Basic."
+  },
+  "symmetry_tvd": {
+    "source": "artifacts/data/v040/symmetry_trotter_results.csv",
+    "caption": "Medians over two x/time pairs and r=1,2,4,8; symmetric central initial occupations."
+  },
+  "symmetry_energy_drift": {
+    "source": "artifacts/data/v040/symmetry_trotter_results.csv",
+    "caption": "Medians over two x/time pairs and r=1,2,4,8; symmetric central initial occupations."
+  },
+  "symmetry_mirror_asymmetry": {
+    "source": "artifacts/data/v040/symmetry_trotter_results.csv",
+    "caption": "Medians over two x/time pairs and r=1,2,4,8; symmetric central initial occupations."
+  },
+  "symmetry_source_depth": {
+    "source": "artifacts/data/v040/symmetry_trotter_results.csv",
+    "caption": "Medians over two x/time pairs and r=1,2,4,8; symmetric central initial occupations."
+  },
+  "symmetry_native_depth": {
+    "source": "artifacts/data/v040/symmetry_compiler_results.csv",
+    "caption": "Fixed favorable synthetic line, N=3,5,7 and r=1,2,4, seed 11."
+  },
+  "trotter_convergence": {
+    "source": "artifacts/data/v040/trotter_fits.csv",
+    "caption": "Fits use r=1,2,4,8 and r=2,4,8; plotted points from symmetry_trotter_results.csv."
+  },
+  "physics_compiler_frontier": {
+    "source": "artifacts/data/v040/physics_compiler_frontier.csv",
+    "caption": "Full Pareto flags include TVD, mirror asymmetry, 2Q count/depth and estimated duration; this is a 2D projection."
+  },
+  "tn_observable_error": {
+    "source": "artifacts/data/v040/tn_all_runs.csv",
+    "caption": "Bond 8 uses threshold 1e-10; bonds 32/64 use 1e-14. Includes Pauli and energy observables."
+  },
+  "tn_runtime_seconds": {
+    "source": "artifacts/data/v040/tn_all_runs.csv",
+    "caption": "No full statevector saved; final tensor storage is distinct from total process RSS and peak workspace."
+  },
+  "tn_mps_tensor_bytes": {
+    "source": "artifacts/data/v040/tn_all_runs.csv",
+    "caption": "No full statevector saved; final tensor storage is distinct from total process RSS and peak workspace."
+  },
+  "tn_observed_max_bond": {
+    "source": "artifacts/data/v040/tn_all_runs.csv",
+    "caption": "No full statevector saved; final tensor storage is distinct from total process RSS and peak workspace."
+  }
+}

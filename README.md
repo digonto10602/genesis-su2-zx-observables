@@ -1,76 +1,74 @@
-# SU2ZX v0.3.0
+# SU2ZX v0.4.0
 
-SU2ZX is a reproducible CPU research package for exact, backend-aware compilation of real-time circuits from a gauge-reduced SU(2), `j_max=1/2` plaquette-chain Hamiltonian. The current milestone tests whether the best exact Qiskit/PyZX rewrite depends on both logical circuit structure and synthetic hardware topology.
+Reproducible research on exact compiler selection and real-time evolution of a gauge-reduced, j_max=1/2 SU(2) plaquette chain in a truncated 2+1D Hamiltonian geometry. `src/su2zx/core.py` defines the Hamiltonian and q_(N-1)...q_0 convention.
 
-The principal result is non-degenerate compiler winner diversity: Basic and phase-teleport strategies each achieve multiple strict native two-qubit wins across structurally distinct circuit/target cases. A random-forest cost selector is scientifically meaningful enough to evaluate, but its v0.3.0 result is `NULL` because it does not beat always-Basic in structural-family holdout. See [RESEARCH_RESULTS.md](RESEARCH_RESULTS.md) for exact values and limitations.
+v0.4.0 demonstrates direct-observable CPU MPS scaling through N=32. Basic/Teleport winners survive the sampled fixed-target seeds; ML is NULL on prospective generalization, and symmetry-aware ordering has MIXED physics effects. See [RESEARCH_RESULTS.md](RESEARCH_RESULTS.md) and [VALIDATION.md](VALIDATION.md).
 
-## Scientific scope
+No continuum physics, physical SU(3) QCD, string tension, string breaking, hadronization or quantum advantage is established. Synthetic compilation and simulator outputs are never labeled QPU data.
 
-The model is a pure SU(2), severely truncated, one-plaquette-wide open spatial chain in a small 2+1D Hamiltonian geometry. Each qubit is a retained gauge-invariant plaquette-loop degree of freedom. Qiskit strings and bitstrings use `q_(N-1)...q_0`.
+The [completion audit](docs/V040_COMPLETION_AUDIT.md) maps the v0.4.0 prompt to evidence.
+The [code logic and test report](docs/CODE_LOGIC_AND_TESTS.md) explains the complete
+workflow, benchmarks, test coverage and limitations; the
+[function inventory](docs/CODE_FUNCTION_INVENTORY.md) lists actual callables and assertions.
 
-This package does not model physical SU(3) QCD or establish continuum physics, string tension, string breaking, hadronization, or quantum advantage. `src/su2zx/core.py` is the single Hamiltonian and convention source of truth.
+## Setup and reproduction
 
-## Installation
-
-Run from a directory whose basename is `SU2ZX`:
+Run from the SU2ZX repository root. All working files remain inside it.
 
 ```bash
 bash scripts/bootstrap_env.sh
+bash scripts/run_v040.sh
 ```
 
-The bootstrap reuses the single repository-local Mamba environment under `.mamba/`. It does not modify global Python or system configuration.
+Use the existing single `.mamba/` installation; the interpreter is `.mamba/envs/su2zx/bin/python`. `scripts/run_all.sh` retains the historical v0.3.0 reproduction pipeline and overwrites legacy reports; use run_v040.sh for the current milestone.
 
-## Reproduce the run
-
-```bash
-bash scripts/run_all.sh
-```
-
-Individual stages are:
+## Individual stages
 
 ```bash
+export TMPDIR="$PWD/.work/tmp" MPLCONFIGDIR="$PWD/.work/matplotlib"
+export XDG_CACHE_HOME="$PWD/.work/cache" OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=2
 .mamba/envs/su2zx/bin/python -m pytest
-.mamba/envs/su2zx/bin/ruff check src tests tools
-.mamba/envs/su2zx/bin/mypy src
-
-.mamba/envs/su2zx/bin/python -m su2zx.study \
-  --config config/research.json --output artifacts
-.mamba/envs/su2zx/bin/python -m su2zx.compiler_study \
-  --config config/research.json --output artifacts
-.mamba/envs/su2zx/bin/python -m su2zx.tn_study --output artifacts
-.mamba/envs/su2zx/bin/python -m su2zx.report \
-  --config config/research.json --output artifacts
+# Historical physics / six-strategy benchmark (use separate output for preservation):
+.mamba/envs/su2zx/bin/python -m su2zx.study --config config/research.json --output .work/baseline
+.mamba/envs/su2zx/bin/python -m su2zx.compiler_study --config config/research.json --output .work/baseline
+# Fixed-target robustness, paired data, grouped ML and frozen-rule prospective test:
+.mamba/envs/su2zx/bin/python -m su2zx.robust_study
+# Re-analyze saved data without recompilation:
+.mamba/envs/su2zx/bin/python -m su2zx.robust_study --stage analyze
+# Symmetry physics/compiler grid, full/asymptotic fits and Pareto table:
+.mamba/envs/su2zx/bin/python -m su2zx.scaling_study physics
+# Direct-observable MPS validation then bounded no-statevector scaling:
+.mamba/envs/su2zx/bin/python -m su2zx.scaling_study tn
+.mamba/envs/su2zx/bin/python tools/validate_v040.py controls
+.mamba/envs/su2zx/bin/python tools/validate_v040.py hardware
+.mamba/envs/su2zx/bin/python tools/cudaq_reference.py --target qpp-cpu --plaquettes 5
+.mamba/envs/su2zx/bin/python tools/plot_v040.py
+.mamba/envs/su2zx/bin/python tools/validate_v040.py audit
+.mamba/envs/su2zx/bin/python tools/report_v040.py
 ```
 
-The compiler stage regenerates the structural hashes, exact-equivalence records, target/layout metrics, winner table, three-seed sensitivity table, grouped ML assignments, selector metrics, and compiler figures. The study stage regenerates exact/Strang observables, the fitted convergence order, the symmetry-aware comparison, and physics figures.
+The frozen design is `config/research_v040.json`, checked against `artifacts/data/v040/frozen_design.json`. Preserve these for reproduction; a new research design needs a new timestamped freeze and a fresh holdout. Five routing seeds reuse calibration seed 7. All primary comparisons exclude any pair with a failed output. Randomized routed equivalence is explicitly distinguished from exact logical unitary validation.
 
-## CUDA-Q CPU and optional GPU
+## IBM and optional GPU
 
 ```bash
-.mamba/envs/su2zx/bin/python tools/cudaq_reference.py \
-  --target qpp-cpu --plaquettes 5 --time 0.32
+.mamba/envs/su2zx/bin/python -m su2zx.qpu --comparison   --backend BACKEND --physical-path q0,q1,q2,q3,q4
+.mamba/envs/su2zx/bin/python -m su2zx.qpu_analysis artifacts/qpu/ibm_su2_run.json
 ```
 
-GPU execution must be capability-probed first. The current GTX 1060 Max-Q path is recorded as `BLOCKED_BY_HARDWARE`; do not force unsupported CUDA-Q targets or modify drivers. The reference program accepts supported CUDA-Q targets on a future compatible system without changing the physics implementation.
+The IBM command defaults to a dry run. Live submission requires ALLOW_IBM_QPU_SUBMISSION=1, --submit and the exact fresh --confirm token. Approval is one use, configuration/manifest bound, and expires after 15 minutes. The four-way current/symmetry × Basic/Teleport workflow measures occupations, survival, energy, mirror asymmetry and TVD, with raw/M3 analysis and separate exact/Trotter references. The saved QPY bundle uses a synthetic target; regenerate on the chosen real backend. This release submitted zero QPU jobs.
 
-## IBM hardware preparation
+CUDA-Q CPU works. The detected GTX 1060 Max-Q (compute capability 6.1) blocks GPU execution. Existing CUDA-Q scripts accept supported targets on a future compatible GPU; do not alter drivers or force unsupported targets.
 
-The IBM path defaults to a dry run and never treats simulator output as QPU data:
+## Outputs, Graphify and archives
+
+Data, figures/source mappings, logs and provenance live under artifacts/. Historical v0.3.0 outputs remain preserved alongside v040/. Sixteen current figures have both PNG and PDF outputs.
 
 ```bash
-.mamba/envs/su2zx/bin/python -m su2zx.qpu \
-  --backend BACKEND --physical-path q0,q1,q2,q3,q4
+.mamba/bin/graphify query "direct MPS robustness pairwise selector symmetry"
+.mamba/bin/graphify update .
+# After final reports and Graphify validation:
+.mamba/envs/su2zx/bin/python tools/archive_v040.py
 ```
 
-Submission requires all three independent guards: `ALLOW_IBM_QPU_SUBMISSION=1`, `--submit`, and the exact fresh confirmation token printed by that dry run. v0.3.0 submitted no QPU job.
-
-## Outputs
-
-- `artifacts/data/`: CSV/JSON physics, compiler, ML, seed, and tensor-network data.
-- `artifacts/figures/`: matching PNG/PDF publication figures.
-- `artifacts/logs/`: test, lint, type-check, and execution logs.
-- `artifacts/provenance/run_v0.3.0.json`: machine and run provenance.
-- `graphify-out/`: refreshed code/document knowledge graph.
-- `zip_results/`: timestamped, validated run archives and SHA-256 files.
-
-Validation commands and tolerances are recorded in [VALIDATION.md](VALIDATION.md).
+The archive helper requires a passing Graphify validation record, scans the curated file set for secrets, creates a new UTC timestamped ZIP in zip_results/, tests that exact ZIP, verifies its expected contents and writes SHA256 plus an integrity receipt. It excludes environments, caches, credentials and prior archives. Never overwrite prior archives. Archive details are in RUN_MANIFEST.md and GRAPHIFY_UPDATE.md.

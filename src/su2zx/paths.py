@@ -9,9 +9,7 @@ from pathlib import Path
 def project_path(value: str | Path) -> Path:
     root = Path.cwd().resolve()
     candidate = (
-        (root / value).resolve()
-        if not Path(value).is_absolute()
-        else Path(value).resolve()
+        (root / value).resolve() if not Path(value).is_absolute() else Path(value).resolve()
     )
     if candidate != root and root not in candidate.parents:
         raise ValueError(f"path escapes project root: {candidate}")

@@ -102,18 +102,12 @@ def generate_tn_data(output: Path) -> tuple[pd.DataFrame, dict]:
                 ),
                 "observable_error": max(
                     abs(mps_energy - ideal_energy),
-                    float(
-                        np.max(
-                            abs(local_occupations(mps, n) - local_occupations(ideal, n))
-                        )
-                    ),
+                    float(np.max(abs(local_occupations(mps, n) - local_occupations(ideal, n)))),
                 ),
             }
             rows.append(row)
     frame = pd.DataFrame(rows)
-    validated = frame[
-        (frame.num_plaquettes <= 8) & (frame.max_bond_dimension == 32)
-    ]
+    validated = frame[(frame.num_plaquettes <= 8) & (frame.max_bond_dimension == 32)]
     summary = {
         "version": "v0.3.0",
         "status": "PASS"
@@ -126,9 +120,7 @@ def generate_tn_data(output: Path) -> tuple[pd.DataFrame, dict]:
         "exploratory_sizes": [12],
         "validation_bond_dimension": 32,
         "validation_tolerance": 1e-14,
-        "max_validated_tvd_to_ideal_trotter": float(
-            validated.tvd_to_ideal_trotter.max()
-        ),
+        "max_validated_tvd_to_ideal_trotter": float(validated.tvd_to_ideal_trotter.max()),
         "max_validated_energy_error_to_ideal_trotter": float(
             validated.energy_error_to_ideal_trotter.max()
         ),

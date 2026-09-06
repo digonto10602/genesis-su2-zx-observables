@@ -1,0 +1,35 @@
+{
+  "status": "MIXED",
+  "physics_rows": 168,
+  "compiler_rows": 81,
+  "metrics": {
+    "tvd": {
+      "symmetry_better": 16,
+      "symmetry_worse": 40,
+      "total": 56,
+      "current_max": 0.21780275631197862,
+      "symmetry_max": 0.24297633478969421
+    },
+    "energy_drift": {
+      "symmetry_better": 44,
+      "symmetry_worse": 12,
+      "total": 56,
+      "current_max": 6.406763790117186,
+      "symmetry_max": 3.0644890291608857
+    },
+    "mirror_asymmetry": {
+      "symmetry_better": 48,
+      "symmetry_worse": 0,
+      "total": 56,
+      "current_max": 0.07670654936988663,
+      "symmetry_max": 1.1102230246251565e-15
+    },
+    "source_depth": {
+      "symmetry_better": 56,
+      "symmetry_worse": 0,
+      "total": 56,
+      "current_max": 1936.0,
+      "symmetry_max": 1264.0
+    }
+  }
+}

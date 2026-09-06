@@ -1,0 +1,24 @@
+..........................                                               [100%]
+=============================== warnings summary ===============================
+tests/test_compiler.py::test_generic_ecr_compilation_and_basic_candidate
+  /home/digimonk/Projects/SU2ZX_Foundation_Code_Package/SU2ZX/.mamba/envs/su2zx/lib/python3.11/site-packages/pyzx/routing/phase_poly.py:86: DeprecationWarning: In 3.13 classes created inside an enum will not become a member.  Use the `member` decorator to keep the current behavior.
+    class RootHeuristicProtocol(Protocol):
+
+tests/test_compiler.py::test_generic_ecr_compilation_and_basic_candidate
+  /home/digimonk/Projects/SU2ZX_Foundation_Code_Package/SU2ZX/.mamba/envs/su2zx/lib/python3.11/site-packages/pyzx/routing/phase_poly.py:136: DeprecationWarning: In 3.13 classes created inside an enum will not become a member.  Use the `member` decorator to keep the current behavior.
+    class SplitHeuristicProtocol(Protocol):
+
+tests/test_v040.py: 15 warnings
+  /home/digimonk/Projects/SU2ZX_Foundation_Code_Package/SU2ZX/.mamba/envs/su2zx/lib/python3.11/site-packages/mthree/utils.py:143: DeprecationWarning: Treating CircuitInstruction as an iterable is deprecated legacy behavior since Qiskit 1.2, and will be removed in Qiskit 3.0. Instead, use the `operation`, `qubits` and `clbits` named attributes.
+    if item[0].name == "measure":
+
+tests/test_v040.py: 15 warnings
+  /home/digimonk/Projects/SU2ZX_Foundation_Code_Package/SU2ZX/.mamba/envs/su2zx/lib/python3.11/site-packages/mthree/utils.py:144: DeprecationWarning: Treating CircuitInstruction as an iterable is deprecated legacy behavior since Qiskit 1.2, and will be removed in Qiskit 3.0. Instead, use the `operation`, `qubits` and `clbits` named attributes.
+    cbit = cint_map[item[2][0]]
+
+tests/test_v040.py: 15 warnings
+  /home/digimonk/Projects/SU2ZX_Foundation_Code_Package/SU2ZX/.mamba/envs/su2zx/lib/python3.11/site-packages/mthree/utils.py:145: DeprecationWarning: Treating CircuitInstruction as an iterable is deprecated legacy behavior since Qiskit 1.2, and will be removed in Qiskit 3.0. Instead, use the `operation`, `qubits` and `clbits` named attributes.
+    qbit = qint_map[item[1][0]]
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+26 passed, 47 warnings in 6.57s

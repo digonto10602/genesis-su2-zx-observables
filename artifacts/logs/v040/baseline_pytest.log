@@ -1,0 +1,12 @@
+.................                                                        [100%]
+=============================== warnings summary ===============================
+tests/test_compiler.py::test_generic_ecr_compilation_and_basic_candidate
+  /home/digimonk/Projects/SU2ZX_Foundation_Code_Package/SU2ZX/.mamba/envs/su2zx/lib/python3.11/site-packages/pyzx/routing/phase_poly.py:86: DeprecationWarning: In 3.13 classes created inside an enum will not become a member.  Use the `member` decorator to keep the current behavior.
+    class RootHeuristicProtocol(Protocol):
+
+tests/test_compiler.py::test_generic_ecr_compilation_and_basic_candidate
+  /home/digimonk/Projects/SU2ZX_Foundation_Code_Package/SU2ZX/.mamba/envs/su2zx/lib/python3.11/site-packages/pyzx/routing/phase_poly.py:136: DeprecationWarning: In 3.13 classes created inside an enum will not become a member.  Use the `member` decorator to keep the current behavior.
+    class SplitHeuristicProtocol(Protocol):
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+17 passed, 2 warnings in 4.49s

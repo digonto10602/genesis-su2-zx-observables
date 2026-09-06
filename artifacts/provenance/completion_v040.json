@@ -1,0 +1,15 @@
+{
+  "version": "v0.4.0",
+  "audit_date": "2026-09-06",
+  "input_commit": "dc0e3c9eed846e34d17099249fb7cbc406499e1c",
+  "github_authenticated_login": "digonto10602",
+  "research_provenance": "artifacts/provenance/run_v0.4.0.json",
+  "fresh_execution_logs": "artifacts/logs/v040/completion/",
+  "fresh_stages": ["pytest", "ruff", "format", "mypy", "data audit", "pairwise reanalysis", "direct MPS sweep", "six-strategy controls and seed reproduction", "16 PNG/PDF figures", "Graphify update and validation"],
+  "pytest": {"passed": 26, "warnings": 47, "seconds": 8.57},
+  "historical_experiments_audited_not_reexecuted": ["860-output robustness compilation", "168-row symmetry physics and 81-row symmetry compilation", "CUDA-Q CPU N=1,2,5", "120-circuit synthetic hardware preparation"],
+  "configuration": "config/research_v040.json (unchanged frozen design)",
+  "qpu_jobs_submitted": 0,
+  "publication_receipt": "artifacts/provenance/publication_v040.json generated after verified push",
+  "final_archive": "RUN_MANIFEST.md and exact timestamped ZIP integrity/SHA256 sidecars"
+}

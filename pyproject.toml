@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "su2zx"
-version = "0.3.0"
+version = "0.4.0"
 description = "Observable-preserving ZX compilation for truncated SU(2) plaquette chains"
 readme = "README.md"
 requires-python = ">=3.11,<3.14"

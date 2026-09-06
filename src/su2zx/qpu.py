@@ -6,11 +6,13 @@ import argparse
 import json
 import os
 import random
+import secrets
+import time as wall_time
 from collections import defaultdict
 
 from qiskit.transpiler.preset_passmanagers import generate_preset_pass_manager
 
-from .core import measurement_family, optimize_with_pyzx, strang_evolution
+from .core import circuit_hash, measurement_family, optimize_with_pyzx, strang_evolution
 from .paths import project_path
 
 TIMES = (0.00, 0.08, 0.16, 0.24, 0.32)
@@ -22,9 +24,7 @@ def validate_path(backend, path: list[int]) -> None:
         raise ValueError("physical path must contain five distinct qubits")
     edges = {frozenset(edge) for edge in backend.coupling_map.get_edges()}
     missing = [
-        pair
-        for pair in zip(path, path[1:], strict=False)
-        if frozenset(pair) not in edges
+        pair for pair in zip(path, path[1:], strict=False) if frozenset(pair) not in edges
     ]
     if missing:
         raise ValueError(f"path has non-adjacent pairs: {missing}")
@@ -77,10 +77,11 @@ def best_five_qubit_path(backend) -> list[int]:
     return min(paths, key=score)
 
 
-def build_isa_circuits(backend, path: list[int], repetitions: int):
+def build_isa_circuits(backend, path: list[int], repetitions: int, comparison: bool = False):
     manager = generate_preset_pass_manager(
         backend=backend,
-        optimization_level=3,
+        # Level 1 avoids small-angle two-qubit resynthesis approximations.
+        optimization_level=1,
         initial_layout=path,
         layout_method="trivial",
         seed_transpiler=7,
@@ -88,13 +89,24 @@ def build_isa_circuits(backend, path: list[int], repetitions: int):
     circuits = []
     manifest = []
     for time in TIMES:
-        source = strang_evolution(5, 2.0, time, repetitions, initial_ones=(2,))
-        logical = {
-            "qiskit": source,
-            "basic": optimize_with_pyzx(source, "basic"),
-        }
-        for variant in VARIANTS:
-            for measured in measurement_family(logical[variant]):
+        variants = (
+            [
+                (f"{order}_{strategy}", order, strategy)
+                for order in ("current", "symmetry")
+                for strategy in ("basic", "teleport")
+            ]
+            if comparison
+            else [(variant, "current", variant) for variant in VARIANTS]
+        )
+        for variant, ordering, strategy in variants:
+            source = strang_evolution(
+                5, 2.0, time, repetitions, initial_ones=(2,), term_ordering=ordering
+            )
+            logical = source if strategy == "qiskit" else optimize_with_pyzx(source, strategy)
+            from .robust_study import verify_native
+
+            verify_native(source, manager.run(logical))
+            for measured in measurement_family(logical):
                 basis = measured.metadata["measurement_basis"]
                 measured.name = f"{variant}_t{time:.2f}_{basis}"
                 isa = manager.run(measured)
@@ -102,7 +114,10 @@ def build_isa_circuits(backend, path: list[int], repetitions: int):
                 manifest.append(
                     {
                         "name": isa.name,
+                        "circuit_hash": circuit_hash(isa),
                         "variant": variant,
+                        "term_ordering": ordering,
+                        "strategy": strategy,
                         "time": time,
                         "basis": basis,
                         "depth": isa.depth(),
@@ -138,6 +153,7 @@ def main() -> None:
     parser.add_argument("--shots", type=int, default=4096)
     parser.add_argument("--repetitions", type=int, default=2)
     parser.add_argument("--output", default="artifacts/qpu/ibm_su2_run.json")
+    parser.add_argument("--comparison", action="store_true")
     parser.add_argument("--submit", action="store_true")
     parser.add_argument("--confirm", default="")
     args = parser.parse_args()
@@ -157,17 +173,52 @@ def main() -> None:
         else [int(value) for value in args.physical_path.split(",")]
     )
     validate_path(backend, path)
-    circuits, manifest = build_isa_circuits(backend, path, args.repetitions)
-    token = confirmation_token(backend.name, path, args.shots)
+    circuits, manifest = build_isa_circuits(backend, path, args.repetitions, args.comparison)
+    # Bind approval to the exact fresh dry-run configuration and compiled bundle.
+    import hashlib
+
+    binding = hashlib.sha256(
+        json.dumps(
+            {
+                "backend": backend.name,
+                "path": path,
+                "shots": args.shots,
+                "repetitions": args.repetitions,
+                "manifest": manifest,
+            },
+            sort_keys=True,
+        ).encode()
+    ).hexdigest()
+    approval_path = project_path(".work/qpu_dry_run.json")
+    if args.submit:
+        approval = json.loads(approval_path.read_text())
+        if approval["binding"] != binding or wall_time.time() - approval["created"] > 900:
+            raise SystemExit("submission blocked: dry run changed or expired; rerun dry run")
+        token = approval["token"]
+    else:
+        token = f"I_APPROVE_IBM_QPU:{binding}:{secrets.token_hex(16)}"
+        approval_path.parent.mkdir(parents=True, exist_ok=True)
+        approval_path.write_text(
+            json.dumps({"binding": binding, "token": token, "created": wall_time.time()})
+        )
+    import mthree
+    from mthree.generators import HadamardGenerator
+
+    mappings = mthree.utils.final_measurement_mapping(circuits)
+    calibration_qubits = sorted({qubit for mapping in mappings for qubit in mapping.values()})
+    calibration_count = HadamardGenerator(len(calibration_qubits)).length
+    calibration_shots = (2 * args.shots + calibration_count - 1) // calibration_count
     counts = sorted(item["two_qubit_gates"] for item in manifest)
     summary = {
         "backend": backend.name,
         "path": path,
         "shots_per_circuit": args.shots,
         "physics_circuits": len(circuits),
-        "balanced_m3_calibration_circuits": 8,
-        "total_circuits": len(circuits) + 8,
-        "total_requested_shots": (len(circuits) + 8) * args.shots,
+        "balanced_m3_calibration_circuits": calibration_count,
+        "calibration_shots_per_circuit": calibration_shots,
+        "total_circuits": len(circuits) + calibration_count,
+        "total_requested_shots": len(circuits) * args.shots
+        + calibration_count * calibration_shots,
         "median_native_two_qubit_gates": counts[len(counts) // 2],
         "dynamical_decoupling": "XpXm",
         "gate_twirling": False,
@@ -183,6 +234,7 @@ def main() -> None:
     if args.confirm != token:
         raise SystemExit("submission blocked: confirmation token does not match")
 
+    approval_path.unlink()  # one use, only after all three guards pass
     options = SamplerOptions()
     options.default_shots = args.shots
     options.dynamical_decoupling.enable = True
@@ -195,13 +247,13 @@ def main() -> None:
 
     import mthree
 
-    mapping = mthree.utils.final_measurement_mapping(circuits[0])
     mitigation = mthree.M3Mitigation(backend)
     calibration_jobs = mitigation.cals_from_system(
-        mapping, shots=args.shots, method="balanced", async_cal=False
+        calibration_qubits, shots=args.shots, method="balanced", async_cal=False
     )
     mitigated = [
-        dict(mitigation.apply_correction(item, mapping)) for item in raw_counts
+        dict(mitigation.apply_correction(item, mapping))
+        for item, mapping in zip(raw_counts, mappings, strict=True)
     ]
     payload = {
         "backend": backend.name,

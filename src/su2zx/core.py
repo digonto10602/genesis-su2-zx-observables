@@ -61,9 +61,7 @@ def plaquette_chain_terms(
         coefficient = -9.0 / 8.0 if q in (0, n - 1) else -3.0 / 4.0
         terms.append(PauliTerm(pauli_word(n, {q: "Z"}), coefficient))
     for q in range(n - 1):
-        terms.append(
-            PauliTerm(pauli_word(n, {q: "Z", q + 1: "Z"}), -3.0 / 8.0)
-        )
+        terms.append(PauliTerm(pauli_word(n, {q: "Z", q + 1: "Z"}), -3.0 / 8.0))
 
     terms.extend(
         [
@@ -287,9 +285,7 @@ def total_variation(left: ArrayLike, right: ArrayLike) -> float:
     return 0.5 * float(np.abs(np.asarray(left) - np.asarray(right)).sum())
 
 
-def measurement_circuit(
-    unitary: QuantumCircuit, x_qubit: int | None
-) -> QuantumCircuit:
+def measurement_circuit(unitary: QuantumCircuit, x_qubit: int | None) -> QuantumCircuit:
     circuit = unitary.copy()
     label = "Z" if x_qubit is None else f"X{x_qubit}"
     if x_qubit is not None:
@@ -351,16 +347,8 @@ def reconstruct_energy(
 ) -> float:
     energy = 0.0
     for term in plaquette_chain_terms(num_plaquettes, x, include_identity=True):
-        support = [
-            q
-            for q in range(num_plaquettes)
-            if term.word[num_plaquettes - 1 - q] != "I"
-        ]
-        x_support = [
-            q
-            for q in support
-            if term.word[num_plaquettes - 1 - q] == "X"
-        ]
+        support = [q for q in range(num_plaquettes) if term.word[num_plaquettes - 1 - q] != "I"]
+        x_support = [q for q in support if term.word[num_plaquettes - 1 - q] == "X"]
         if not support:
             value = 1.0
         else:
@@ -377,9 +365,7 @@ def project_to_probability_simplex(
     values = np.asarray([quasiprobabilities[key] for key in keys], dtype=float)
     ordered = np.sort(values)[::-1]
     cumulative = np.cumsum(ordered)
-    candidates = np.nonzero(
-        ordered * np.arange(1, len(ordered) + 1) > cumulative - 1.0
-    )[0]
+    candidates = np.nonzero(ordered * np.arange(1, len(ordered) + 1) > cumulative - 1.0)[0]
     if len(candidates) == 0:
         raise RuntimeError("simplex projection failed")
     rho = int(candidates[-1])
@@ -392,15 +378,18 @@ def optimize_with_pyzx(source: QuantumCircuit, strategy: str) -> QuantumCircuit:
     """Apply a PyZX strategy and reject an inequivalent result."""
     import pyzx as zx
 
-    zxc = zx.Circuit.from_qasm(qasm2.dumps(source))
+    # The default 2**20 denominator loses ~1e-10 in repeated small angles.
+    # Increase only the QASM import precision and restore the library setting.
+    denominator = zx.settings.float_to_fraction_max_denominator
+    try:
+        zx.settings.float_to_fraction_max_denominator = 2**40
+        zxc = zx.Circuit.from_qasm(qasm2.dumps(source))
+    finally:
+        zx.settings.float_to_fraction_max_denominator = denominator
     if strategy == "basic":
-        candidate_zx = zx.optimize.basic_optimization(
-            zxc.copy(), do_swaps=False, quiet=True
-        )
+        candidate_zx = zx.optimize.basic_optimization(zxc.copy(), do_swaps=False, quiet=True)
     elif strategy == "basic_swaps":
-        candidate_zx = zx.optimize.basic_optimization(
-            zxc.copy(), do_swaps=True, quiet=True
-        )
+        candidate_zx = zx.optimize.basic_optimization(zxc.copy(), do_swaps=True, quiet=True)
     elif strategy == "teleport":
         graph = zx.simplify.teleport_reduce(zxc.to_graph().copy())
         candidate_zx = zx.Circuit.from_graph(graph).to_basic_gates()
@@ -421,6 +410,6 @@ def optimize_with_pyzx(source: QuantumCircuit, strategy: str) -> QuantumCircuit:
 
     candidate = qasm2.loads(candidate_zx.to_qasm())
     candidate.metadata = dict(source.metadata or {}) | {"zx_strategy": strategy}
-    if not Operator(source).equiv(Operator(candidate)):
+    if not Operator(source).equiv(Operator(candidate), atol=1e-10, rtol=1e-10):
         raise RuntimeError(f"PyZX strategy {strategy} failed exact equivalence")
     return candidate

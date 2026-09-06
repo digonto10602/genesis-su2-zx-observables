@@ -42,9 +42,7 @@ def test_one_plaquette_transition_probability() -> None:
 
 
 def test_two_plaquette_matrix_and_ground_energy() -> None:
-    expected = np.asarray(
-        [[0, -2, -2, 0], [-2, 3, 0, -1], [-2, 0, 3, -1], [0, -1, -1, 4.5]]
-    )
+    expected = np.asarray([[0, -2, -2, 0], [-2, 3, 0, -1], [-2, 0, 3, -1], [0, -1, -1, 4.5]])
     matrix = hamiltonian(2, 1.0).to_matrix().real
     np.testing.assert_allclose(matrix, expected, atol=1e-13)
     np.testing.assert_allclose(np.linalg.eigvalsh(matrix)[0], -1.789221846776, atol=1e-12)
@@ -115,9 +113,7 @@ def test_pyzx_candidates_are_exact() -> None:
 def test_structure_hash_normalizes_angles_but_not_gate_order() -> None:
     left = strang_evolution(5, 1.0, 0.08, 2, initial_ones=(2,))
     right = strang_evolution(5, 4.0, 0.32, 2, initial_ones=(2,))
-    symmetric = strang_evolution(
-        5, 1.0, 0.08, 2, initial_ones=(2,), term_ordering="symmetry"
-    )
+    symmetric = strang_evolution(5, 1.0, 0.08, 2, initial_ones=(2,), term_ordering="symmetry")
     assert circuit_hash(left) != circuit_hash(right)
     assert circuit_structure_hash(left) == circuit_structure_hash(right)
     assert circuit_structure_hash(left) != circuit_structure_hash(symmetric)

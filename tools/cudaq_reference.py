@@ -131,12 +131,8 @@ def main() -> None:
         initial_ones=(ARGS.plaquettes // 2,),
     )
     qiskit_state = circuit_state(qiskit_circuit)
-    qiskit_energy = expectation(
-        qiskit_state, hamiltonian(ARGS.plaquettes, ARGS.x)
-    )
-    probability_tvd = total_variation(
-        probabilities(cudaq_state), probabilities(qiskit_state)
-    )
+    qiskit_energy = expectation(qiskit_state, hamiltonian(ARGS.plaquettes, ARGS.x))
+    probability_tvd = total_variation(probabilities(cudaq_state), probabilities(qiskit_state))
     survival = float(probabilities(cudaq_state)[1 << (ARGS.plaquettes // 2)])
     print(
         json.dumps(

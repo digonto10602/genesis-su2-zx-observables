@@ -12,6 +12,7 @@ import pandas as pd
 from .core import (
     circuit_state,
     diagonal_pauli_expectation,
+    exact_state,
     normalized_counts,
     project_to_probability_simplex,
     reconstruct_energy,
@@ -47,13 +48,19 @@ def analyze(payload: dict) -> pd.DataFrame:
         }
 
     rows = []
-    for variant in ("qiskit", "basic"):
+    for variant in sorted({key[0] for key in records}):
         for time in sorted({key[1] for key in records}):
             state = circuit_state(
                 strang_evolution(
-                    5, 2.0, time, payload["repetitions"], initial_ones=(2,)
+                    5,
+                    2.0,
+                    time,
+                    payload["repetitions"],
+                    initial_ones=(2,),
+                    term_ordering="symmetry" if variant.startswith("symmetry_") else "current",
                 )
             )
+            exact = abs(exact_state(5, 2.0, time, initial_ones=(2,))) ** 2
             reference = {
                 format(index, "05b"): float(value)
                 for index, value in enumerate(np.abs(state) ** 2)
@@ -65,15 +72,9 @@ def analyze(payload: dict) -> pd.DataFrame:
                 }
                 metric_distribution = distributions["Z"]
                 if treatment == "m3_quasi":
-                    metric_distribution = project_to_probability_simplex(
-                        metric_distribution
-                    )
+                    metric_distribution = project_to_probability_simplex(metric_distribution)
                 occupations = [
-                    (
-                        1.0
-                        - diagonal_pauli_expectation(distributions["Z"], [qubit])
-                    )
-                    / 2.0
+                    (1.0 - diagonal_pauli_expectation(distributions["Z"], [qubit])) / 2.0
                     for qubit in range(5)
                 ]
                 rows.append(
@@ -84,6 +85,9 @@ def analyze(payload: dict) -> pd.DataFrame:
                         "tvd_to_exact_trotter": total_variation(
                             list(metric_distribution.values()), list(reference.values())
                         ),
+                        "tvd_to_exact_hamiltonian": total_variation(
+                            list(metric_distribution.values()), exact
+                        ),
                         "energy": reconstruct_energy(distributions, 5, 2.0),
                         "survival": metric_distribution["00100"],
                         "mirror_asymmetry": (
@@ -91,29 +95,27 @@ def analyze(payload: dict) -> pd.DataFrame:
                             + abs(occupations[1] - occupations[3])
                         )
                         / 2.0,
-                        **{
-                            f"occupation_{qubit}": occupations[qubit]
-                            for qubit in range(5)
-                        },
+                        **{f"occupation_{qubit}": occupations[qubit] for qubit in range(5)},
                     }
                 )
     return pd.DataFrame(rows)
 
 
 def summarize(frame: pd.DataFrame) -> dict:
-    output = {}
+    output: dict[str, dict] = {}
     for treatment in ("raw", "m3_quasi"):
         subset = frame[(frame.treatment == treatment) & (frame.time > 0)]
-        pivot = subset.pivot(
-            index="time", columns="variant", values="tvd_to_exact_trotter"
-        )
-        differences = (pivot.basic - pivot.qiskit).to_numpy()
-        output[treatment] = {
-            "mean_tvd_qiskit": float(pivot.qiskit.mean()),
-            "mean_tvd_basic": float(pivot.basic.mean()),
-            "paired_delta_basic_minus_qiskit": float(differences.mean()),
-            "paired_bootstrap_95_percent": paired_interval(differences),
-        }
+        pivot = subset.pivot(index="time", columns="variant", values="tvd_to_exact_trotter")
+        baseline = "qiskit" if "qiskit" in pivot else "current_basic"
+        output[treatment] = {}
+        for variant in pivot.columns:
+            differences = (pivot[variant] - pivot[baseline]).to_numpy()
+            output[treatment][variant] = {
+                "baseline": baseline,
+                "mean_tvd": float(pivot[variant].mean()),
+                "paired_delta": float(differences.mean()),
+                "paired_bootstrap_95_percent": paired_interval(differences),
+            }
     return output
 
 

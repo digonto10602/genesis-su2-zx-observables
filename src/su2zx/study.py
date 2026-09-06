@@ -57,10 +57,7 @@ def exact_states(
     eigenvalues, eigenvectors = np.linalg.eigh(matrix)
     initial = initial_state(num_qubits, initial_ones)
     coefficients = eigenvectors.conj().T @ initial
-    return [
-        eigenvectors @ (np.exp(-1j * eigenvalues * time) * coefficients)
-        for time in times
-    ]
+    return [eigenvectors @ (np.exp(-1j * eigenvalues * time) * coefficients) for time in times]
 
 
 def state_row(
@@ -85,8 +82,7 @@ def state_row(
             probabilities(state), probabilities(reference)
         ),
         "mirror_asymmetry": float(
-            (abs(occupations[0] - occupations[4]) + abs(occupations[1] - occupations[3]))
-            / 2.0
+            (abs(occupations[0] - occupations[4]) + abs(occupations[1] - occupations[3])) / 2.0
         ),
         "norm_error": float(abs(np.vdot(state, state).real - 1.0)),
         **{f"occupation_{q}": float(occupations[q]) for q in range(5)},
@@ -122,9 +118,7 @@ def generate_data(config: dict, output: Path) -> tuple[pd.DataFrame, pd.DataFram
 
     convergence = []
     for r in repetitions:
-        selected = observables[
-            (observables.method == f"strang_r{r}") & (observables.time > 0)
-        ]
+        selected = observables[(observables.method == f"strang_r{r}") & (observables.time > 0)]
         convergence.append(
             {
                 "repetitions": r,
@@ -239,9 +233,7 @@ def generate_data(config: dict, output: Path) -> tuple[pd.DataFrame, pd.DataFram
             for ordering, group in symmetry_frame.groupby("term_ordering")
         },
     }
-    (data / "physics_summary.json").write_text(
-        json.dumps(summary, indent=2), encoding="utf-8"
-    )
+    (data / "physics_summary.json").write_text(json.dumps(summary, indent=2), encoding="utf-8")
     return observables, probabilities_frame
 
 

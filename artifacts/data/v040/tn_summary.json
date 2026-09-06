@@ -1,0 +1,8 @@
+{
+  "status": "SCALING_DEMONSTRATED",
+  "validation": "VALIDATED",
+  "largest_n": 32,
+  "max_validation_error": 2.2717472347721923e-09,
+  "max_scaling_bond_stability_error": 0.0,
+  "scope": "Short-time r=2 ideal Trotter scaling; no large-N exact-Hamiltonian accuracy claim. RSS is cumulative process high-water, tensor bytes are compact-state size; normalized identity does not bound discarded weight."
+}

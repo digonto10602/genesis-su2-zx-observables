@@ -1,0 +1,13 @@
+{
+  "status": "PASS",
+  "raw_rows": 860,
+  "verified_rows": 830,
+  "rejected_rows": 30,
+  "pairwise_records": 415,
+  "baseline_records": 426,
+  "baseline_source_hashes": 35,
+  "frozen_design": "PASS",
+  "grouped_leakage": "PASS",
+  "CUDA_Q_CPU": "PASS",
+  "direct_mps": "PASS"
+}

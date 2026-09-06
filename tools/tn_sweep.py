@@ -38,9 +38,7 @@ def main() -> None:
                 "--time",
                 str(args.time),
             ]
-            run = subprocess.run(
-                command, cwd=root, capture_output=True, text=True, check=False
-            )
+            run = subprocess.run(command, cwd=root, capture_output=True, text=True, check=False)
             if run.returncode == 0:
                 result = json.loads(run.stdout)
                 rows.append({**result, "status": "PASS", "error": ""})

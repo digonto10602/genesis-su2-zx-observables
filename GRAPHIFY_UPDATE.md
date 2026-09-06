@@ -1,16 +1,22 @@
-# Graphify update — SU2ZX v0.3.0
+# Graphify update — SU2ZX v0.4.0
 
-- Timestamp: 2026-09-04T22:20:57Z
+- UTC timestamp: 2026-09-06T22:36:48.287498+00:00
 - Graphify version: 0.9.53
-- Commands: `.mamba/bin/graphify update .`, semantic incremental merge, `.mamba/bin/graphify export html`, and a focused `graphify query` validation.
-- Indexed root: repository root `SU2ZX/`.
-- Indexed content: live Python packages, tests, scripts, JSON configuration/results, README, research report, validation report, environment record, research prompts, and references.
-- Explicit exclusions in `.graphifyignore`: `zip_results/`, binary figure files under `artifacts/figures/`, and `artifacts/environment-pip-freeze.txt`.
-- Nodes: 408.
-- Edges/relationships: 678.
-- Communities: 28.
-- Validation: PASS.
+- Nodes: 796; relationships: 1258.
+- Validation: PASS. Unique IDs, existing endpoints, no self-loops/duplicate edge pairs, and critical v0.4.0 callable coverage checked.
+- Graph SHA256: e017f02cd6deb3de7d292ce2c4ce7c44d6758dedb367e462e901cca79e8899f0.
 
-The extraction diagnostic reported zero missing endpoints, dangling endpoints, self-loops, exact duplicate edges, or collapsed same-endpoint edges. A focused query connected the v0.3.0 winner-diversity, grouped-ML, symmetry-aware Trotter, CPU-MPS, CUDA-Q, and completion-gate concepts to their code, tests, prompts, and reports.
+## Commands
 
-Known gaps: release-note prose is represented through the versioned code/report graph rather than a dedicated semantic node; large binary artifacts and prior archives are intentionally not indexed. The graph is an undirected navigation graph, so directional edge semantics remain edge attributes rather than a directed NetworkX graph.
+```bash
+.mamba/bin/graphify update .
+.mamba/bin/python tools/refresh_graph_v040.py
+.mamba/bin/graphify query "direct MPS robustness pairwise selector symmetry"
+.mamba/bin/graphify diagnose multigraph --json
+```
+
+The helper uses installed `graphify.build.build_merge` with dedup=False to preserve distinct repeated-heading locations, and `graphify.export.to_json`, followed by supported `cluster-only .`. Code uses AST extraction; research concepts use a separately extracted, grounded semantic fragment preserved in artifacts/provenance/graph_semantic_v040.json. New completion documents have structural heading coverage; their full prose has not received a new semantic extraction. Token accounting for the historical fragment is unavailable, represented as zero placeholders rather than a claim of zero host-agent usage. No external LLM API was used.
+
+Indexed paths include src/, tests/, tools/, scripts/, configuration, root reports, research prompts and artifact/provenance relationships. Updated concepts connect current/reversed/symmetry ordering, exact evolution/observables, full/asymptotic convergence, Basic/Teleport/controls, fixed targets/layouts/seeds, delta costs, grouped models/frozen rule, direct MPS/scaling, CUDA-Q/IBM, datasets/plots and provenance.
+
+Exclusions: .mamba/, .work/, .git/, caches, zip_results/, binary figures, QPY bundles and environment package listings. Binary contents are represented by data/provenance references, not parsed. Final RUN_MANIFEST archive metadata is prepared after graph refresh per the required completion order; the graph describes the research rather than a self-referential final ZIP checksum. Small CSV entries are not represented row by row. The graph is undirected; relationship direction remains in edge attributes.

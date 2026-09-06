@@ -1,0 +1,215 @@
+{
+  "version": "v0.4.0",
+  "utc_timestamp": "2026-09-05T07:01:09.932665+00:00",
+  "git": {
+    "commit": "dc0e3c9eed846e34d17099249fb7cbc406499e1c",
+    "branch": "main",
+    "dirty": true
+  },
+  "python": "3.11.16 (main, Sep  2 2026, 23:39:52) [GCC 15.3.0]",
+  "packages": {
+    "qiskit": "2.5.2",
+    "qiskit-aer": "0.17.2",
+    "qiskit-ibm-runtime": "0.49.0",
+    "pyzx": "0.10.6",
+    "cudaq": "0.15.1",
+    "numpy": "2.4.6",
+    "scipy": "1.17.1",
+    "scikit-learn": "1.9.0",
+    "matplotlib": "3.11.1",
+    "pytest": "9.1.1",
+    "ruff": "0.16.6",
+    "mypy": "2.3.1"
+  },
+  "hardware": {
+    "platform": "Linux-7.1.9-arch1-2-x86_64-with-glibc2.44",
+    "cpu": "Architecture:                            x86_64\nCPU op-mode(s):                          32-bit, 64-bit\nAddress sizes:                           39 bits physical, 48 bits virtual\nByte Order:                              Little Endian\nCPU(s):                                  12\nOn-line CPU(s) list:                     0-11\nVendor ID:                               GenuineIntel\nModel name:                              Intel(R) Core(TM) i7-8750H CPU @ 2.20GHz\nCPU family:                              6\nModel:                                   158\nThread(s) per core:                      2\nCore(s) per socket:                      6\nSocket(s):                               1\nStepping:                                10\nMicrocode version:                       0xfa\nCPU(s) scaling MHz:                      90%\nCPU max MHz:                             4100.0000\nCPU min MHz:                             800.0000\nBogoMIPS:                                4399.99\nFlags:                                   fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb pti ssbd ibrs ibpb stibp tpr_shadow flexpriority ept vpid ept_ad fsgsbase tsc_adjust sgx bmi1 avx2 smep bmi2 erms invpcid mpx rdseed adx smap clflushopt intel_pt xsaveopt xsavec xgetbv1 xsaves dtherm ida arat pln pts hwp hwp_notify hwp_act_window hwp_epp vnmi sgx_lc md_clear flush_l1d arch_capabilities\nVirtualization:                          VT-x\nL1d cache:                               192 KiB (6 instances)\nL1i cache:                               192 KiB (6 instances)\nL2 cache:                                1.5 MiB (6 instances)\nL3 cache:                                9 MiB (1 instance)\nNUMA node(s):                            1\nNUMA node0 CPU(s):                       0-11\nVulnerability Gather data sampling:      Mitigation; Microcode\nVulnerability Ghostwrite:                Not affected\nVulnerability Indirect target selection: Not affected\nVulnerability Itlb multihit:             KVM: Mitigation: Split huge pages\nVulnerability L1tf:                      Mitigation; PTE Inversion; VMX conditional cache flushes, SMT vulnerable\nVulnerability Mds:                       Mitigation; Clear CPU buffers; SMT vulnerable\nVulnerability Meltdown:                  Mitigation; PTI\nVulnerability Mmio stale data:           Mitigation; Clear CPU buffers; SMT vulnerable\nVulnerability Old microcode:             Not affected\nVulnerability Reg file data sampling:    Not affected\nVulnerability Retbleed:                  Mitigation; IBRS\nVulnerability Spec rstack overflow:      Not affected\nVulnerability Spec store bypass:         Mitigation; Speculative Store Bypass disabled via prctl\nVulnerability Spectre v1:                Mitigation; usercopy/swapgs barriers and __user pointer sanitization\nVulnerability Spectre v2:                Mitigation; IBRS; IBPB conditional; STIBP conditional; RSB filling; PBRSB-eIBRS Not affected; BHI Not affected\nVulnerability Srbds:                     Mitigation; Microcode\nVulnerability Tsa:                       Not affected\nVulnerability Tsx async abort:           Not affected\nVulnerability Vmscape:                   Mitigation; IBPB before exit to userspace",
+    "memory": "total        used        free      shared  buff/cache   available\nMem:     16429694976  8583540736  1196765184  1269915648  9020616704  7846154240\nSwap:    32858783744           0 32858783744",
+    "disk": "Filesystem        Size  Used Avail Use% Mounted on\n/dev/mapper/root  446G   48G  396G  11% /home",
+    "gpu": "name, compute_cap, driver_version, memory.total [MiB]\nNVIDIA GeForce GTX 1060 with Max-Q Design, 6.1, 580.178.04, 6144 MiB",
+    "cuda": "Sat Sep  5 01:01:10 2026       \n+-----------------------------------------------------------------------------------------+\n| NVIDIA-SMI 580.178.04             Driver Version: 580.178.04     CUDA Version: 13.0     |\n+-----------------------------------------+------------------------+----------------------+\n| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |\n| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |\n|                                         |                        |               MIG M. |\n|=========================================+========================+======================|\n|   0  NVIDIA GeForce GTX 1060 ...    Off |   00000000:01:00.0 Off |                  N/A |\n| N/A   42C    P8              5W /   70W |      21MiB /   6144MiB |      0%      Default |\n|                                         |                        |                  N/A |\n+-----------------------------------------+------------------------+----------------------+\n\n+-----------------------------------------------------------------------------------------+\n| Processes:                                                                              |\n|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |\n|        ID   ID                                                               Usage      |\n|=========================================================================================|\n|  No running processes found                                                             |\n+-----------------------------------------------------------------------------------------+"
+  },
+  "experiment_configuration": {
+    "version": "v0.4.0",
+    "frozen_before_generation_utc": "2026-09-05T06:37:43.901641+00:00",
+    "frozen_rule": {
+      "teleport_max_n": 3,
+      "teleport_ordering": "current",
+      "otherwise": "basic"
+    },
+    "transpiler_seeds": [
+      11,
+      19,
+      29,
+      37,
+      47
+    ],
+    "target_seed": 7,
+    "verification_seed": 20260905,
+    "verification_random_states": 3,
+    "optimization_level": 2,
+    "robust_fraction": 0.8,
+    "prospective": {
+      "sizes": [
+        2,
+        4,
+        6
+      ],
+      "x": 1.5,
+      "time": 0.2,
+      "repetitions": 3
+    },
+    "physics": {
+      "sizes": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "repetitions": [
+        1,
+        2,
+        4,
+        8
+      ],
+      "parameters": [
+        [
+          1.0,
+          0.16
+        ],
+        [
+          2.0,
+          0.32
+        ]
+      ]
+    },
+    "models": {
+      "seed": 11,
+      "tree_max_depth": 3,
+      "forest_trees": 100,
+      "forest_min_samples_leaf": 3
+    },
+    "scope": "Five seeds to bound laptop runtime; prior strict winners plus ties/routing anchors; new r=3 holdout; symmetry compiler N=3,5,7 r=1,2,4; ECR basis only. All targets synthetic with fixed calibration seed."
+  },
+  "random_seeds": {
+    "transpiler": [
+      11,
+      19,
+      29,
+      37,
+      47
+    ],
+    "target": 7,
+    "verification": 20260905,
+    "ml": 11
+  },
+  "target_definitions": "artifacts/data/v040/compiler_design.json and compiler_raw_results.csv target_definition",
+  "layouts": [
+    "favorable",
+    "spread",
+    "transpiler"
+  ],
+  "model_configurations": {
+    "seed": 11,
+    "tree_max_depth": 3,
+    "forest_trees": 100,
+    "forest_min_samples_leaf": 3
+  },
+  "frozen_rule": {
+    "teleport_max_n": 3,
+    "teleport_ordering": "current",
+    "otherwise": "basic"
+  },
+  "blocked_features": {
+    "CUDA_Q_GPU": "BLOCKED_BY_HARDWARE",
+    "IBM_METADATA": "NOT_AVAILABLE",
+    "IBM_QPU": "NOT_RUN"
+  },
+  "generated_datasets": [
+    "artifacts/data/v040/compiler_control_results.csv",
+    "artifacts/data/v040/compiler_design.json",
+    "artifacts/data/v040/compiler_layout_topology_sensitivity.csv",
+    "artifacts/data/v040/compiler_raw_results.csv",
+    "artifacts/data/v040/compiler_seed_robustness.csv",
+    "artifacts/data/v040/compiler_strict_winners.csv",
+    "artifacts/data/v040/compiler_structural_results.csv",
+    "artifacts/data/v040/cudaq_N1.json",
+    "artifacts/data/v040/cudaq_N2.json",
+    "artifacts/data/v040/cudaq_N5.json",
+    "artifacts/data/v040/frozen_design.json",
+    "artifacts/data/v040/hardware_ready.json",
+    "artifacts/data/v040/hardware_ready.qpy",
+    "artifacts/data/v040/pairwise_basic_teleport.csv",
+    "artifacts/data/v040/pairwise_feature_importance.csv",
+    "artifacts/data/v040/pairwise_features.json",
+    "artifacts/data/v040/pairwise_ml_groups.csv",
+    "artifacts/data/v040/pairwise_ml_predictions.csv",
+    "artifacts/data/v040/pairwise_ml_results.csv",
+    "artifacts/data/v040/pairwise_ml_summary.json",
+    "artifacts/data/v040/physics_compiler_frontier.csv",
+    "artifacts/data/v040/prospective_logistic_coefficients.csv",
+    "artifacts/data/v040/prospective_tree_rules.txt",
+    "artifacts/data/v040/seed_reproduction.json",
+    "artifacts/data/v040/symmetry_compiler_results.csv",
+    "artifacts/data/v040/symmetry_compiler_summary.json",
+    "artifacts/data/v040/symmetry_summary.json",
+    "artifacts/data/v040/symmetry_trotter_results.csv",
+    "artifacts/data/v040/tn_all_runs.csv",
+    "artifacts/data/v040/tn_observable_validation.csv",
+    "artifacts/data/v040/tn_observables.csv",
+    "artifacts/data/v040/tn_scaling.csv",
+    "artifacts/data/v040/tn_summary.json",
+    "artifacts/data/v040/trotter_fits.csv"
+  ],
+  "generated_figures": [
+    "artifacts/figures/v040/delta_distribution.pdf",
+    "artifacts/figures/v040/delta_distribution.png",
+    "artifacts/figures/v040/figure_sources.json",
+    "artifacts/figures/v040/physics_compiler_frontier.pdf",
+    "artifacts/figures/v040/physics_compiler_frontier.png",
+    "artifacts/figures/v040/selector_confusion.pdf",
+    "artifacts/figures/v040/selector_confusion.png",
+    "artifacts/figures/v040/selector_regret.pdf",
+    "artifacts/figures/v040/selector_regret.png",
+    "artifacts/figures/v040/symmetry_energy_drift.pdf",
+    "artifacts/figures/v040/symmetry_energy_drift.png",
+    "artifacts/figures/v040/symmetry_mirror_asymmetry.pdf",
+    "artifacts/figures/v040/symmetry_mirror_asymmetry.png",
+    "artifacts/figures/v040/symmetry_native_depth.pdf",
+    "artifacts/figures/v040/symmetry_native_depth.png",
+    "artifacts/figures/v040/symmetry_source_depth.pdf",
+    "artifacts/figures/v040/symmetry_source_depth.png",
+    "artifacts/figures/v040/symmetry_tvd.pdf",
+    "artifacts/figures/v040/symmetry_tvd.png",
+    "artifacts/figures/v040/tn_mps_tensor_bytes.pdf",
+    "artifacts/figures/v040/tn_mps_tensor_bytes.png",
+    "artifacts/figures/v040/tn_observable_error.pdf",
+    "artifacts/figures/v040/tn_observable_error.png",
+    "artifacts/figures/v040/tn_observed_max_bond.pdf",
+    "artifacts/figures/v040/tn_observed_max_bond.png",
+    "artifacts/figures/v040/tn_runtime_seconds.pdf",
+    "artifacts/figures/v040/tn_runtime_seconds.png",
+    "artifacts/figures/v040/trotter_convergence.pdf",
+    "artifacts/figures/v040/trotter_convergence.png",
+    "artifacts/figures/v040/winner_fraction_seed.pdf",
+    "artifacts/figures/v040/winner_fraction_seed.png",
+    "artifacts/figures/v040/winner_robustness.pdf",
+    "artifacts/figures/v040/winner_robustness.png"
+  ],
+  "validation": {
+    "status": "PASS",
+    "raw_rows": 860,
+    "verified_rows": 830,
+    "rejected_rows": 30,
+    "pairwise_records": 415,
+    "baseline_records": 426,
+    "baseline_source_hashes": 35,
+    "frozen_design": "PASS",
+    "grouped_leakage": "PASS",
+    "CUDA_Q_CPU": "PASS",
+    "direct_mps": "PASS"
+  }
+}

@@ -1,0 +1,7 @@
+|--- interaction_mean_degree <= 1.55
+|   |--- term_ordering_symmetry <= 0.50
+|   |   |--- class: teleport
+|   |--- term_ordering_symmetry >  0.50
+|   |   |--- class: basic
+|--- interaction_mean_degree >  1.55
+|   |--- class: basic

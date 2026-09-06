@@ -1,0 +1,5 @@
+Re-extracting code files in . (no LLM needed)...
+[graphify watch] fail-closed: kept 11 node(s) from 1 file(s) that left the scan corpus but still exist on disk and match no current ignore rule (filters changed?). Add them to .graphifyignore if the exclusion is intentional.
+[graphify watch] No code-graph topology changes detected; outputs left untouched.
+Code graph updated. For doc/paper/image changes run /graphify --update in your AI assistant.
+Tip: set GEMINI_API_KEY or GOOGLE_API_KEY to use Gemini for semantic extraction.

@@ -1,0 +1,1120 @@
+[
+  {
+    "n": 2,
+    "x": 0.5,
+    "t": 0.08,
+    "r": 2,
+    "order": "current",
+    "target": "synthetic_grid_6q_transpiler",
+    "cohort": "robustness",
+    "initial": [
+      1
+    ],
+    "prior_case_id": "N2_x0.5_t0.08_r2_current__synthetic_grid_6q_transpiler__seed7"
+  },
+  {
+    "n": 2,
+    "x": 0.5,
+    "t": 0.08,
+    "r": 2,
+    "order": "current",
+    "target": "synthetic_heavy_hex_like_7q_transpiler",
+    "cohort": "robustness",
+    "initial": [
+      1
+    ],
+    "prior_case_id": "N2_x0.5_t0.08_r2_current__synthetic_heavy_hex_like_7q_transpiler__seed7"
+  },
+  {
+    "n": 2,
+    "x": 0.5,
+    "t": 0.08,
+    "r": 2,
+    "order": "current",
+    "target": "synthetic_irregular_7q_favorable",
+    "cohort": "robustness",
+    "initial": [
+      1
+    ],
+    "prior_case_id": "N2_x0.5_t0.08_r2_current__synthetic_irregular_7q_favorable__seed7"
+  },
+  {
+    "n": 3,
+    "x": 2.0,
+    "t": 0.24,
+    "r": 1,
+    "order": "current",
+    "target": "synthetic_line_6q_favorable",
+    "cohort": "robustness",
+    "initial": [
+      1
+    ],
+    "prior_case_id": "N3_x2_t0.24_r1_current__synthetic_line_6q_favorable__seed7"
+  },
+  {
+    "n": 3,
+    "x": 2.0,
+    "t": 0.24,
+    "r": 2,
+    "order": "current",
+    "target": "synthetic_line_6q_spread",
+    "cohort": "robustness",
+    "initial": [
+      1
+    ],
+    "prior_case_id": "N3_x2_t0.24_r2_current__synthetic_line_6q_spread__seed7"
+  },
+  {
+    "n": 3,
+    "x": 2.0,
+    "t": 0.24,
+    "r": 4,
+    "order": "current",
+    "target": "synthetic_ring_6q_transpiler",
+    "cohort": "robustness",
+    "initial": [
+      1
+    ],
+    "prior_case_id": "N3_x2_t0.24_r4_current__synthetic_ring_6q_transpiler__seed7"
+  },
+  {
+    "n": 3,
+    "x": 2.0,
+    "t": 0.24,
+    "r": 8,
+    "order": "current",
+    "target": "synthetic_grid_6q_transpiler",
+    "cohort": "robustness",
+    "initial": [
+      1
+    ],
+    "prior_case_id": "N3_x2_t0.24_r8_current__synthetic_grid_6q_transpiler__seed7"
+  },
+  {
+    "n": 3,
+    "x": 1.0,
+    "t": 0.16,
+    "r": 2,
+    "order": "reversed",
+    "target": "synthetic_heavy_hex_like_7q_transpiler",
+    "cohort": "robustness",
+    "initial": [
+      1
+    ],
+    "prior_case_id": "N3_x1_t0.16_r2_reversed__synthetic_heavy_hex_like_7q_transpiler__seed7"
+  },
+  {
+    "n": 3,
+    "x": 0.5,
+    "t": 0.08,
+    "r": 2,
+    "order": "current",
+    "target": "synthetic_irregular_7q_spread",
+    "cohort": "robustness",
+    "initial": [
+      1
+    ],
+    "prior_case_id": "N3_x0.5_t0.08_r2_current__synthetic_irregular_7q_spread__seed7"
+  },
+  {
+    "n": 4,
+    "x": 2.0,
+    "t": 0.24,
+    "r": 4,
+    "order": "current",
+    "target": "synthetic_ring_6q_transpiler",
+    "cohort": "robustness",
+    "initial": [
+      2
+    ],
+    "prior_case_id": "N4_x2_t0.24_r4_current__synthetic_ring_6q_transpiler__seed7"
+  },
+  {
+    "n": 4,
+    "x": 2.0,
+    "t": 0.24,
+    "r": 8,
+    "order": "current",
+    "target": "synthetic_grid_6q_transpiler",
+    "cohort": "robustness",
+    "initial": [
+      2
+    ],
+    "prior_case_id": "N4_x2_t0.24_r8_current__synthetic_grid_6q_transpiler__seed7"
+  },
+  {
+    "n": 4,
+    "x": 1.0,
+    "t": 0.16,
+    "r": 2,
+    "order": "reversed",
+    "target": "synthetic_line_6q_favorable",
+    "cohort": "robustness",
+    "initial": [
+      2
+    ],
+    "prior_case_id": "N4_x1_t0.16_r2_reversed__synthetic_line_6q_favorable__seed7"
+  },
+  {
+    "n": 4,
+    "x": 1.0,
+    "t": 0.16,
+    "r": 2,
+    "order": "reversed",
+    "target": "synthetic_line_6q_spread",
+    "cohort": "robustness",
+    "initial": [
+      2
+    ],
+    "prior_case_id": "N4_x1_t0.16_r2_reversed__synthetic_line_6q_spread__seed7"
+  },
+  {
+    "n": 4,
+    "x": 1.0,
+    "t": 0.16,
+    "r": 2,
+    "order": "reversed",
+    "target": "synthetic_ring_6q_transpiler",
+    "cohort": "robustness",
+    "initial": [
+      2
+    ],
+    "prior_case_id": "N4_x1_t0.16_r2_reversed__synthetic_ring_6q_transpiler__seed7"
+  },
+  {
+    "n": 4,
+    "x": 1.0,
+    "t": 0.16,
+    "r": 2,
+    "order": "reversed",
+    "target": "synthetic_grid_6q_transpiler",
+    "cohort": "robustness",
+    "initial": [
+      2
+    ],
+    "prior_case_id": "N4_x1_t0.16_r2_reversed__synthetic_grid_6q_transpiler__seed7"
+  },
+  {
+    "n": 4,
+    "x": 1.0,
+    "t": 0.16,
+    "r": 2,
+    "order": "reversed",
+    "target": "synthetic_heavy_hex_like_7q_transpiler",
+    "cohort": "robustness",
+    "initial": [
+      2
+    ],
+    "prior_case_id": "N4_x1_t0.16_r2_reversed__synthetic_heavy_hex_like_7q_transpiler__seed7"
+  },
+  {
+    "n": 4,
+    "x": 1.0,
+    "t": 0.16,
+    "r": 2,
+    "order": "reversed",
+    "target": "synthetic_irregular_7q_favorable",
+    "cohort": "robustness",
+    "initial": [
+      2
+    ],
+    "prior_case_id": "N4_x1_t0.16_r2_reversed__synthetic_irregular_7q_favorable__seed7"
+  },
+  {
+    "n": 4,
+    "x": 1.0,
+    "t": 0.16,
+    "r": 2,
+    "order": "reversed",
+    "target": "synthetic_irregular_7q_spread",
+    "cohort": "robustness",
+    "initial": [
+      2
+    ],
+    "prior_case_id": "N4_x1_t0.16_r2_reversed__synthetic_irregular_7q_spread__seed7"
+  },
+  {
+    "n": 4,
+    "x": 4.0,
+    "t": 0.32,
+    "r": 2,
+    "order": "symmetry",
+    "target": "synthetic_irregular_7q_favorable",
+    "cohort": "robustness",
+    "initial": [
+      2
+    ],
+    "prior_case_id": "N4_x4_t0.32_r2_symmetry__synthetic_irregular_7q_favorable__seed7"
+  },
+  {
+    "n": 5,
+    "x": 4.0,
+    "t": 0.32,
+    "r": 2,
+    "order": "symmetry",
+    "target": "synthetic_irregular_7q_favorable",
+    "cohort": "robustness",
+    "initial": [
+      2
+    ],
+    "prior_case_id": "N5_x4_t0.32_r2_symmetry__synthetic_irregular_7q_favorable__seed7"
+  },
+  {
+    "n": 6,
+    "x": 2.0,
+    "t": 0.24,
+    "r": 4,
+    "order": "current",
+    "target": "synthetic_grid_8q_transpiler",
+    "cohort": "robustness",
+    "initial": [
+      3
+    ],
+    "prior_case_id": "N6_x2_t0.24_r4_current__synthetic_grid_8q_transpiler__seed7"
+  },
+  {
+    "n": 6,
+    "x": 2.0,
+    "t": 0.24,
+    "r": 8,
+    "order": "current",
+    "target": "synthetic_grid_8q_transpiler",
+    "cohort": "robustness",
+    "initial": [
+      3
+    ],
+    "prior_case_id": "N6_x2_t0.24_r8_current__synthetic_grid_8q_transpiler__seed7"
+  },
+  {
+    "n": 6,
+    "x": 4.0,
+    "t": 0.32,
+    "r": 2,
+    "order": "symmetry",
+    "target": "synthetic_irregular_8q_favorable",
+    "cohort": "robustness",
+    "initial": [
+      3
+    ],
+    "prior_case_id": "N6_x4_t0.32_r2_symmetry__synthetic_irregular_8q_favorable__seed7"
+  },
+  {
+    "n": 2,
+    "x": 1.5,
+    "t": 0.2,
+    "r": 3,
+    "order": "current",
+    "target": "synthetic_line_6q_favorable",
+    "cohort": "prospective",
+    "initial": [
+      1
+    ],
+    "prior_case_id": ""
+  },
+  {
+    "n": 2,
+    "x": 1.5,
+    "t": 0.2,
+    "r": 3,
+    "order": "current",
+    "target": "synthetic_line_6q_spread",
+    "cohort": "prospective",
+    "initial": [
+      1
+    ],
+    "prior_case_id": ""
+  },
+  {
+    "n": 2,
+    "x": 1.5,
+    "t": 0.2,
+    "r": 3,
+    "order": "current",
+    "target": "synthetic_ring_6q_transpiler",
+    "cohort": "prospective",
+    "initial": [
+      1
+    ],
+    "prior_case_id": ""
+  },
+  {
+    "n": 2,
+    "x": 1.5,
+    "t": 0.2,
+    "r": 3,
+    "order": "current",
+    "target": "synthetic_grid_6q_transpiler",
+    "cohort": "prospective",
+    "initial": [
+      1
+    ],
+    "prior_case_id": ""
+  },
+  {
+    "n": 2,
+    "x": 1.5,
+    "t": 0.2,
+    "r": 3,
+    "order": "current",
+    "target": "synthetic_heavy_hex_like_7q_transpiler",
+    "cohort": "prospective",
+    "initial": [
+      1
+    ],
+    "prior_case_id": ""
+  },
+  {
+    "n": 2,
+    "x": 1.5,
+    "t": 0.2,
+    "r": 3,
+    "order": "current",
+    "target": "synthetic_irregular_7q_favorable",
+    "cohort": "prospective",
+    "initial": [
+      1
+    ],
+    "prior_case_id": ""
+  },
+  {
+    "n": 2,
+    "x": 1.5,
+    "t": 0.2,
+    "r": 3,
+    "order": "current",
+    "target": "synthetic_irregular_7q_spread",
+    "cohort": "prospective",
+    "initial": [
+      1
+    ],
+    "prior_case_id": ""
+  },
+  {
+    "n": 2,
+    "x": 1.5,
+    "t": 0.2,
+    "r": 3,
+    "order": "reversed",
+    "target": "synthetic_line_6q_favorable",
+    "cohort": "prospective",
+    "initial": [
+      1
+    ],
+    "prior_case_id": ""
+  },
+  {
+    "n": 2,
+    "x": 1.5,
+    "t": 0.2,
+    "r": 3,
+    "order": "reversed",
+    "target": "synthetic_line_6q_spread",
+    "cohort": "prospective",
+    "initial": [
+      1
+    ],
+    "prior_case_id": ""
+  },
+  {
+    "n": 2,
+    "x": 1.5,
+    "t": 0.2,
+    "r": 3,
+    "order": "reversed",
+    "target": "synthetic_ring_6q_transpiler",
+    "cohort": "prospective",
+    "initial": [
+      1
+    ],
+    "prior_case_id": ""
+  },
+  {
+    "n": 2,
+    "x": 1.5,
+    "t": 0.2,
+    "r": 3,
+    "order": "reversed",
+    "target": "synthetic_grid_6q_transpiler",
+    "cohort": "prospective",
+    "initial": [
+      1
+    ],
+    "prior_case_id": ""
+  },
+  {
+    "n": 2,
+    "x": 1.5,
+    "t": 0.2,
+    "r": 3,
+    "order": "reversed",
+    "target": "synthetic_heavy_hex_like_7q_transpiler",
+    "cohort": "prospective",
+    "initial": [
+      1
+    ],
+    "prior_case_id": ""
+  },
+  {
+    "n": 2,
+    "x": 1.5,
+    "t": 0.2,
+    "r": 3,
+    "order": "reversed",
+    "target": "synthetic_irregular_7q_favorable",
+    "cohort": "prospective",
+    "initial": [
+      1
+    ],
+    "prior_case_id": ""
+  },
+  {
+    "n": 2,
+    "x": 1.5,
+    "t": 0.2,
+    "r": 3,
+    "order": "reversed",
+    "target": "synthetic_irregular_7q_spread",
+    "cohort": "prospective",
+    "initial": [
+      1
+    ],
+    "prior_case_id": ""
+  },
+  {
+    "n": 2,
+    "x": 1.5,
+    "t": 0.2,
+    "r": 3,
+    "order": "symmetry",
+    "target": "synthetic_line_6q_favorable",
+    "cohort": "prospective",
+    "initial": [
+      1
+    ],
+    "prior_case_id": ""
+  },
+  {
+    "n": 2,
+    "x": 1.5,
+    "t": 0.2,
+    "r": 3,
+    "order": "symmetry",
+    "target": "synthetic_line_6q_spread",
+    "cohort": "prospective",
+    "initial": [
+      1
+    ],
+    "prior_case_id": ""
+  },
+  {
+    "n": 2,
+    "x": 1.5,
+    "t": 0.2,
+    "r": 3,
+    "order": "symmetry",
+    "target": "synthetic_ring_6q_transpiler",
+    "cohort": "prospective",
+    "initial": [
+      1
+    ],
+    "prior_case_id": ""
+  },
+  {
+    "n": 2,
+    "x": 1.5,
+    "t": 0.2,
+    "r": 3,
+    "order": "symmetry",
+    "target": "synthetic_grid_6q_transpiler",
+    "cohort": "prospective",
+    "initial": [
+      1
+    ],
+    "prior_case_id": ""
+  },
+  {
+    "n": 2,
+    "x": 1.5,
+    "t": 0.2,
+    "r": 3,
+    "order": "symmetry",
+    "target": "synthetic_heavy_hex_like_7q_transpiler",
+    "cohort": "prospective",
+    "initial": [
+      1
+    ],
+    "prior_case_id": ""
+  },
+  {
+    "n": 2,
+    "x": 1.5,
+    "t": 0.2,
+    "r": 3,
+    "order": "symmetry",
+    "target": "synthetic_irregular_7q_favorable",
+    "cohort": "prospective",
+    "initial": [
+      1
+    ],
+    "prior_case_id": ""
+  },
+  {
+    "n": 2,
+    "x": 1.5,
+    "t": 0.2,
+    "r": 3,
+    "order": "symmetry",
+    "target": "synthetic_irregular_7q_spread",
+    "cohort": "prospective",
+    "initial": [
+      1
+    ],
+    "prior_case_id": ""
+  },
+  {
+    "n": 4,
+    "x": 1.5,
+    "t": 0.2,
+    "r": 3,
+    "order": "current",
+    "target": "synthetic_line_6q_favorable",
+    "cohort": "prospective",
+    "initial": [
+      2
+    ],
+    "prior_case_id": ""
+  },
+  {
+    "n": 4,
+    "x": 1.5,
+    "t": 0.2,
+    "r": 3,
+    "order": "current",
+    "target": "synthetic_line_6q_spread",
+    "cohort": "prospective",
+    "initial": [
+      2
+    ],
+    "prior_case_id": ""
+  },
+  {
+    "n": 4,
+    "x": 1.5,
+    "t": 0.2,
+    "r": 3,
+    "order": "current",
+    "target": "synthetic_ring_6q_transpiler",
+    "cohort": "prospective",
+    "initial": [
+      2
+    ],
+    "prior_case_id": ""
+  },
+  {
+    "n": 4,
+    "x": 1.5,
+    "t": 0.2,
+    "r": 3,
+    "order": "current",
+    "target": "synthetic_grid_6q_transpiler",
+    "cohort": "prospective",
+    "initial": [
+      2
+    ],
+    "prior_case_id": ""
+  },
+  {
+    "n": 4,
+    "x": 1.5,
+    "t": 0.2,
+    "r": 3,
+    "order": "current",
+    "target": "synthetic_heavy_hex_like_7q_transpiler",
+    "cohort": "prospective",
+    "initial": [
+      2
+    ],
+    "prior_case_id": ""
+  },
+  {
+    "n": 4,
+    "x": 1.5,
+    "t": 0.2,
+    "r": 3,
+    "order": "current",
+    "target": "synthetic_irregular_7q_favorable",
+    "cohort": "prospective",
+    "initial": [
+      2
+    ],
+    "prior_case_id": ""
+  },
+  {
+    "n": 4,
+    "x": 1.5,
+    "t": 0.2,
+    "r": 3,
+    "order": "current",
+    "target": "synthetic_irregular_7q_spread",
+    "cohort": "prospective",
+    "initial": [
+      2
+    ],
+    "prior_case_id": ""
+  },
+  {
+    "n": 4,
+    "x": 1.5,
+    "t": 0.2,
+    "r": 3,
+    "order": "reversed",
+    "target": "synthetic_line_6q_favorable",
+    "cohort": "prospective",
+    "initial": [
+      2
+    ],
+    "prior_case_id": ""
+  },
+  {
+    "n": 4,
+    "x": 1.5,
+    "t": 0.2,
+    "r": 3,
+    "order": "reversed",
+    "target": "synthetic_line_6q_spread",
+    "cohort": "prospective",
+    "initial": [
+      2
+    ],
+    "prior_case_id": ""
+  },
+  {
+    "n": 4,
+    "x": 1.5,
+    "t": 0.2,
+    "r": 3,
+    "order": "reversed",
+    "target": "synthetic_ring_6q_transpiler",
+    "cohort": "prospective",
+    "initial": [
+      2
+    ],
+    "prior_case_id": ""
+  },
+  {
+    "n": 4,
+    "x": 1.5,
+    "t": 0.2,
+    "r": 3,
+    "order": "reversed",
+    "target": "synthetic_grid_6q_transpiler",
+    "cohort": "prospective",
+    "initial": [
+      2
+    ],
+    "prior_case_id": ""
+  },
+  {
+    "n": 4,
+    "x": 1.5,
+    "t": 0.2,
+    "r": 3,
+    "order": "reversed",
+    "target": "synthetic_heavy_hex_like_7q_transpiler",
+    "cohort": "prospective",
+    "initial": [
+      2
+    ],
+    "prior_case_id": ""
+  },
+  {
+    "n": 4,
+    "x": 1.5,
+    "t": 0.2,
+    "r": 3,
+    "order": "reversed",
+    "target": "synthetic_irregular_7q_favorable",
+    "cohort": "prospective",
+    "initial": [
+      2
+    ],
+    "prior_case_id": ""
+  },
+  {
+    "n": 4,
+    "x": 1.5,
+    "t": 0.2,
+    "r": 3,
+    "order": "reversed",
+    "target": "synthetic_irregular_7q_spread",
+    "cohort": "prospective",
+    "initial": [
+      2
+    ],
+    "prior_case_id": ""
+  },
+  {
+    "n": 4,
+    "x": 1.5,
+    "t": 0.2,
+    "r": 3,
+    "order": "symmetry",
+    "target": "synthetic_line_6q_favorable",
+    "cohort": "prospective",
+    "initial": [
+      2
+    ],
+    "prior_case_id": ""
+  },
+  {
+    "n": 4,
+    "x": 1.5,
+    "t": 0.2,
+    "r": 3,
+    "order": "symmetry",
+    "target": "synthetic_line_6q_spread",
+    "cohort": "prospective",
+    "initial": [
+      2
+    ],
+    "prior_case_id": ""
+  },
+  {
+    "n": 4,
+    "x": 1.5,
+    "t": 0.2,
+    "r": 3,
+    "order": "symmetry",
+    "target": "synthetic_ring_6q_transpiler",
+    "cohort": "prospective",
+    "initial": [
+      2
+    ],
+    "prior_case_id": ""
+  },
+  {
+    "n": 4,
+    "x": 1.5,
+    "t": 0.2,
+    "r": 3,
+    "order": "symmetry",
+    "target": "synthetic_grid_6q_transpiler",
+    "cohort": "prospective",
+    "initial": [
+      2
+    ],
+    "prior_case_id": ""
+  },
+  {
+    "n": 4,
+    "x": 1.5,
+    "t": 0.2,
+    "r": 3,
+    "order": "symmetry",
+    "target": "synthetic_heavy_hex_like_7q_transpiler",
+    "cohort": "prospective",
+    "initial": [
+      2
+    ],
+    "prior_case_id": ""
+  },
+  {
+    "n": 4,
+    "x": 1.5,
+    "t": 0.2,
+    "r": 3,
+    "order": "symmetry",
+    "target": "synthetic_irregular_7q_favorable",
+    "cohort": "prospective",
+    "initial": [
+      2
+    ],
+    "prior_case_id": ""
+  },
+  {
+    "n": 4,
+    "x": 1.5,
+    "t": 0.2,
+    "r": 3,
+    "order": "symmetry",
+    "target": "synthetic_irregular_7q_spread",
+    "cohort": "prospective",
+    "initial": [
+      2
+    ],
+    "prior_case_id": ""
+  },
+  {
+    "n": 6,
+    "x": 1.5,
+    "t": 0.2,
+    "r": 3,
+    "order": "current",
+    "target": "synthetic_line_8q_favorable",
+    "cohort": "prospective",
+    "initial": [
+      3
+    ],
+    "prior_case_id": ""
+  },
+  {
+    "n": 6,
+    "x": 1.5,
+    "t": 0.2,
+    "r": 3,
+    "order": "current",
+    "target": "synthetic_line_8q_spread",
+    "cohort": "prospective",
+    "initial": [
+      3
+    ],
+    "prior_case_id": ""
+  },
+  {
+    "n": 6,
+    "x": 1.5,
+    "t": 0.2,
+    "r": 3,
+    "order": "current",
+    "target": "synthetic_ring_8q_transpiler",
+    "cohort": "prospective",
+    "initial": [
+      3
+    ],
+    "prior_case_id": ""
+  },
+  {
+    "n": 6,
+    "x": 1.5,
+    "t": 0.2,
+    "r": 3,
+    "order": "current",
+    "target": "synthetic_grid_8q_transpiler",
+    "cohort": "prospective",
+    "initial": [
+      3
+    ],
+    "prior_case_id": ""
+  },
+  {
+    "n": 6,
+    "x": 1.5,
+    "t": 0.2,
+    "r": 3,
+    "order": "current",
+    "target": "synthetic_heavy_hex_like_8q_transpiler",
+    "cohort": "prospective",
+    "initial": [
+      3
+    ],
+    "prior_case_id": ""
+  },
+  {
+    "n": 6,
+    "x": 1.5,
+    "t": 0.2,
+    "r": 3,
+    "order": "current",
+    "target": "synthetic_irregular_8q_favorable",
+    "cohort": "prospective",
+    "initial": [
+      3
+    ],
+    "prior_case_id": ""
+  },
+  {
+    "n": 6,
+    "x": 1.5,
+    "t": 0.2,
+    "r": 3,
+    "order": "current",
+    "target": "synthetic_irregular_8q_spread",
+    "cohort": "prospective",
+    "initial": [
+      3
+    ],
+    "prior_case_id": ""
+  },
+  {
+    "n": 6,
+    "x": 1.5,
+    "t": 0.2,
+    "r": 3,
+    "order": "reversed",
+    "target": "synthetic_line_8q_favorable",
+    "cohort": "prospective",
+    "initial": [
+      3
+    ],
+    "prior_case_id": ""
+  },
+  {
+    "n": 6,
+    "x": 1.5,
+    "t": 0.2,
+    "r": 3,
+    "order": "reversed",
+    "target": "synthetic_line_8q_spread",
+    "cohort": "prospective",
+    "initial": [
+      3
+    ],
+    "prior_case_id": ""
+  },
+  {
+    "n": 6,
+    "x": 1.5,
+    "t": 0.2,
+    "r": 3,
+    "order": "reversed",
+    "target": "synthetic_ring_8q_transpiler",
+    "cohort": "prospective",
+    "initial": [
+      3
+    ],
+    "prior_case_id": ""
+  },
+  {
+    "n": 6,
+    "x": 1.5,
+    "t": 0.2,
+    "r": 3,
+    "order": "reversed",
+    "target": "synthetic_grid_8q_transpiler",
+    "cohort": "prospective",
+    "initial": [
+      3
+    ],
+    "prior_case_id": ""
+  },
+  {
+    "n": 6,
+    "x": 1.5,
+    "t": 0.2,
+    "r": 3,
+    "order": "reversed",
+    "target": "synthetic_heavy_hex_like_8q_transpiler",
+    "cohort": "prospective",
+    "initial": [
+      3
+    ],
+    "prior_case_id": ""
+  },
+  {
+    "n": 6,
+    "x": 1.5,
+    "t": 0.2,
+    "r": 3,
+    "order": "reversed",
+    "target": "synthetic_irregular_8q_favorable",
+    "cohort": "prospective",
+    "initial": [
+      3
+    ],
+    "prior_case_id": ""
+  },
+  {
+    "n": 6,
+    "x": 1.5,
+    "t": 0.2,
+    "r": 3,
+    "order": "reversed",
+    "target": "synthetic_irregular_8q_spread",
+    "cohort": "prospective",
+    "initial": [
+      3
+    ],
+    "prior_case_id": ""
+  },
+  {
+    "n": 6,
+    "x": 1.5,
+    "t": 0.2,
+    "r": 3,
+    "order": "symmetry",
+    "target": "synthetic_line_8q_favorable",
+    "cohort": "prospective",
+    "initial": [
+      3
+    ],
+    "prior_case_id": ""
+  },
+  {
+    "n": 6,
+    "x": 1.5,
+    "t": 0.2,
+    "r": 3,
+    "order": "symmetry",
+    "target": "synthetic_line_8q_spread",
+    "cohort": "prospective",
+    "initial": [
+      3
+    ],
+    "prior_case_id": ""
+  },
+  {
+    "n": 6,
+    "x": 1.5,
+    "t": 0.2,
+    "r": 3,
+    "order": "symmetry",
+    "target": "synthetic_ring_8q_transpiler",
+    "cohort": "prospective",
+    "initial": [
+      3
+    ],
+    "prior_case_id": ""
+  },
+  {
+    "n": 6,
+    "x": 1.5,
+    "t": 0.2,
+    "r": 3,
+    "order": "symmetry",
+    "target": "synthetic_grid_8q_transpiler",
+    "cohort": "prospective",
+    "initial": [
+      3
+    ],
+    "prior_case_id": ""
+  },
+  {
+    "n": 6,
+    "x": 1.5,
+    "t": 0.2,
+    "r": 3,
+    "order": "symmetry",
+    "target": "synthetic_heavy_hex_like_8q_transpiler",
+    "cohort": "prospective",
+    "initial": [
+      3
+    ],
+    "prior_case_id": ""
+  },
+  {
+    "n": 6,
+    "x": 1.5,
+    "t": 0.2,
+    "r": 3,
+    "order": "symmetry",
+    "target": "synthetic_irregular_8q_favorable",
+    "cohort": "prospective",
+    "initial": [
+      3
+    ],
+    "prior_case_id": ""
+  },
+  {
+    "n": 6,
+    "x": 1.5,
+    "t": 0.2,
+    "r": 3,
+    "order": "symmetry",
+    "target": "synthetic_irregular_8q_spread",
+    "cohort": "prospective",
+    "initial": [
+      3
+    ],
+    "prior_case_id": ""
+  }
+]

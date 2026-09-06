@@ -35,15 +35,11 @@ def main() -> None:
     for term in plaquette_chain_terms(args.plaquettes, args.x, include_identity=True):
         expression, operands = converter.expectation(term.word[::-1], lightcone=True)
         path, info = contract_path(expression, *operands)
-        energy += term.coefficient * scalar(
-            contract(expression, *operands, optimize=path)
-        )
+        energy += term.coefficient * scalar(contract(expression, *operands, optimize=path))
         if first_path is None:
             first_path = str(info)
 
-    central = "".join(
-        "1" if q == args.plaquettes // 2 else "0" for q in range(args.plaquettes)
-    )
+    central = "".join("1" if q == args.plaquettes // 2 else "0" for q in range(args.plaquettes))
     expression, operands = converter.amplitude(central)
     amplitude = scalar(contract(expression, *operands))
     print(

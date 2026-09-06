@@ -1,0 +1,12 @@
+{
+  "native_2q_count": {
+    "lower": 20,
+    "higher": 4,
+    "equal": 3
+  },
+  "native_2q_depth": {
+    "lower": 21,
+    "higher": 3,
+    "equal": 3
+  }
+}

@@ -1,0 +1,12 @@
+/home/digimonk/Projects/SU2ZX_Foundation_Code_Package/SU2ZX/.mamba/envs/su2zx/lib/python3.11/site-packages/sklearn/metrics/_classification.py:2939: UserWarning: y_pred contains classes not in y_true
+  warnings.warn("y_pred contains classes not in y_true")
+{
+  "status": "NULL",
+  "best_grouped_model": "logistic",
+  "grouped_mean_regret": 0.0,
+  "strongest_simple_grouped_regret": 0.04413761373589207,
+  "prospective_mean_regret": 0.024954265119896592,
+  "strongest_simple_prospective_regret": 0.008966498687387041,
+  "selection_caveat": "Best model selected post-hoc by grouped result; no nested tuning. Positive requires prospective improvement too."
+}
+elapsed 5.3 seconds

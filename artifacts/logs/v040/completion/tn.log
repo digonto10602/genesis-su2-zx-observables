@@ -1,0 +1,29 @@
+MPS N=5 bond=8: 0.01s, actual bond 4
+MPS N=5 bond=32: 0.01s, actual bond 4
+MPS N=5 bond=64: 0.01s, actual bond 4
+MPS N=8 bond=8: 0.02s, actual bond 6
+MPS N=8 bond=32: 0.02s, actual bond 9
+MPS N=8 bond=64: 0.02s, actual bond 9
+MPS N=12 bond=8: 0.03s, actual bond 7
+MPS N=12 bond=32: 0.04s, actual bond 10
+MPS N=12 bond=64: 0.04s, actual bond 10
+MPS N=16 bond=8: 0.05s, actual bond 7
+MPS N=16 bond=32: 0.06s, actual bond 10
+MPS N=16 bond=64: 0.06s, actual bond 10
+MPS N=20 bond=8: 0.07s, actual bond 7
+MPS N=20 bond=32: 0.09s, actual bond 10
+MPS N=20 bond=64: 0.08s, actual bond 10
+MPS N=24 bond=8: 0.08s, actual bond 7
+MPS N=24 bond=32: 0.11s, actual bond 10
+MPS N=24 bond=64: 0.12s, actual bond 10
+MPS N=32 bond=8: 0.14s, actual bond 7
+MPS N=32 bond=32: 0.20s, actual bond 10
+MPS N=32 bond=64: 0.18s, actual bond 10
+{
+  "status": "SCALING_DEMONSTRATED",
+  "validation": "VALIDATED",
+  "largest_n": 32,
+  "max_validation_error": 2.2717472347721923e-09,
+  "max_scaling_bond_stability_error": 0.0,
+  "scope": "Short-time r=2 ideal Trotter scaling; no large-N exact-Hamiltonian accuracy claim. RSS is cumulative process high-water, tensor bytes are compact-state size; normalized identity does not bound discarded weight."
+}

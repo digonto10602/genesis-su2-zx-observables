@@ -90,12 +90,8 @@ def main() -> None:
                 if len(gpu_fields) > 1
                 else "unavailable",
                 "driver": gpu_fields[2].strip() if len(gpu_fields) > 2 else "unavailable",
-                "memory_total": gpu_fields[3].strip()
-                if len(gpu_fields) > 3
-                else "unavailable",
-                "memory_free": gpu_fields[4].strip()
-                if len(gpu_fields) > 4
-                else "unavailable",
+                "memory_total": gpu_fields[3].strip() if len(gpu_fields) > 3 else "unavailable",
+                "memory_free": gpu_fields[4].strip() if len(gpu_fields) > 4 else "unavailable",
             },
         },
         "random_seeds": {"dataset": 7, "selector": 11, "transpiler": [11, 29, 47]},
