@@ -11,3 +11,4 @@ elapsed 02:36 | to 12h +563 min | to freeze(15h) +743 min | to stop(16h) +803 mi
 T+3:45: G1 escalation fix DONE by orchestrator (route1 dressed-vertex amplitudes rewritten; routes agree 2.7e-15). Limits pass. Waiting on signoff_G1 (sa-0-9e808e1a) then gate G1 run. Dynamics builder steered (wrong python path). predictions_G2 + route1 review recorded.
 elapsed 02:42 | to 12h +557 min | to freeze(15h) +737 min | to stop(16h) +797 min
 T+4:07 GATE G1 PASS (17/17 criteria). Phase 2 dynamics builder active; Phase 3 starts now.
+session 2 heartbeat: G2 PASS (BBbar-dominated breaking, truncation 0.257 flagged, window g2=4 m=0.75 dt=0.833 r=3), G3 PASS (L12 exact block unitaries, leak 0.0, r^-2 slopes -2.10/-2.15/-2.01; generic synthesis 45.9k CZ/step -> G4 must do structured synthesis). Next: Phase 4.

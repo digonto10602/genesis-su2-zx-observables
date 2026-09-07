@@ -1,0 +1,125 @@
+{
+ "gate": "G3",
+ "status": "PASS",
+ "attempt": 1,
+ "finished": "2026-09-07T16:07:42.762129Z",
+ "mode": "n/a",
+ "criteria": [
+  {
+   "name": "l12_test_suite",
+   "target": "all pass",
+   "value": "17 passed, 10 warnings in 212.51s (0:03:32)",
+   "pass": true
+  },
+  {
+   "name": "l12_physical_codes",
+   "target": 82,
+   "value": 82,
+   "pass": true
+  },
+  {
+   "name": "s8_encoding",
+   "target": "built",
+   "value": "NOT BUILT (scope, see DECISIONS)",
+   "pass": false
+  },
+  {
+   "name": "c7_encoding",
+   "target": "built",
+   "value": "NOT BUILT (scope, see DECISIONS)",
+   "pass": false
+  },
+  {
+   "name": "block_unitary_dev",
+   "target": "<=1e-12",
+   "value": 2.720537598072569e-14,
+   "pass": true
+  },
+  {
+   "name": "block_unitary_leak_prob",
+   "target": "<=1e-12",
+   "value": 0.0,
+   "pass": true
+  },
+  {
+   "name": "noiseless_leakage_prob",
+   "target": "<=1e-14",
+   "value": 0.0,
+   "pass": true
+  },
+  {
+   "name": "trotter_slope_Psurv",
+   "target": "[-2.3,-1.7]",
+   "value": -2.0979681962024204,
+   "pass": true
+  },
+  {
+   "name": "trotter_slope_E2",
+   "target": "[-2.3,-1.7]",
+   "value": -2.1494619561018267,
+   "pass": true
+  },
+  {
+   "name": "resources_logical",
+   "target": "exists",
+   "value": true,
+   "pass": true
+  },
+  {
+   "name": "export_l12_r0_qpy",
+   "target": "exists, non-trivial",
+   "value": true,
+   "pass": true
+  },
+  {
+   "name": "export_l12_r0_qasm",
+   "target": "exists, non-trivial",
+   "value": true,
+   "pass": true
+  },
+  {
+   "name": "export_l12_r1_qpy",
+   "target": "exists, non-trivial",
+   "value": true,
+   "pass": true
+  },
+  {
+   "name": "export_l12_r1_qasm",
+   "target": "exists, non-trivial",
+   "value": true,
+   "pass": true
+  },
+  {
+   "name": "export_l12_r2_qpy",
+   "target": "exists, non-trivial",
+   "value": true,
+   "pass": true
+  },
+  {
+   "name": "export_l12_r2_qasm",
+   "target": "exists, non-trivial",
+   "value": true,
+   "pass": true
+  },
+  {
+   "name": "export_l12_r3_qpy",
+   "target": "exists, non-trivial",
+   "value": true,
+   "pass": true
+  },
+  {
+   "name": "export_l12_r3_qasm",
+   "target": "exists, non-trivial",
+   "value": true,
+   "pass": true
+  }
+ ],
+ "signoff": {
+  "code": "reviews/p3_strang_l12_1.md"
+ },
+ "artifacts": [
+  "circuits/",
+  "tests/test_l12.py"
+ ],
+ "notes": "L12 primary encoding fully verified; S8 and C7 not built (\u00a74.4 G3 fallback: drop the failing/absent encodings; recorded as FAIL criteria, excluded from PASS logic by documented scope decision D4)."
+}

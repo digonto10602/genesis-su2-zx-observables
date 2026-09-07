@@ -1,146 +1,250 @@
-"""Exact gauge-invariant block unitaries and Strang circuits for L12."""
+"""Exact gauge-invariant block unitaries and Strang circuits for L12 (G3).
+
+Method (structure, not generic 12-qubit synthesis):
+  * Each Hamiltonian group T in {D, h0..h3, B} is an 82x82 matrix from the
+    verified route-1 Hamiltonian (term split checked exact by the dynamics
+    lane).  Lifted to the 4096-dim code space it is E T E^dag: zero on every
+    unphysical code, so exp(-i theta E T E^dag) is the identity on the
+    complement -> gauge invariance by construction, zero leakage.
+  * D is diagonal: a 12-qubit Diagonal gate (phases on the 82 codes, 1 else).
+  * Each h_l and B act non-trivially on a SUPPORT of s < 12 qubits (found
+    numerically as the qubits whose bits ever change or on which the matrix
+    element depends); the lifted operator factorizes as U_s (x) I on the rest
+    when all elements depend only on the support bits.  For links whose
+    Jordan-Wigner string crosses other vertices, the sign depends on the
+    parity (a XOR b) of those vertices; the support then includes those
+    (a,b) pairs.  U_s = expm(-i theta M_s) on 2^s dims (s <= 10), built as a
+    UnitaryGate.  Exactness is verified by tests to 1e-12.
+  * Strang step: D/2 . [h0,h2]/2 . [h1,h3]/2 . B . [h1,h3]/2 . [h0,h2]/2 . D/2
+    (l0=(v0,v1), l2=(v3,v2) disjoint; l1=(v1,v2), l3=(v0,v3) disjoint).
+
+Verification helpers avoid dense 4096x4096 operators: the circuit is applied
+to statevectors on the 82 codes with Aer/Statevector, and compared with the
+exact 82-dim propagator.
+"""
 from __future__ import annotations
 
-from functools import lru_cache
 import json
+from functools import lru_cache
 from pathlib import Path
+
 import numpy as np
-from scipy.linalg import expm
 from qiskit import QuantumCircuit, transpile
 from qiskit.circuit.library import Diagonal, UnitaryGate
-from su2qc.ham import route_spinnet as rs
+from qiskit.quantum_info import Statevector
+from scipy.linalg import expm
+
 from su2qc.encodings.l12 import encode, physical_codes
 
 N = 4096
-_GROUPS = ("D", "h0", "h1", "h2", "h3", "B")
+NQ = 12
+GROUPS = ("D", "h0", "h1", "h2", "h3", "B")
+RUN = Path(__file__).resolve().parents[3]
+STRETCHED = ((0.0, 0.5, 0.5, 0.5), (1, 1, 0, 2), 0)
 
-def _params(g2=None, m=None):
-    vals = {"g2": 1.0, "m": .1875, "dt": .4, "r_max": 3}
-    p = Path("physics/window.json")
+
+def params(g2=None, m=None):
+    vals = {"g2": 4.0, "m": 0.75, "dt": 0.8333333333333334, "r_max": 3}
+    p = RUN / "physics" / "window.json"
     if p.exists():
-        vals.update(json.loads(p.read_text()))
-    if g2 is not None: vals["g2"] = g2
-    if m is not None: vals["m"] = m
+        w = json.loads(p.read_text())
+        vals.update({k: w[k] for k in ("g2", "m", "dt", "r_max") if k in w})
+    if g2 is not None:
+        vals["g2"] = g2
+    if m is not None:
+        vals["m"] = m
     return vals
 
+
 @lru_cache(maxsize=8)
-def _data(g2, m):
-    Hs, basis = rs.build_hamiltonian(g2, m, .5)
-    H0, _ = rs.build_hamiltonian_no_magnetic(g2, m, .5)
-    H, H0 = Hs.toarray(), H0.toarray()
-    D = np.diag(np.diag(H0))
-    B = H - H0
-    hs = []
-    for l in range(4):
-        a = np.zeros_like(H)
-        for i, li in enumerate(basis):
-            for j, lj in enumerate(basis):
-                # A hopping matrix element changes exactly the link and its endpoints.
-                if all((k == l or (li[0][k] == lj[0][k] and li[1][k] == lj[1][k])) for k in range(4)):
-                    if li[0][l] != lj[0][l] or li[1][l] != lj[1][l]:
-                        # The no-magnetic matrix has only hopping off diagonal.
-                        a[i, j] = H0[i, j]
-        hs.append(a)
-    return basis, (D, *hs, B)
+def terms(g2, m):
+    """(basis, {group: 82x82 ndarray}) from the dynamics-lane exact split."""
+    from su2qc.dynamics.scan import _term_split
+    Hd, D, hs, B, basis = _term_split(float(g2), float(m))
+    return basis, {"D": D, "h0": hs[0], "h1": hs[1], "h2": hs[2],
+                   "h3": hs[3], "B": B, "H": Hd}
 
-def _embed(M):
-    out = np.zeros((N, N), complex)
+
+@lru_cache(maxsize=1)
+def code_index():
     codes = physical_codes()
-    out[np.ix_(codes, codes)] = M
-    return out
+    return codes, {c: i for i, c in enumerate(codes)}
 
-def _embedded_exponential(M, theta):
-    """Exponentiate an embedded matrix without an unnecessary 4096x4096 expm."""
-    out = np.eye(N, dtype=complex)
-    nz = np.flatnonzero(np.any(np.abs(M) > 1e-14, axis=1))
-    seen = set()
-    for i in nz:
-        if i in seen: continue
-        js = np.flatnonzero(np.abs(M[i]) > 1e-14)
-        block = sorted(set([int(i), *map(int, js)]))
-        if len(block) == 2:
-            out[np.ix_(block, block)] = expm(-1j * theta * M[np.ix_(block, block)])
-            seen.update(block)
-    return out
 
-def _local_matrix(l, A, basis):
-    """Extract the endpoint-local hopping block, including wrap-link parity."""
-    s, t = rs.LINK_ST[l]
-    endpoint = list(range(3*s, 3*s+3)) + list(range(3*t, 3*t+3))
-    extras = []
-    if l == 3:
-        # Their b bits become the two parities after CNOT(a,b) below.
-        extras = [4, 7]
-    qargs = endpoint + extras
-    dim = 1 << len(endpoint)
-    base = np.zeros((dim, dim), complex)
-    codes = physical_codes()
-    pos = {c: i for i, c in enumerate(codes)}
-    for ii, ci in enumerate(codes):
-        for jj, cj in enumerate(codes):
-            if any(((ci >> q) & 1) != ((cj >> q) & 1) for q in range(N.bit_length()-1) if q not in endpoint):
+def basis_to_code(basis):
+    return np.array([encode(lab) for lab in basis])
+
+
+# ------------------------------------------------------------ support search
+
+def _support(M, codes_of_basis):
+    """Minimal-ish qubit set S such that M[i,j] (including zeros) is a
+    function of the support bits of codes i and j only.  Greedy: start with
+    the bits that flip on any nonzero element, then add the single bit that
+    removes the most conflicts until none remain."""
+    nz = np.argwhere(np.abs(M) > 1e-14)
+    S = set()
+    for i, j in nz:
+        S |= {q for q in range(NQ)
+              if (codes_of_basis[i] >> q) & 1 != (codes_of_basis[j] >> q) & 1}
+    n = len(codes_of_basis)
+
+    def n_conflicts(S):
+        Sl = sorted(S)
+        rest = [q for q in range(NQ) if q not in S]
+        pat = np.array([sum(((c >> q) & 1) << k for k, q in enumerate(Sl))
+                        for c in codes_of_basis])
+        off = np.array([sum(((c >> q) & 1) << k for k, q in enumerate(rest))
+                        for c in codes_of_basis])
+        seen = {}
+        bad = 0
+        for i in range(n):
+            for j in range(n):
+                if off[i] != off[j]:
+                    continue  # U_S (x) I gives 0 here, and so does M
+                key = (pat[i], pat[j])
+                v = complex(M[i, j])
+                if key in seen:
+                    if abs(seen[key] - v) > 1e-12:
+                        bad += 1
+                else:
+                    seen[key] = v
+        return bad
+
+    while n_conflicts(S) > 0:
+        best = None
+        for q in range(NQ):
+            if q in S:
                 continue
-            x = sum(((ci >> q) & 1) << k for k, q in enumerate(endpoint))
-            y = sum(((cj >> q) & 1) << k for k, q in enumerate(endpoint))
-            val = A[pos[ci], pos[cj]]
-            if l == 3:
-                p = ((ci >> 3) & 1) ^ ((ci >> 4) & 1) ^ ((ci >> 6) & 1) ^ ((ci >> 7) & 1)
-                val *= (-1)**p
-            if abs(val) > 1e-14:
-                base[x, y] = val
-    # Hermitian completion protects against numerical duplicate extraction.
-    base = (base + base.conj().T) / 2
-    if not extras:
-        return qargs, base
-    out = np.zeros((1 << len(qargs), 1 << len(qargs)), dtype=complex)
-    for e in range(4):
-        p = ((e >> 0)&1) ^ ((e >> 1)&1)
-        out[e*dim:(e+1)*dim, e*dim:(e+1)*dim] = ((-1)**p) * base
-    return qargs, out
+            c = n_conflicts(S | {q})
+            if best is None or c < best[0]:
+                best = (c, q)
+        S.add(best[1])
+    return sorted(S)
 
-@lru_cache(maxsize=32)
-def unitary(group: str, theta: float, g2: float = 1.0, m: float = .1875):
-    """Return a no-measurement 12-qubit circuit for ``exp(-i theta T)``."""
-    if group not in _GROUPS: raise ValueError(group)
-    basis, mats = _data(float(g2), float(m)); M = mats[_GROUPS.index(group)]
-    qc = QuantumCircuit(12, name=f"U_{group}")
+
+def local_matrix(M, codes_of_basis, S):
+    """2^|S| x 2^|S| Hermitian matrix acting on support S (sorted)."""
+    d = 1 << len(S)
+    L = np.zeros((d, d), complex)
+    for i, j in np.argwhere(np.abs(M) > 1e-14):
+        x = sum(((codes_of_basis[i] >> q) & 1) << k for k, q in enumerate(S))
+        y = sum(((codes_of_basis[j] >> q) & 1) << k for k, q in enumerate(S))
+        L[x, y] = M[i, j]
+    assert np.max(np.abs(L - L.conj().T)) < 1e-13
+    return L
+
+
+@lru_cache(maxsize=8)
+def supports(g2, m):
+    basis, T = terms(g2, m)
+    cb = basis_to_code(basis)
+    return {g: _support(T[g], cb) for g in ("h0", "h1", "h2", "h3", "B")}
+
+
+# ------------------------------------------------------------ circuits
+
+@lru_cache(maxsize=64)
+def unitary(group, theta, g2, m):
+    """12-qubit circuit for exp(-i theta E T_group E^dag)."""
+    basis, T = terms(g2, m)
+    cb = basis_to_code(basis)
+    qc = QuantumCircuit(NQ, name=f"U_{group}")
     if group == "D":
         diag = np.ones(N, complex)
-        codes = physical_codes()
-        diag[codes] = np.exp(-1j * theta * np.diag(M))
-        qc.append(Diagonal(diag), range(12))
-    elif group.startswith("h"):
-        l = int(group[1]); qargs, local = _local_matrix(l, M, basis)
-        if l == 3:
-            qc.cx(3, 4); qc.cx(6, 7)
-        qc.append(UnitaryGate(expm(-1j * theta * local)), qargs)
-        if l == 3:
-            qc.cx(6, 7); qc.cx(3, 4)
-    else:
-        qc.append(UnitaryGate(_embedded_exponential(_embed(M), theta)), range(12))
+        diag[cb] = np.exp(-1j * theta * np.real(np.diag(T["D"])))
+        qc.append(Diagonal(diag), range(NQ))
+        return qc
+    S = supports(g2, m)[group]
+    L = local_matrix(T[group], cb, S)
+    U = expm(-1j * theta * L)
+    qc.append(UnitaryGate(U, label=f"U_{group}"), S)
     return qc
 
-def strang_step(theta_dict=None, dt=None, g2=None, m=None):
-    p = _params(g2, m); dt = p["dt"] if dt is None else dt
-    th = theta_dict or {"D":dt/2, "h0":dt/2, "h1":dt/2, "h2":dt/2, "h3":dt/2, "B":dt}
-    qc = QuantumCircuit(12)
-    for g in ("D","h0","h2","h1","h3","B","h1","h3","h0","h2","D"):
-        qc.compose(unitary(g, th[g], p["g2"], p["m"]), inplace=True)
+
+def strang_step(dt, g2, m):
+    qc = QuantumCircuit(NQ)
+    seq = (("D", dt / 2), ("h0", dt / 2), ("h2", dt / 2), ("h1", dt / 2),
+           ("h3", dt / 2), ("B", dt), ("h3", dt / 2), ("h1", dt / 2),
+           ("h2", dt / 2), ("h0", dt / 2), ("D", dt / 2))
+    for g, th in seq:
+        qc.compose(unitary(g, float(th), g2, m), inplace=True)
     return qc
 
-def full_circuit(r=1, dt=None, g2=None, m=None):
-    p = _params(g2, m); qc = QuantumCircuit(12)
-    # Canonical stretched-string label from the run specification.
-    code = encode(((0.,.5,.5,.5),(1,1,0,2),0))
-    for q in range(12):
-        if code >> q & 1: qc.x(q)
-    for _ in range(int(r)): qc.compose(strang_step(dt=dt,g2=p["g2"],m=p["m"]), inplace=True)
+
+def prep_stretched(qc=None):
+    qc = qc or QuantumCircuit(NQ)
+    code = encode(STRETCHED)
+    for q in range(NQ):
+        if (code >> q) & 1:
+            qc.x(q)
     return qc
+
+
+def full_circuit(r, dt=None, g2=None, m=None, merge_D=True):
+    p = params(g2, m)
+    dt = p["dt"] if dt is None else dt
+    qc = prep_stretched()
+    if r == 0:
+        return qc
+    if not merge_D:
+        for _ in range(r):
+            qc.compose(strang_step(dt, p["g2"], p["m"]), inplace=True)
+        return qc
+    # merged adjacent D half-steps: D/2 [core] D [core] ... D/2
+    core = (("h0", dt / 2), ("h2", dt / 2), ("h1", dt / 2), ("h3", dt / 2),
+            ("B", dt), ("h3", dt / 2), ("h1", dt / 2), ("h2", dt / 2),
+            ("h0", dt / 2))
+    qc.compose(unitary("D", dt / 2, p["g2"], p["m"]), inplace=True)
+    for k in range(r):
+        for g, th in core:
+            qc.compose(unitary(g, float(th), p["g2"], p["m"]), inplace=True)
+        qc.compose(unitary("D", dt / 2 if k == r - 1 else dt, p["g2"], p["m"]),
+                   inplace=True)
+    return qc
+
+
+# ------------------------------------------------------------ exact references
+
+def exact_strang_matrix(dt, g2, m):
+    """Exact matrix of ONE Strang step in the circuit's group ordering:
+    D/2 . h0/2 . h2/2 . h1/2 . h3/2 . B . h3/2 . h1/2 . h2/2 . h0/2 . D/2
+    (h0,h2 commute; h1,h3 commute)."""
+    _, T = terms(g2, m)
+    order = ["h0", "h2", "h1", "h3"]
+    U = expm(-1j * T["D"] * dt / 2)
+    for g in order:
+        U = expm(-1j * T[g] * dt / 2) @ U
+    U = expm(-1j * T["B"] * dt) @ U
+    for g in reversed(order):
+        U = expm(-1j * T[g] * dt / 2) @ U
+    U = expm(-1j * T["D"] * dt / 2) @ U
+    return U
+
+
+def circuit_state(qc):
+    """Statevector (4096) of a circuit from |0...0>."""
+    return Statevector(qc).data
+
+
+def to_basis(vec4096, basis):
+    cb = basis_to_code(basis)
+    return vec4096[cb]
+
+
+def leakage_prob(vec4096):
+    codes, _ = code_index()
+    mask = np.ones(N, bool)
+    mask[codes] = False
+    return float(np.sum(np.abs(vec4096[mask]) ** 2))
+
+
+# ------------------------------------------------------------ resources
 
 def resources(circ):
-    t = transpile(circ, basis_gates=["cz","rz","sx","x","id"], optimization_level=1)
-    counts = t.count_ops()
-    return {"n_2q": int(counts.get("cz", 0)), "depth_2q": int(t.depth(lambda x: x.operation.num_qubits == 2))}
-
-# Descriptive alias used by the G3 checks.
-U_T = unitary
+    t = transpile(circ, basis_gates=["cz", "rz", "sx", "x", "id"],
+                  optimization_level=1, seed_transpiler=7)
+    n2 = sum(1 for inst in t.data if inst.operation.num_qubits == 2)
+    return {"n_2q": int(n2),
+            "depth_2q": int(t.depth(lambda x: x.operation.num_qubits == 2)),
+            "depth": int(t.depth())}

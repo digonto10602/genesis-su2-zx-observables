@@ -1,22 +1,24 @@
-# L12 logical circuit resources
+# Logical resources, L12 encoding (before routing)
 
-Counts are obtained from the Qiskit transpiler with `cz, rz, sx, x, id` and
-optimization level 1.  The block gates are intentionally left as exact logical
-unitaries here; hardware decomposition is a later compilation stage.
+Window: g2=4.0, m=0.75, dt=0.8333, r_max=3.
+Block unitaries synthesized with qiskit UnitaryGate on the numerically
+found support (isometry-exact), transpiled to {cz, rz, sx, x} at
+optimization_level=1, seed 7. Counts are the transpiler's generic
+synthesis; G4 compiles/routes for the real target.
 
-| block | 2-qubit count | 2-qubit depth |
-|---|---:|---:|
-| D | transpiler-dependent | transpiler-dependent |
-| h0 | transpiler-dependent | transpiler-dependent |
-| h1 | transpiler-dependent | transpiler-dependent |
-| h2 | transpiler-dependent | transpiler-dependent |
-| h3 | transpiler-dependent | transpiler-dependent |
-| B | transpiler-dependent | transpiler-dependent |
-| one Strang step | transpiler-dependent | transpiler-dependent |
-| full circuit r=1 | transpiler-dependent | transpiler-dependent |
-| full circuit r=2 | transpiler-dependent | transpiler-dependent |
-| full circuit r=3 | transpiler-dependent | transpiler-dependent |
+| circuit | support qubits | CZ count | 2q depth |
+|---|---|---|---|
+| group D (theta=0.4167) | 12 | 4094 | 4085 |
+| group h0 (theta=0.4167) | 6 | 1004 | 993 |
+| group h1 (theta=0.4167) | 6 | 1004 | 993 |
+| group h2 (theta=0.4167) | 6 | 1004 | 993 |
+| group h3 (theta=0.4167) | 6 | 1004 | 993 |
+| group B (theta=0.8333) | 8 | 29655 | 29314 |
+| one Strang step | 12 | 45875 | 45037 |
+| full circuit r=0 (prep + steps, merged D) | 12 | 0 | 0 |
+| full circuit r=1 (prep + steps, merged D) | 12 | 45875 | 45037 |
+| full circuit r=2 (prep + steps, merged D) | 12 | 87656 | 85989 |
+| full circuit r=3 (prep + steps, merged D) | 12 | 129437 | 126941 |
 
-The exported QPY files preserve these exact logical blocks.  OpenQASM3 files
-include a valid header; Qiskit 2.5 cannot export its `Diagonal` instruction as
-OpenQASM3 without first decomposing it.
+Budget reference (prompt §0.1): ~250 CZ per Strang step, ~1000 per
+circuit, 2q depth < ~200. Compare after routing in compile/resources_routed.md.

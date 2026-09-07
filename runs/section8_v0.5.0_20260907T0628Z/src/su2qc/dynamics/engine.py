@@ -22,20 +22,14 @@ def evolve(H, psi0, times):
     psi0 = np.asarray(psi0, dtype=complex).flatten()
     psi0 = psi0 / np.linalg.norm(psi0)  # normalize
 
-    dim = H.shape[0]
-    states = np.zeros((len(times), dim), dtype=complex)
-    states[0] = psi0
-
-    for k in range(1, len(times)):
-        dt = times[k] - times[k - 1]
-        if abs(dt) < 1e-15:
-            states[k] = states[k - 1]
-            continue
-        # Dense expm of -i*H*dt for this step
-        U = expm(-1j * H.toarray() * dt)
-        states[k] = U @ states[k - 1]
-
-    return states
+    # Exact evolution via one eigendecomposition (H Hermitian, tiny):
+    # psi(t) = V exp(-i E t) V^dag psi0.  Exact for arbitrary time grids.
+    from scipy.linalg import eigh
+    E, V = eigh(H.toarray())
+    c0 = V.conj().T @ psi0
+    times = np.asarray(times, dtype=float)
+    phases = np.exp(-1j * np.outer(times, E))          # (T, dim)
+    return (phases * c0[None, :]) @ V.T
 
 
 def self_check(g2: float, m: float, jmax: float, t_max: float) -> dict:

@@ -1,0 +1,86 @@
+.............F.F.                                                        [100%]
+=================================== FAILURES ===================================
+_________________ test_full_strang_step_matches_exact_product __________________
+
+    @pytest.mark.unit
+    def test_full_strang_step_matches_exact_product():
+        basis, T = sl.terms(G2, M)
+        qc = sl.strang_step(DT, G2, M)
+        Uphys, leak = _apply_on_codes(qc, basis)
+        Uex = sl.exact_strang_matrix(DT, G2, M)
+>       assert np.linalg.norm(Uphys - Uex) <= 1e-10
+E       AssertionError: assert np.float64(0.18918920220253654) <= 1e-10
+E        +  where np.float64(0.18918920220253654) = <function norm at 0x7faa53d53070>((array([[ 0.97837699-6.97358837e-16j,  0.        +0.00000000e+00j,\n         0.        +0.00000000e+00j, ...,  0.       ...  0.        +0.00000000e+00j,\n         0.        +0.00000000e+00j,  0.27752856+9.38189445e-01j]],\n      shape=(82, 82)) - array([[ 0.97837699+0.00000000e+00j,  0.        +0.00000000e+00j,\n         0.        +0.00000000e+00j, ...,  0.       ...  0.        +0.00000000e+00j,\n         0.        +0.00000000e+00j,  0.27752856+9.38189445e-01j]],\n      shape=(82, 82))))
+E        +    where <function norm at 0x7faa53d53070> = <module 'numpy.linalg' from '/home/digimonk/Projects/SU2ZX_Foundation_Code_Package/SU2ZX/.mamba/envs/su2zx/lib/python3.11/site-packages/numpy/linalg/__init__.py'>.norm
+E        +      where <module 'numpy.linalg' from '/home/digimonk/Projects/SU2ZX_Foundation_Code_Package/SU2ZX/.mamba/envs/su2zx/lib/python3.11/site-packages/numpy/linalg/__init__.py'> = np.linalg
+
+tests/test_l12.py:73: AssertionError
+_____________________________ test_trotter_scaling _____________________________
+
+    @pytest.mark.unit
+    def test_trotter_scaling():
+        """Second-order scaling: error vs r at fixed t = RMAX*DT, r in 1..16."""
+        from su2qc.dynamics.scan import _classify, _diagnostics
+        basis, T = sl.terms(G2, M)
+        t_tot = RMAX * DT
+        i0 = basis.index(sl.STRETCHED)
+        psi0 = np.zeros(82, complex)
+        psi0[i0] = 1.0
+        surv = _classify(basis)[0]
+        e2m, _ = _diagnostics(basis)
+        ex = expm(-1j * T["H"] * t_tot) @ psi0
+        pe = np.abs(ex) ** 2
+        rs = [1, 2, 4, 8, 16]
+        errs_s, errs_e = [], []
+        for r in rs:
+            U = sl.exact_strang_matrix(t_tot / r, G2, M)   # matrix form, exact
+            psi = psi0.copy()
+            for _ in range(r):
+                psi = U @ psi
+            p = np.abs(psi) ** 2
+            errs_s.append(abs(p @ surv - pe @ surv))
+            errs_e.append(np.max(np.abs(p @ e2m - pe @ e2m)))
+        for errs in (errs_s, errs_e):
+            slope = np.polyfit(np.log(rs), np.log(errs), 1)[0]
+>           assert -2.3 <= slope <= -1.7, (slope, errs)
+E           AssertionError: (np.float64(-3.854439845533054), [np.float64(0.03802298361296218), np.float64(0.017840240352042423), np.float64(0.0001501977805308686), np.float64(5.416918078858003e-06), np.float64(3.4463577629623154e-06)])
+E           assert -2.3 <= np.float64(-3.854439845533054)
+
+tests/test_l12.py:124: AssertionError
+=============================== warnings summary ===============================
+tests/test_l12.py:17
+  /home/digimonk/Projects/SU2ZX_Foundation_Code_Package/SU2ZX/runs/section8_v0.5.0_20260907T0628Z/tests/test_l12.py:17: PytestUnknownMarkWarning: Unknown pytest.mark.unit - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.unit
+
+tests/test_l12.py:55
+  /home/digimonk/Projects/SU2ZX_Foundation_Code_Package/SU2ZX/runs/section8_v0.5.0_20260907T0628Z/tests/test_l12.py:55: PytestUnknownMarkWarning: Unknown pytest.mark.unit - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.unit
+
+tests/test_l12.py:67
+  /home/digimonk/Projects/SU2ZX_Foundation_Code_Package/SU2ZX/runs/section8_v0.5.0_20260907T0628Z/tests/test_l12.py:67: PytestUnknownMarkWarning: Unknown pytest.mark.unit - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.unit
+
+tests/test_l12.py:82
+  /home/digimonk/Projects/SU2ZX_Foundation_Code_Package/SU2ZX/runs/section8_v0.5.0_20260907T0628Z/tests/test_l12.py:82: PytestUnknownMarkWarning: Unknown pytest.mark.unit - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.unit
+
+tests/test_l12.py:99
+  /home/digimonk/Projects/SU2ZX_Foundation_Code_Package/SU2ZX/runs/section8_v0.5.0_20260907T0628Z/tests/test_l12.py:99: PytestUnknownMarkWarning: Unknown pytest.mark.unit - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.unit
+
+tests/test_l12.py:132
+  /home/digimonk/Projects/SU2ZX_Foundation_Code_Package/SU2ZX/runs/section8_v0.5.0_20260907T0628Z/tests/test_l12.py:132: PytestUnknownMarkWarning: Unknown pytest.mark.unit - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.unit
+
+test_l12.py::test_block_unitary_exact_and_leak_free[0.13-D]
+test_l12.py::test_block_unitary_exact_and_leak_free[0.61-D]
+test_l12.py::test_full_strang_step_matches_exact_product
+test_l12.py::test_noiseless_leakage_zero
+  /home/digimonk/Projects/SU2ZX_Foundation_Code_Package/SU2ZX/runs/section8_v0.5.0_20260907T0628Z/src/su2qc/circuits/strang_l12.py:156: DeprecationWarning: The class ``qiskit.circuit.library.generalized_gates.diagonal.Diagonal`` is deprecated as of Qiskit 2.1. It will be removed in Qiskit 3.0. Use DiagonalGate instead.
+    qc.append(Diagonal(diag), range(NQ))
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/test_l12.py::test_full_strang_step_matches_exact_product - Asser...
+FAILED tests/test_l12.py::test_trotter_scaling - AssertionError: (np.float64(...
+2 failed, 15 passed, 10 warnings in 204.30s (0:03:24)

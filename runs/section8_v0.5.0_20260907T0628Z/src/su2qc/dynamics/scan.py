@@ -64,16 +64,22 @@ def channel_probs(basis, states):
 
 # ---------------------------------------------------------------- mass scan
 
-def mass_scan(g2_values=(1.0, 2.0), n_m=25, t_window=(0.0, 12.0), jmax=0.5):
+def mass_scan(g2_values=(1.0, 2.0, 4.0, 8.0), n_m=25, t_window=(0.0, 40.0),
+              jmax=0.5):
+    """Scan m in [0, g2/2] for each g2. Two resonance estimators are recorded:
+    argmax of W_bar (prompt criterion 2) and argmin of t_b (breaking time);
+    see physics/DISCREPANCIES.md for why they differ at strong coupling."""
     tables = os.path.join(RUN_DIR, "analysis", "tables")
     physics = os.path.join(RUN_DIR, "physics")
     os.makedirs(tables, exist_ok=True)
     rows = []
     mstar = {}
-    t_eval = np.linspace(t_window[0], t_window[1], 201)
+    mstar_tb = {}
+    t_eval = np.linspace(t_window[0], t_window[1], 401)
     for g2 in g2_values:
         m_vals = np.linspace(0.0, 0.5 * g2, n_m)
         wbar = []
+        tbs = []
         for m in m_vals:
             H, basis = build_hamiltonian(g2, m, jmax)[:2]
             psi0 = np.zeros(H.shape[0], complex)
@@ -84,16 +90,19 @@ def mass_scan(g2_values=(1.0, 2.0), n_m=25, t_window=(0.0, 12.0), jmax=0.5):
             t_b = t_eval[drop[0]] if len(drop) else t_eval[np.argmin(ps)]
             W = np.trapezoid(pm + pb, t_eval) / (t_eval[-1] - t_eval[0])
             wbar.append(W)
+            tbs.append(t_b)
             rows.append((g2, m, t_b, W,
                          np.trapezoid(pm, t_eval) / (t_eval[-1] - t_eval[0]),
                          np.trapezoid(pb, t_eval) / (t_eval[-1] - t_eval[0])))
         mstar[str(g2)] = float(m_vals[int(np.argmax(wbar))] / g2)
+        mstar_tb[str(g2)] = float(m_vals[int(np.argmin(tbs))] / g2)
     with open(os.path.join(tables, "exact_mass_scan.csv"), "w") as fh:
         fh.write("g2,m,t_b,W_bar,P_meson_avg,P_BBbar_avg\n")
         for r in rows:
             fh.write(",".join(f"{x:.10g}" for x in r) + "\n")
-    out = {"mstar_over_g2": mstar, "n_mass_points": n_m,
-           "n_g2_values": len(g2_values), "tree_level": 3.0 / 16.0}
+    out = {"mstar_over_g2": mstar, "mstar_over_g2_tb": mstar_tb,
+           "n_mass_points": n_m, "n_g2_values": len(g2_values),
+           "t_window": list(t_window), "tree_level": 3.0 / 16.0}
     with open(os.path.join(physics, "resonance.json"), "w") as fh:
         json.dump(out, fh, indent=1)
     return out
@@ -225,11 +234,14 @@ def _term_split(g2, m, jmax=0.5):
 
 
 def strang_step_matrix(D, hs, B, dt):
+    """One Strang step in the CIRCUIT layer ordering (prompt §5.5):
+    D/2 · [h0,h2]/2 · [h1,h3]/2 · B · [h1,h3]/2 · [h0,h2]/2 · D/2."""
+    order = [hs[0], hs[2], hs[1], hs[3]]
     U = expm(-1j * D * dt / 2.0)
-    for h in hs:
+    for h in order:
         U = expm(-1j * h * dt / 2.0) @ U
     U = expm(-1j * B * dt) @ U
-    for h in reversed(hs):
+    for h in reversed(order):
         U = expm(-1j * h * dt / 2.0) @ U
     U = expm(-1j * D * dt / 2.0) @ U
     return U
@@ -265,7 +277,7 @@ def select_window(g2=1.0, m=None, jmax=0.5):
     psi0[_idx(basis, STRETCHED)] = 1.0
     best = None
     for r_max in (3, 2):
-        for t_tot in (3.0, 4.0, 5.0, 6.0, 2.0):
+        for t_tot in (3.0, 2.5, 3.5, 4.0, 2.0, 5.0, 6.0, 1.5):
             dt = t_tot / r_max
             times = np.array([0.0, t_tot])
             states = evolve(H, psi0, times)
