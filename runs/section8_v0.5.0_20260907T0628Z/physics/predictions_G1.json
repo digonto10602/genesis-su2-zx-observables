@@ -1,0 +1,23 @@
+{
+  "file": "/home/digimonk/Projects/SU2ZX_Foundation_Code_Package/SU2ZX/RUN/physics/predictions_G1.md",
+  "numbers": {
+    "local_vertex_states": 6,
+    "gauge_invariant_dim_jmax_half": 82,
+    "gauge_invariant_dim_jmax_one": 152,
+    "fermion_sector_N0": 2,
+    "fermion_sector_N2": 20,
+    "fermion_sector_N4": 38,
+    "fermion_sector_N6": 20,
+    "fermion_sector_N8": 2,
+    "pure_electric_k0": 16,
+    "pure_electric_k1": 16,
+    "pure_electric_k2": 18,
+    "pure_electric_k3": 16,
+    "pure_electric_k4": 16,
+    "frozen_matter_states": 2,
+    "resonance_mstar": "3*g2/16",
+    "energy_release_removing_link": "3*g2/8",
+    "pair_creation_cost": "2m",
+    "resonance_condition": "3*g2/8 = 2m"
+  }
+}

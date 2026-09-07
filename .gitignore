@@ -15,3 +15,7 @@ zip_results/
 artifacts/logs/*.tmp
 artifacts/qpu/*token*
 artifacts/qpu/*credential*
+runs/**/circuits/*.qpy
+runs/**/__pycache__/
+runs/**/.review_scratch/
+implementation_summary.json

@@ -1,0 +1,98 @@
+{
+ "gate": "G0",
+ "status": "PASS",
+ "attempt": 1,
+ "finished": "2026-09-07T06:30:49.375873Z",
+ "mode": "n/a",
+ "criteria": [
+  {
+   "name": "run/T0",
+   "target": "exists",
+   "value": true,
+   "pass": true
+  },
+  {
+   "name": "run/PROMPT_HASH",
+   "target": "exists",
+   "value": true,
+   "pass": true
+  },
+  {
+   "name": "run/CONFIG_ENV.md",
+   "target": "exists",
+   "value": true,
+   "pass": true
+  },
+  {
+   "name": "run/INVENTORY.md",
+   "target": "exists",
+   "value": true,
+   "pass": true
+  },
+  {
+   "name": "run/MODELS.md",
+   "target": "exists",
+   "value": true,
+   "pass": true
+  },
+  {
+   "name": "run/PLAN.md",
+   "target": "exists",
+   "value": true,
+   "pass": true
+  },
+  {
+   "name": "run/TASKBOARD.md",
+   "target": "exists",
+   "value": true,
+   "pass": true
+  },
+  {
+   "name": "run/GATES.md",
+   "target": "exists",
+   "value": true,
+   "pass": true
+  },
+  {
+   "name": "run/DECISIONS.md",
+   "target": "exists",
+   "value": true,
+   "pass": true
+  },
+  {
+   "name": "reports/REPORT.md",
+   "target": "exists",
+   "value": true,
+   "pass": true
+  },
+  {
+   "name": "src/su2qc/conventions.py",
+   "target": "exists",
+   "value": true,
+   "pass": true
+  },
+  {
+   "name": "env/requirements.lock.txt",
+   "target": "exists",
+   "value": true,
+   "pass": true
+  },
+  {
+   "name": "fake_heron_loads",
+   "target": "FakeTorino loads",
+   "value": "133",
+   "pass": true
+  },
+  {
+   "name": "pytest_runs",
+   "target": "pytest available",
+   "value": "pytest 9.1.1",
+   "pass": true
+  }
+ ],
+ "artifacts": [
+  "run/",
+  "env/requirements.lock.txt"
+ ],
+ "notes": "twin mode; FakeTorino target"
+}

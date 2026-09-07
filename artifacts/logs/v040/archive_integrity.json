@@ -1,9 +1,9 @@
 {
   "status": "PASS",
-  "archive": "zip_results/SU2ZX_v0.4.0_20260906T223648Z.zip",
-  "sha256": "9a3c90884ff4213b245424f2eeefe70f1310ba4df5857c122b94c64256f1c877",
-  "files": 224,
-  "bytes": 4570421,
+  "archive": "zip_results/SU2ZX_v0.4.0_20260906T223709Z.zip",
+  "sha256": "04b52663c6bd74bb242cf59192912bd988d68b1fd10b2db70c5c3881684e237b",
+  "files": 225,
+  "bytes": 4570918,
   "verified_contents": [
     ".gitignore",
     ".graphifyignore",
@@ -177,6 +177,7 @@
     "artifacts/logs/v040/tn.log",
     "artifacts/provenance/completion_v040.json",
     "artifacts/provenance/graph_semantic_v040.json",
+    "artifacts/provenance/publication_v040.json",
     "artifacts/provenance/run_v0.3.0.json",
     "artifacts/provenance/run_v0.4.0.json",
     "config/research.json",

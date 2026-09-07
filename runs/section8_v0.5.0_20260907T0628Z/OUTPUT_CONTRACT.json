@@ -1,0 +1,24 @@
+{
+  "files": [
+    "RUN/src/su2qc/ham/route_spinnet.py",
+    "RUN/src/su2qc/__init__.py",
+    "RUN/tests/test_route_spinnet.py",
+    "RUN/tests/pytest.ini",
+    "RUN/tests/conftest.py"
+  ],
+  "numbers": {
+    "dim_jmax_0.5": 82,
+    "dim_jmax_1.0": 152,
+    "sector_N0": 2,
+    "sector_N2": 20,
+    "sector_N4": 38,
+    "sector_N6": 20,
+    "sector_N8": 2,
+    "hermitian_max_diff": 0.0,
+    "[H,N]_max_comm": 0.0,
+    "pure_electric_degeneracies": [16, 16, 18, 16, 16],
+    "pure_electric_ok": true
+  },
+  "tests_pass": true,
+  "open_questions": "Sign conventions in hopping term's fermionic phase and CG factors could be cross-checked against an independent basis for absolute sign verification; currently Hermiticity enforced by construction."
+}
