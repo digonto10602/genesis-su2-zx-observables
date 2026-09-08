@@ -1,0 +1,22 @@
+[
+  {
+    "path": "prompts/CODEX_AUTONOMOUS_SU2ZX_RESEARCH_PROMPT.md",
+    "bytes": 23264
+  },
+  {
+    "path": "prompts/CODEX_AUTONOMOUS_SU2ZX_RESEARCH_PROMPT_Laptop.md",
+    "bytes": 26720
+  },
+  {
+    "path": "prompts/SU2ZX_CODEX_AUTONOMOUS_RESEARCH_PROMPT_v0.4.0.md",
+    "bytes": 33797
+  },
+  {
+    "path": "prompts/SU2ZX_CODEX_AUTONOMOUS_RESEARCH_PROMPT_v0.3.0.md",
+    "bytes": 34901
+  },
+  {
+    "path": "prompts/v0.5.0.md",
+    "bytes": 54398
+  }
+]

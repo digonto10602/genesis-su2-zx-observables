@@ -1,0 +1,14 @@
+{
+  "command": "Python heading and lane checks on plan.md",
+  "requirements": {
+    "goals": true,
+    "physics_acceptance": true,
+    "lanes": true,
+    "gate_schedule": true,
+    "stop_conditions": true,
+    "token_budget": true
+  },
+  "all_four_lanes": true,
+  "physics_validated": false,
+  "status": "planning-only; no execution acceptance"
+}

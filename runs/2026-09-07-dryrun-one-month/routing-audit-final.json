@@ -1,0 +1,28 @@
+{
+  "as_of": "2026-09-07T14:04:20.962948-06:00",
+  "command": "hermes logs --since 20m -n 100000; Python API-call filter and Counter",
+  "global_window": {
+    "calls": [
+      {
+        "provider": "openai-codex",
+        "model": "gpt-6-astra",
+        "count": 33
+      }
+    ],
+    "input_tokens_including_repeated_cached_context": 1766929,
+    "output_tokens": 11181
+  },
+  "this_session": {
+    "calls": [
+      {
+        "provider": "openai-codex",
+        "model": "gpt-6-astra",
+        "count": 30
+      }
+    ],
+    "input_tokens_including_repeated_cached_context": 1582607,
+    "output_tokens": 10105
+  },
+  "anthropic_calls": 0,
+  "billing_limitations": "Conversation logs are not a billing ledger. NVIDIA title_generation initialized separately; no worker test executed. Claude terminal usage recorded separately."
+}

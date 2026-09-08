@@ -1,0 +1,56 @@
+[
+  {
+    "test": "30-second background cutoff",
+    "ran": true,
+    "result": "PASS component only",
+    "command": "timeout --signal=TERM --kill-after=2s 30s sleep 400",
+    "evidence": "proc_4b93b8ba9596 exit 124; wrapper PID 3144556 absent"
+  },
+  {
+    "test": "interrupt real claude -p process group",
+    "ran": true,
+    "result": "PASS component only",
+    "command": "python3 /tmp/su2qc-freeze-test/check-interrupt.py",
+    "evidence": {
+      "command": [
+        "claude",
+        "-p",
+        "--model",
+        "claude-sonnet-5",
+        "--tools",
+        "",
+        "--max-turns",
+        "1",
+        "Give a quick second opinion on this safety principle: a command timeout alone does not prove runner checkpoint recovery. Explain in detail."
+      ],
+      "pid": 3150797,
+      "running_before_TERM": true,
+      "exit_code": 143,
+      "SIGKILL_required": false,
+      "process_group_gone": true,
+      "elapsed_seconds": 5.416,
+      "result": "PASS",
+      "scope": "process cancellation only; no runner recovery or physics validation"
+    }
+  },
+  {
+    "test": "stalled subagent",
+    "ran": false,
+    "result": "NOT RUN: documented 1200s in-tool threshold + 120s grace exceeds 900s cap; sleep 400 does not trigger it"
+  },
+  {
+    "test": "T+15h freeze / T+16h runner cutoff",
+    "ran": false,
+    "result": "BLOCKED: no approved runner"
+  },
+  {
+    "test": "runner TERM propagation and partial-report flush",
+    "ran": false,
+    "result": "BLOCKED: no approved runner; CLI cancellation is not this test"
+  },
+  {
+    "test": "restart mid-run and backend durable lifetime",
+    "ran": false,
+    "result": "BLOCKED: no approved runner or restart acceptance specification"
+  }
+]

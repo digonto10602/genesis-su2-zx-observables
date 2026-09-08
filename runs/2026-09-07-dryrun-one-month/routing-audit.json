@@ -1,0 +1,29 @@
+{
+  "command": "hermes logs --since 20m -n 100000 (Python API-call filter)",
+  "as_of": "2026-09-07T14:00:47.379185-06:00",
+  "global_window": {
+    "calls": [
+      {
+        "provider": "openai-codex",
+        "model": "gpt-6-astra",
+        "count": 30
+      }
+    ],
+    "input_tokens_including_repeated_cached_context": 1479761,
+    "output_tokens": 8924
+  },
+  "this_session": {
+    "calls": [
+      {
+        "provider": "openai-codex",
+        "model": "gpt-6-astra",
+        "count": 22
+      }
+    ],
+    "input_tokens_including_repeated_cached_context": 1010902,
+    "output_tokens": 6246
+  },
+  "anthropic_calls": 0,
+  "auxiliary_note": "title_generation initialized nvidia/nemotron-3.5-lightning-30b-a3b via nvidia; API-call table alone is not a complete billing ledger",
+  "subagent_note": "no worker launched: stall test exceeds cap"
+}

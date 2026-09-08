@@ -1,0 +1,20 @@
+model:
+  default: gpt-6-astra
+  provider: openai-codex
+  openai_runtime: auto
+fallback_providers:
+- provider: nvidia
+  model: moonshotai/kimi-k3
+- provider: nvidia
+  model: deepseek-ai/deepseek-v4-pro-0813
+- provider: nvidia
+  model: nvidia/nemotron-3-ultra-550b-a55b
+delegation:
+  model: deepseek-ai/deepseek-v4-flash-0731
+  provider: nvidia
+  max_iterations: 40
+  max_concurrent_children: 2
+  max_spawn_depth: 2
+  orchestrator_enabled: true
+auxiliary.compression:
+  provider: auto

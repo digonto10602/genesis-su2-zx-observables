@@ -1,0 +1,46 @@
+SU2QC routing verification — 2026-09-07T14:04:20.962948-06:00
+Scope: verification and planning only. No BUILD, research, QPU, publishing, git add or commit.
+1 PASS — /tmp artifacts copied to runs/_reference; all three SHA256 comparisons matched.
+  Command: Python shutil.copy2 + hashlib.sha256(source/destination).
+  Files: hermes-su2qc-commands.sh; hermes-review.md; hermes-review-verdict-final.md.
+2 PASS — policy present in live instruction context; first three top-level bullets quoted in session.
+  Command: hermes skills list → model-routing and su2qc-run-protocol enabled.
+  YAML safe-load → main openai-codex/gpt-6-astra; three NVIDIA fallbacks;
+  NVIDIA deepseek-ai/deepseek-v4-flash-0731 worker, max_concurrent_children=2;
+  auxiliary.compression.provider=auto. See verified-config-redacted.yaml.
+3 BLOCKED overall — component results below are not runner acceptance.
+  Test                                      Ran  Result / evidence
+  30s background command cutoff             yes  PASS: GNU timeout exit 124.
+  Interrupt real Sonnet claude -p group      yes  PASS: exit 143, no SIGKILL, group absent.
+  Subagent stall detection                   no  1200s in-tool + 120s grace exceeds 900s cap.
+  Short-clock T+15h freeze/T+16h cutoff       no  BLOCKED: approved runner absent.
+  Runner TERM + partial-report flush         no  BLOCKED: approved runner absent.
+  Restart recovery/backend durable lifetime  no  BLOCKED: runner/tests absent.
+  Commands/evidence: freeze-test-results.json; /tmp/su2qc-freeze-test/check-interrupt.py.
+  Runner pass requires freeze blocking new work, tracked groups terminated,
+  durable partial report with incomplete gates, and verified backend lifetime.
+  Restart/stall acceptance cases are not specified by the protocol.
+4 PASS (structure only) — smallest task: CODEX_AUTONOMOUS_SU2ZX_RESEARCH_PROMPT.md.
+  Size 23264 bytes; prompt-inventory.json lists all five prompts by size.
+  claude -p --model claude-fable-5-1 --allowedTools Read,Grep,Glob,WebSearch,WebFetch
+  --max-turns 30, with 600s outer timeout → exit 0; plan.md: 161 lines.
+  Full plan read; first 40 lines displayed. All six required sections present.
+  No lanes executed. Physics acceptance was not run or signed off.
+  Caveat: --allowedTools is not tool exclusion; CLI used read-only Bash inspection.
+5 PASS for observed routing, PARTIAL for billing attribution.
+  As of 14:04:20 MDT: this-session openai-codex → gpt-6-astra → 30 calls.
+  anthropic API-call records: 0; no NVIDIA worker launched.
+  NVIDIA title_generation initialization is outside this table; billing not proven.
+  Claude transcript model: claude-fable-5-1. See routing-audit-final.json.
+6 PARTIAL snapshot — latest Codex /status: 34% 5h left, 52% weekly left.
+  Resets 15:09 today / Sep 11 16:05; Claude /usage: 38% session used,
+  22% week used, 42% Fable used; resets 14:20 today / Sep 12 02:59 (Denver).
+  Observed Claude change: +3 session, +1 weekly, +1 Fable percentage points;
+  Codex changed by -4/-1 points; a later <25% warning conflicts with the last table.
+  Shared usage and rounding prevent exact attribution; recheck Codex before launch.
+  CLI default is gpt-5.6-luna; no task submitted. BUILD template pins Astra explicitly.
+Biggest overnight risk: no enforced durable runner. Supply/approve one and validate it.
+Before launch: approve dirty-tree preservation strategy, resolve plan conflicts,
+validate freeze/TERM/report/restart tests, and recheck quota/sign-off reserve.
+The protocol skill gained verification caveats after a backup in runs/_reference.
+Temporary quota tmux sessions closed. Configuration unchanged.

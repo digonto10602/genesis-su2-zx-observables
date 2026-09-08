@@ -1,0 +1,42 @@
+{
+  "transcript": "/home/digimonk/.claude/projects/-home-digimonk-Projects-SU2ZX-Foundation-Code-Package-SU2ZX/289ff3ab-a120-479c-937b-8622825b7c28.jsonl",
+  "models": [
+    "claude-fable-5-1"
+  ],
+  "tool_names": [
+    "Read",
+    "Read",
+    "Bash",
+    "Read",
+    "Read",
+    "Read",
+    "Read",
+    "Grep",
+    "Grep",
+    "Read",
+    "Read",
+    "Read",
+    "Bash",
+    "Bash",
+    "Read",
+    "Read",
+    "Grep",
+    "Read",
+    "Bash",
+    "Read",
+    "Grep",
+    "Grep",
+    "Read",
+    "Read",
+    "Grep",
+    "Bash",
+    "Read",
+    "Read"
+  ],
+  "usage_dedup_by_message_not_billing": {
+    "input_tokens": 194,
+    "cache_creation_input_tokens": 95454,
+    "cache_read_input_tokens": 417390,
+    "output_tokens": 25527
+  }
+}

@@ -1,0 +1,45 @@
+
+ ▐▛███▛█   Claude Code v2.1.261
+▝▜██████▀  Sonnet 5 · Claude Max
+  ▝▝ ▝▝    /tmp/su2qc-freeze-test
+
+  Fable 5.1 writes better code and reports progress on long tasks. Switch anytime with /model.
+  +1 more · /status
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                                                Update available! Run: mise upgrade claude
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+❯ 
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  ⏵⏵ auto mode on (shift+tab to cycle) · ← for agents                                                                           /rc active

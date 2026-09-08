@@ -1,0 +1,21 @@
+{
+  "brief.md": "2c8a194c1fe6404e45f952fa6a349dd09ee5914f9c06792d4a516982c40487ab",
+  "quota-codex-before.txt": "11e5d2164fcea0f34d5e472594d68c246cb5f735d8e626bfd3c6861998853c4c",
+  "quota-claude-before.txt": "99638d53f8d3627a270e6a1789ef27263002aaab8b5d28e1b0ca9a9c461a119e",
+  "freeze-test-results.json": "ca5a22d3fd91e994ef323df18109ba95aa9b844a49340cfea8dcffc4d52fdcf7",
+  "routing-audit.json": "2a0364c8143270c866f33c7e98aae99f6489f12635ceda1ef32ecd95b82846de",
+  "verified-config-redacted.yaml": "4200d3bc0f09df9944e7425bfe307c6c3cb2f05b6cb92ef3b12ee231c8d7d98b",
+  "prompt-inventory.json": "98bc54bcb42ea3e5a9552d248f21f2e28f1deeb9adcd62f8887b7f4354398e94",
+  "api-call-evidence.txt": "d6149cb04f56af91f23f799f7a37f629e77dccb5fcd28a90390e73706d2c722e",
+  "plan.md": "0cb0535c8fcca1ddd9b6d31078404b03273eb13c1cbff561931ebcd0b10d811c",
+  "plan-structure-check.json": "083ac6ec33b67b83a7f9b545fbf8b33f8031f83331c9d06aec95ef06099f2be1",
+  "quota-codex-after.txt": "3812a40d0286229624b86a195f0e9a91f9f2798e8c471acf22c1ac03c8527464",
+  "quota-claude-after.txt": "93a4f06aecda98ec6e7846c559a925ecb205f3c571b0364d69c4dc6e37bfa3d9",
+  "claude-planning-metadata.json": "98d398025463865404b72709cc5e1536aad9990523467c142c61a286d3b9879a",
+  "routing-audit-final.json": "f2f128c38fed81af0add73575c4a8977d47a8f57cf55cfd5330c95cf801bc7c8",
+  "quota-claude-final.txt": "865437ca9f667fcd003a37c6b8d6ed82798ef7d05d7018398d43b04cc33ea83f",
+  "quota-codex-final.txt": "15b6a42c2a438c9f9f4b1856eb0a9ee2db895930ae431f048f810937a5700d16",
+  "verification-sha256.json": "12cf986aef20991be80db5310ca0b62aedf078a6442ef17e759870ee0de25a08",
+  "verification-report.txt.bak": "b6f988d94cafc69dd9561ecf8e9d7d47f1a82bc2daa5af6a5480291e9443847f",
+  "verification-report.txt": "ff803ae4c85fee3aee7db48ac5a70303909342fc15f6d34fe3c992c9eac23ff6"
+}

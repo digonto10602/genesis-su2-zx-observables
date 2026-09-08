@@ -1,0 +1,58 @@
+---
+name: su2qc-run-protocol
+description: "Use for SU2QC overnight runs. Preflight, gates and reports."
+---
+
+# SU2QC overnight run protocol
+
+Repo: /home/digimonk/Projects/SU2ZX_Foundation_Code_Package/SU2ZX. Load model-routing for executable lane commands. This protocol is not authorization to launch a run or hardware job.
+
+## Preflight
+
+1. Read actual task prompt, relevant proposal/plan, AGENTS.md and README. Current names include *_v0.3.0.md, *_v0.4.0.md and v0.5.0.md, not always frontmatter filenames.
+2. Check codex /status and claude /usage interactively; record actual quotas/reset or UNKNOWN. Prefer starting after Codex weekly reset. Run hermes doctor in the separate global setup context; resolve relevant blockers before research execution.
+3. Check git status --short and baseline commit. Dirty repo blocks a new unattended run until user approves preserved baseline/clean worktree strategy. Never clean/stash/overwrite existing work automatically.
+4. Create unique runs/<UTC-date>-<slug>/ with Fable-produced plan.md, run.log, gates/, reviews/, bench/. Preserve existing prompt-specific run naming/layout instead when applicable. Never overwrite prior outputs.
+5. Verify /home/digimonk/Projects/SU2ZX_Foundation_Code_Package/SU2ZX/.mamba/envs/su2zx/bin/python exists/works. Record interpreter, input hashes, seeds, snapshot, environment and file ownership. Research files stay inside repo; .work/ for temporary files, single .mamba/ prefix.
+6. Complete Fable planning before BUILD. Missing required docs or Fable blocks planning. Persist acceptance criteria, conventions and evidence; any compression is potentially lossy.
+
+## Source conventions and approved override
+
+Sources: AGENTS.md §§Scope lock, Physics gates, External actions; README.md §§Setup and reproduction, Outputs; prompts/v0.5.0.md §§0–4, §9. The user approved new routing/blocking rules overriding conflicting legacy assignments and continuations, preserving source files and uncommitted work.
+
+Keep v0.5.0 runs/section8_v0.5.0_<RUNID>/ layout; run/T0, run/TASKBOARD.md, run/GATES.md, run/MODELS.md, run/HEARTBEAT.md, run/DECISIONS.md, gates/attempts/, physics/, prereg/, reports/REPORT.md, logs/agents/, logs/cmd/ and manifest. Supplement with plan.md, run.log and bench/. Claude gate-N.md/review-N.md supplement rather than replace gates/gate_<G>.py and gates/GATE_<G>.json or reviews/ evidence.
+
+Override NIM review decisions with Opus REVIEW/PHYSICS and Fable final sign-off. No Hermes anthropic provider, no weaker-model physics substitute. Max 2 NVIDIA children. Failed gates block dependent G+1 steps and legacy fallback continuation; independent work can proceed. Reduced scope requires Fable plan amendment and explicit reporting, never relabel a failed gate as passed. Preserve independent Hamiltonian routes and reviewer/builder model separation. Physics doubt goes to Fable.
+
+Preserve two attempts then Fable escalation, maximum three escalations per gate/six per run, none after T+14h. Write versioned solutions without overwriting before fresh builders implement them. Unavailable Fable blocks physics escalations.
+
+## Execution and deadline enforcement
+
+Planning → BUILD → TEST-BENCH → background REVIEW → PHYSICS gate → next dependent step. A gate requires deterministic exit 0, criterion-level JSON targets/measurements and completed Claude sign-off on the same frozen snapshot. Opinions alone never pass gates; never alter gates/tolerances to force success.
+
+Use absolute paths and complete child context, disjoint ownership, and model-routing commands. Repeated tests/sweeps use execute_code or bounded workers. Wait for review process completion and read its output before gate acceptance. Log timestamp/lane/actual model-provider/snapshot/command/artifacts/status at every step. Unknown usage remains unknown.
+
+12h target; evaluate extension T+11h using prompt criteria, no new escalation T+14h, freeze non-packaging work T+15h, absolute stop T+16h. Use an approved durable runner with monotonic deadline and each subprocess capped to remaining time. Launch through terminal(background=True, notify=True), e.g. `timeout --signal=TERM --kill-after=60s 57600s <approved-runner-command>` in the repo. Runner must trap TERM, terminate tracked process groups, flush partial report and enforce T+15h freeze. Verify shutdown in a shortened-clock dry-run before launch: T+15h-equivalent freeze fires, TERM reaches the tracked Claude/Codex process groups (use harmless process stand-ins first), and the partial report is flushed. Verify backend lifetime handling permits the intended durable job; an unverified runner/backend blocks unattended launch. This is a template, not an existing tested runner. Cron reminders alone do NOT enforce cutoff.
+
+Update reports/REPORT.md every gate, heartbeat at least every 30 minutes, and continuously persist partial results. At cutoff stop compute/reviews, preserve evidence, mark failed/incomplete gates/deferred sign-off and package only produced outputs. Never skip gates to meet a deadline. CLI cron has no chat delivery; requested notifications need an explicit gateway destination.
+
+## Fallback and safeguards
+
+Inspect hermes logs --since 10m API call records with Python filtering or search_files on agent.log. Record actual model/provider, not just configuration; mark unavailable evidence UNKNOWN. Codex exhaustion permits NVIDIA BUILD/TEST; all REVIEW/PHYSICS still require Claude. Opus may handle gates when Fable-only share exhausted; shared Claude-window exhaustion can block both. Final Fable sign-off stays deferred, never replaced.
+
+Preserve AGENTS.md claim boundaries and hardware safeguards: ALLOW_IBM_QPU_SUBMISSION=1, --submit and exact fresh dry-run token. Task hardware flags do not waive these. Twin never means hardware. Retain preregistration config hash/change log; no production before signed preregistration. Distinguish legacy core.py conventions from new task conventions.py; never conflate physical objects or claims.
+
+## End-of-run report
+
+Run ID / prompt + hash / baseline and final snapshot / elapsed / COMPLETE or PARTIAL
+Physics: criterion | target | measured | evidence artifact | PASS/FAIL/UNVERIFIED
+Gates: gate-attempt | deterministic exit + JSON | Claude reviewer/model | verdict | evidence
+Lane usage: BUILD / TEST-BENCH / REVIEW / PHYSICS | actual model/provider | calls/tokens if observable, otherwise unknown
+Conclusions, claim boundaries, hardware/twin labels
+Open issues, stopped dependencies, scope changes
+Fable final sign-off path/verdict or DEFERRED with exact pending decisions
+Report/manifest/artifact paths and reproduction commands
+
+## Verification
+
+Read cited artifacts, match reviewed snapshot and all acceptance criteria, count totals programmatically, reconcile gate ledger and report. No fabricated data/usage or completion for unavailable reviews. A plan is not execution; reviewer PASS is not numerical evidence. Report real execution and blockers.
