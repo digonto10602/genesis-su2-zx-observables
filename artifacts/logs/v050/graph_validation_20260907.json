@@ -1,0 +1,19 @@
+{
+  "timestamp_utc": "2026-09-07",
+  "graphify_version": "0.9.53",
+  "git_head": "eee1e162a0b28b4c8f6f8f917454e795efbea606",
+  "method": "graphify update (AST only, no LLM); structural validation by python over graph.json (unique ids, endpoints exist, duplicate undirected pairs, self-loops, critical callable presence)",
+  "graphs": {
+    "root": {"path": "graphify-out/graph.json", "nodes": 1459, "edges": 2196, "communities": 131,
+             "previous": {"nodes": 796, "edges": 1258, "communities": 61, "commit": "dc0e3c9e"},
+             "dup_ids": 0, "bad_endpoints": 0, "dup_pairs": 0, "self_loops": 1,
+             "sha256": "c126c09a45074da0fc9aca3ff20791274e28e23b461544c08ca366f330e804a3", "status": "PASS"},
+    "run": {"path": "runs/section8_v0.5.0_20260907T0628Z/graphify-out/graph.json", "nodes": 830, "edges": 1105, "communities": 65,
+            "previous": {"nodes": 820, "edges": 1087, "communities": 57, "commit": "eee1e162"},
+            "dup_ids": 0, "bad_endpoints": 0, "dup_pairs": 0, "self_loops": 2,
+            "sha256": "577e7274a6245048fc3a368ea3f4b363bc47fb88272cbf584b54989adfa1d97c", "status": "PASS"}
+  },
+  "critical_callables_present": ["synth_unitary","synth_strang_step","route","routed_equivalence","twin_backend","postselect","bootstrap","build_hamiltonian","mass_scan","select_window","encode","physical_codes"],
+  "graphifyignore_additions": ["runs/*/graphify-out/","runs/*/logs/agents/*.out.md","runs/*/circuits/*.qpy","runs/*/circuits/*.qasm","runs/*/tests/.pytest_cache/"],
+  "notes": "Community labels not regenerated (no LLM backend); graphify renamed 7 root and 10 run communities by hub. Self-loops are heading-to-heading document edges, not code edges."
+}
