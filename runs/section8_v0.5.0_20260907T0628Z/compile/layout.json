@@ -1,0 +1,33 @@
+{
+ "backend": "fake_torino",
+ "initial_physical": [
+  65,
+  63,
+  64,
+  66,
+  74,
+  67,
+  82,
+  73,
+  62,
+  68,
+  56,
+  69
+ ],
+ "final_index_layout": [
+  69,
+  74,
+  66,
+  67,
+  56,
+  68,
+  63,
+  65,
+  64,
+  73,
+  83,
+  82
+ ],
+ "seed_transpiler": 7,
+ "optimization_level": 3
+}

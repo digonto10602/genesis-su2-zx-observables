@@ -1,0 +1,6 @@
+qiskit_L3 step {'n_2q': 3976, 'depth_2q': 3300} full r=3 12142 9695 eq 0.0 3.5060843117662444e-13 57s
+pyzx_basic_TP step {'n_2q': 4603, 'depth_2q': 3990} full r=3 13914 12042 eq 0.9957111199258378 None 72s
+pyzx_full_reduce step {'n_2q': 4778, 'depth_2q': 3737} full r=3 16025 12575 eq 2.8843594179761567e-13 None 1223s
+routed equivalence per r: {'0': 0.0, '1': 1.2534417948018017e-13, '2': 2.438049762076844e-13, '3': 3.5060843117662444e-13}
+twin r=0 t=0.000 yield=0.690 P_surv twin=0.946±0.000 exact=1.000 within=False
+[killed by user at 2026-09-07T17:31:45Z during twin r=1; compile/ outputs complete, twin_check.json and twin_timeseries.csv not written]

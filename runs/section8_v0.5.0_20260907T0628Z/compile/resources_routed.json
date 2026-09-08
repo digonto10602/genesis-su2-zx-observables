@@ -1,0 +1,98 @@
+{
+ "chosen": {
+  "encoding": "L12",
+  "pipeline": "qiskit_L3",
+  "per_step_2q": 3976,
+  "full_rmax_2q": 12142,
+  "depth_2q_full_rmax": 9695
+ },
+ "pipelines": {
+  "qiskit_L3": {
+   "pre_route_equiv_step": 0.0,
+   "per_step": {
+    "n_2q": 3976,
+    "depth_2q": 3300
+   },
+   "full": {
+    "0": {
+     "n_2q": 0,
+     "depth_2q": 0
+    },
+    "1": {
+     "n_2q": 4025,
+     "depth_2q": 3273
+    },
+    "2": {
+     "n_2q": 8031,
+     "depth_2q": 6501
+    },
+    "3": {
+     "n_2q": 12142,
+     "depth_2q": 9695
+    }
+   },
+   "routed_equiv_rmax": 3.5060843117662444e-13
+  },
+  "pyzx_basic_TP": {
+   "pre_route_equiv_step": 0.9957111199258378,
+   "per_step": {
+    "n_2q": 4603,
+    "depth_2q": 3990
+   },
+   "full": {
+    "0": {
+     "n_2q": 0,
+     "depth_2q": 0
+    },
+    "1": {
+     "n_2q": 4497,
+     "depth_2q": 3905
+    },
+    "2": {
+     "n_2q": 9233,
+     "depth_2q": 8006
+    },
+    "3": {
+     "n_2q": 13914,
+     "depth_2q": 12042
+    }
+   },
+   "routed_equiv_rmax": null
+  },
+  "pyzx_full_reduce": {
+   "pre_route_equiv_step": 2.8843594179761567e-13,
+   "per_step": {
+    "n_2q": 4778,
+    "depth_2q": 3737
+   },
+   "full": {
+    "0": {
+     "n_2q": 0,
+     "depth_2q": 0
+    },
+    "1": {
+     "n_2q": 5129,
+     "depth_2q": 3971
+    },
+    "2": {
+     "n_2q": 10185,
+     "depth_2q": 7910
+    },
+    "3": {
+     "n_2q": 16025,
+     "depth_2q": 12575
+    }
+   },
+   "routed_equiv_rmax": null
+  }
+ },
+ "equivalence_rmax": 3.5060843117662444e-13,
+ "equivalence_per_r": {
+  "0": 0.0,
+  "1": 1.2534417948018017e-13,
+  "2": 2.438049762076844e-13,
+  "3": 3.5060843117662444e-13
+ },
+ "backend": "fake_torino",
+ "notes": "structured synthesis (Gray-path multi-controlled RX on minimal control sets, exact 3x3 Givens blocks, phase-polynomial D)"
+}
