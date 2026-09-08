@@ -1,0 +1,13 @@
+runs/section8_v0.5.0_20260907T0628Z/src/su2qc/ham/route_gausskernel.py:155: error: Need type annotation for "_CACHE" (hint: "_CACHE: dict[<type>, <type>] = ...")  [var-annotated]
+runs/section8_v0.5.0_20260907T0628Z/src/su2qc/ham/route_gausskernel.py:349: error: Need type annotation for "_TERMS_CACHE" (hint: "_TERMS_CACHE: dict[<type>, <type>] = ...")  [var-annotated]
+runs/section8_v0.5.0_20260907T0628Z/src/su2qc/ham/route_gausskernel.py:350: error: Need type annotation for "U_CONVENTION" (hint: "U_CONVENTION: dict[<type>, <type>] = ...")  [var-annotated]
+runs/section8_v0.5.0_20260907T0628Z/src/su2qc/compile/run_g4.py:38: error: Need type annotation for "rows" (hint: "rows: list[<type>] = ...")  [var-annotated]
+runs/section8_v0.5.0_20260907T0628Z/src/su2qc/compile/run_g4.py:95: error: Value of type "dict[str, dict[str, Any]] | dict[str, Any] | Any | float | None" is not indexable  [index]
+runs/section8_v0.5.0_20260907T0628Z/src/su2qc/compile/run_g4.py:96: error: Value of type "dict[str, dict[str, Any]] | dict[str, Any] | Any | float | None" is not indexable  [index]
+runs/section8_v0.5.0_20260907T0628Z/src/su2qc/compile/run_g4.py:97: error: Value of type "dict[str, dict[str, Any]] | dict[str, Any] | Any | float | None" is not indexable  [index]
+runs/section8_v0.5.0_20260907T0628Z/src/su2qc/compile/run_g4.py:103: error: Value of type "Any | None" is not indexable  [index]
+runs/section8_v0.5.0_20260907T0628Z/src/su2qc/compile/run_g4.py:104: error: Value of type "Any | None" is not indexable  [index]
+runs/section8_v0.5.0_20260907T0628Z/src/su2qc/compile/run_g4.py:114: error: Value of type "dict[str, dict[str, Any]] | dict[str, Any] | Any | float | None" is not indexable  [index]
+runs/section8_v0.5.0_20260907T0628Z/src/su2qc/compile/run_g4.py:115: error: Value of type "dict[str, dict[str, Any]] | dict[str, Any] | Any | float | None" is not indexable  [index]
+runs/section8_v0.5.0_20260907T0628Z/src/su2qc/compile/run_g4.py:119: error: Value of type "dict[str, dict[str, Any]] | dict[str, Any] | Any | float | None" is not indexable  [index]
+Found 12 errors in 2 files (checked 23 source files)

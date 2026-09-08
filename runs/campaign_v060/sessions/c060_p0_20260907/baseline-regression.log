@@ -1,0 +1,133 @@
+============================= test session starts ==============================
+platform linux -- Python 3.11.16, pytest-9.1.1, pluggy-1.6.0
+rootdir: /home/digimonk/Projects/SU2ZX_Foundation_Code_Package/SU2ZX/.work/c060_p0_legacy_baseline/tests
+configfile: pytest.ini
+collected 45 items
+
+tests/test_route_spinnet.py ....................                         [ 44%]
+tests/test_route_gausskernel.py F..                                      [ 51%]
+tests/test_dynamics.py .....                                             [ 62%]
+tests/test_l12.py .................                                      [100%]
+
+=================================== FAILURES ===================================
+__________________ test_kernel_dimensions_and_number_sectors ___________________
+
+    def test_kernel_dimensions_and_number_sectors():
+        H, labels, P = build_hamiltonian(1.0, 0.0, 0.5)
+        counts = {n: sum(sum(x[1]) == n for x in labels) for n in range(9)}
+        print("kernel dims:", len(labels))
+        print("N sectors:", counts)
+        assert len(labels) == 82
+        assert counts == {0: 2, 1: 0, 2: 20, 3: 0, 4: 38, 5: 0, 6: 20, 7: 0, 8: 2}
+        assert np.max(np.abs((P.conj().T @ P).toarray() - np.eye(82))) < 1e-12
+    
+>       _, labels1, P1 = build_hamiltonian(1.0, 0.0, 1.0)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_route_gausskernel.py:21: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+g2 = 1.0, m = 0.0, jmax = 1.0
+
+    def build_hamiltonian(g2, m, jmax):
+        jmax = float(jmax)
+        if jmax > 0.75:
+>           raise NotImplementedError(
+                "route 2 builds the projected H only at jmax=1/2 tonight; at jmax=1 "
+                "use kernel_dimension(1.0) (=152). See module docstring / DECISIONS.")
+E           NotImplementedError: route 2 builds the projected H only at jmax=1/2 tonight; at jmax=1 use kernel_dimension(1.0) (=152). See module docstring / DECISIONS.
+
+src/su2qc/ham/route_gausskernel.py:425: NotImplementedError
+----------------------------- Captured stdout call -----------------------------
+kernel dims: 82
+N sectors: {0: 2, 1: 0, 2: 20, 3: 0, 4: 38, 5: 0, 6: 20, 7: 0, 8: 2}
+=============================== warnings summary ===============================
+src/su2qc/conventions.py:1
+src/su2qc/conventions.py:1
+  /home/digimonk/Projects/SU2ZX_Foundation_Code_Package/SU2ZX/.work/c060_p0_legacy_baseline/src/su2qc/conventions.py:1: DeprecationWarning: invalid escape sequence '\d'
+    """FROZEN conventions for the SU(2) single-plaquette patch with dynamical matter.
+
+tests/test_route_spinnet.py:23
+  /home/digimonk/Projects/SU2ZX_Foundation_Code_Package/SU2ZX/.work/c060_p0_legacy_baseline/tests/test_route_spinnet.py:23: PytestUnknownMarkWarning: Unknown pytest.mark.unit - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.unit
+
+tests/test_route_spinnet.py:49
+  /home/digimonk/Projects/SU2ZX_Foundation_Code_Package/SU2ZX/.work/c060_p0_legacy_baseline/tests/test_route_spinnet.py:49: PytestUnknownMarkWarning: Unknown pytest.mark.unit - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.unit
+
+tests/test_route_spinnet.py:66
+  /home/digimonk/Projects/SU2ZX_Foundation_Code_Package/SU2ZX/.work/c060_p0_legacy_baseline/tests/test_route_spinnet.py:66: PytestUnknownMarkWarning: Unknown pytest.mark.unit - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.unit
+
+tests/test_route_spinnet.py:90
+  /home/digimonk/Projects/SU2ZX_Foundation_Code_Package/SU2ZX/.work/c060_p0_legacy_baseline/tests/test_route_spinnet.py:90: PytestUnknownMarkWarning: Unknown pytest.mark.unit - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.unit
+
+tests/test_route_spinnet.py:109
+  /home/digimonk/Projects/SU2ZX_Foundation_Code_Package/SU2ZX/.work/c060_p0_legacy_baseline/tests/test_route_spinnet.py:109: PytestUnknownMarkWarning: Unknown pytest.mark.unit - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.unit
+
+tests/test_route_spinnet.py:146
+  /home/digimonk/Projects/SU2ZX_Foundation_Code_Package/SU2ZX/.work/c060_p0_legacy_baseline/tests/test_route_spinnet.py:146: PytestUnknownMarkWarning: Unknown pytest.mark.unit - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.unit
+
+tests/test_route_gausskernel.py:9
+  /home/digimonk/Projects/SU2ZX_Foundation_Code_Package/SU2ZX/.work/c060_p0_legacy_baseline/tests/test_route_gausskernel.py:9: PytestUnknownMarkWarning: Unknown pytest.mark.unit - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    pytestmark = pytest.mark.unit
+
+tests/test_dynamics.py:14
+  /home/digimonk/Projects/SU2ZX_Foundation_Code_Package/SU2ZX/.work/c060_p0_legacy_baseline/tests/test_dynamics.py:14: PytestUnknownMarkWarning: Unknown pytest.mark.unit - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.unit
+
+tests/test_dynamics.py:22
+  /home/digimonk/Projects/SU2ZX_Foundation_Code_Package/SU2ZX/.work/c060_p0_legacy_baseline/tests/test_dynamics.py:22: PytestUnknownMarkWarning: Unknown pytest.mark.unit - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.unit
+
+tests/test_dynamics.py:33
+  /home/digimonk/Projects/SU2ZX_Foundation_Code_Package/SU2ZX/.work/c060_p0_legacy_baseline/tests/test_dynamics.py:33: PytestUnknownMarkWarning: Unknown pytest.mark.unit - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.unit
+
+tests/test_dynamics.py:43
+  /home/digimonk/Projects/SU2ZX_Foundation_Code_Package/SU2ZX/.work/c060_p0_legacy_baseline/tests/test_dynamics.py:43: PytestUnknownMarkWarning: Unknown pytest.mark.unit - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.unit
+
+tests/test_dynamics.py:53
+  /home/digimonk/Projects/SU2ZX_Foundation_Code_Package/SU2ZX/.work/c060_p0_legacy_baseline/tests/test_dynamics.py:53: PytestUnknownMarkWarning: Unknown pytest.mark.unit - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.unit
+
+tests/test_l12.py:17
+  /home/digimonk/Projects/SU2ZX_Foundation_Code_Package/SU2ZX/.work/c060_p0_legacy_baseline/tests/test_l12.py:17: PytestUnknownMarkWarning: Unknown pytest.mark.unit - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.unit
+
+tests/test_l12.py:55
+  /home/digimonk/Projects/SU2ZX_Foundation_Code_Package/SU2ZX/.work/c060_p0_legacy_baseline/tests/test_l12.py:55: PytestUnknownMarkWarning: Unknown pytest.mark.unit - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.unit
+
+tests/test_l12.py:67
+  /home/digimonk/Projects/SU2ZX_Foundation_Code_Package/SU2ZX/.work/c060_p0_legacy_baseline/tests/test_l12.py:67: PytestUnknownMarkWarning: Unknown pytest.mark.unit - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.unit
+
+tests/test_l12.py:82
+  /home/digimonk/Projects/SU2ZX_Foundation_Code_Package/SU2ZX/.work/c060_p0_legacy_baseline/tests/test_l12.py:82: PytestUnknownMarkWarning: Unknown pytest.mark.unit - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.unit
+
+tests/test_l12.py:99
+  /home/digimonk/Projects/SU2ZX_Foundation_Code_Package/SU2ZX/.work/c060_p0_legacy_baseline/tests/test_l12.py:99: PytestUnknownMarkWarning: Unknown pytest.mark.unit - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.unit
+
+tests/test_l12.py:135
+  /home/digimonk/Projects/SU2ZX_Foundation_Code_Package/SU2ZX/.work/c060_p0_legacy_baseline/tests/test_l12.py:135: PytestUnknownMarkWarning: Unknown pytest.mark.unit - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.unit
+
+test_l12.py::test_block_unitary_exact_and_leak_free[0.13-D]
+test_l12.py::test_block_unitary_exact_and_leak_free[0.61-D]
+test_l12.py::test_full_strang_step_matches_exact_product
+test_l12.py::test_full_strang_step_matches_exact_product
+  /home/digimonk/Projects/SU2ZX_Foundation_Code_Package/SU2ZX/.work/c060_p0_legacy_baseline/src/su2qc/circuits/strang_l12.py:156: DeprecationWarning: The class ``qiskit.circuit.library.generalized_gates.diagonal.Diagonal`` is deprecated as of Qiskit 2.1. It will be removed in Qiskit 3.0. Use DiagonalGate instead.
+    qc.append(Diagonal(diag), range(NQ))
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+- generated xml file: /home/digimonk/Projects/SU2ZX_Foundation_Code_Package/SU2ZX/runs/campaign_v060/sessions/c060_p0_20260907/baseline-regression.xml -
+=========================== short test summary info ============================
+FAILED tests/test_route_gausskernel.py::test_kernel_dimensions_and_number_sectors
+============ 1 failed, 44 passed, 24 warnings in 206.83s (0:03:26) =============

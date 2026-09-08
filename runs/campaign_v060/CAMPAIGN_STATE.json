@@ -1,0 +1,50 @@
+{
+  "phase": 0,
+  "gates": {
+    "C0": {
+      "status": "partial",
+      "utc": "2026-09-08T17:38:00.494567+00:00",
+      "evidence": "runs/campaign_v060/sessions/c060_p0_20260908_2",
+      "failed": [
+        "V10 seed/variance distinctness",
+        "V11 independent closure evidence",
+        "repository cleanliness",
+        "evidence review snapshot was superseded during repair"
+      ]
+    },
+    "C1": {
+      "status": "pass",
+      "utc": "2026-09-08T17:38:00.494567+00:00",
+      "evidence": "runs/campaign_v060/PREREGISTRATION.md; CLAIM_TABLE.md; GATE_THRESHOLDS.yaml; hashes in CAMPAIGN_STATE.json"
+    }
+  },
+  "hashes": {
+    "prompt": "50c60ffb91e6e61120e8a749d1a9c68dc6f9c11b059ce8d110feaed5e15d0481",
+    "thresholds": "a7d1135ebd09c2a327802dc449758545e1b9ee235ab7abc19a383bf1d4dc8ecd",
+    "preregistration": "b587c4859c16ec44b09c756599ca226387bd835502d2658986b80f8ab041324b",
+    "conventions": "d7de725c3895d5f5221c62d77000fcb99432f389fbf295fa2d7ad516fbcc0b99",
+    "prompt_v061": "655e13d9a76098a03863cab34e5a5810c9f0765bea4f401244640fc2c8c3c4c3"
+  },
+  "sessions": [
+    {
+      "tag": "c060_p0_20260907",
+      "t0": "2026-09-07T22:09:23.572396+00:00",
+      "phase": 0,
+      "outcome": "taken over; stale-test repair implemented and 45/45 green in sandbox; G1-G3 sandbox PASS; V1 slope stability blocked; C0 not passed"
+    },
+    {
+      "tag": "c060_p0_20260908_2",
+      "t0": "2026-09-08T16:56:58Z",
+      "phase": 0,
+      "outcome": "C0 partial; C1 pass; C2 blocked; final fresh regression 45/45, G1/G2/G3 green"
+    }
+  ],
+  "hardware": {
+    "mode": "disabled",
+    "backend": null,
+    "job_ids": []
+  },
+  "next_action": "Resolve the V10 seed-plumbing failure, rerun the full C0 command with a fresh evidence manifest and review/sign-off; do not start C2.",
+  "baseline": "eee1e162a0b28b4c8f6f8f917454e795efbea606",
+  "preservation_policy": "User approved preserve unrelated changes; C0 remains blocked on cleanliness."
+}

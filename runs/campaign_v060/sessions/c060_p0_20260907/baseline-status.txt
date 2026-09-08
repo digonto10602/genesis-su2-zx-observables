@@ -1,0 +1,51 @@
+ M .graphifyignore
+ M GRAPHIFY_UPDATE.md
+ M runs/section8_v0.5.0_20260907T0628Z/analysis/figures/exact_casimir.png
+ M runs/section8_v0.5.0_20260907T0628Z/analysis/figures/exact_channels.png
+ M runs/section8_v0.5.0_20260907T0628Z/analysis/figures/exact_density.png
+ M runs/section8_v0.5.0_20260907T0628Z/circuits/trotter_scaling.json
+?? STATUS_REPORT_20260907.md
+?? artifacts/logs/v050/graph_validation_20260907.json
+?? docs/refs/sufian_overlap_20260907.md
+?? docs/refs/v050_review_20260907.md
+?? prompts/gi_cost_campaign_v.0.6.0.md
+?? runs/2026-09-07-dryrun-one-month/api-call-evidence.txt
+?? runs/2026-09-07-dryrun-one-month/brief.md
+?? runs/2026-09-07-dryrun-one-month/claude-planning-metadata.json
+?? runs/2026-09-07-dryrun-one-month/freeze-test-results.json
+?? runs/2026-09-07-dryrun-one-month/plan-structure-check.json
+?? runs/2026-09-07-dryrun-one-month/plan.md
+?? runs/2026-09-07-dryrun-one-month/prompt-inventory.json
+?? runs/2026-09-07-dryrun-one-month/quota-claude-after.txt
+?? runs/2026-09-07-dryrun-one-month/quota-claude-before.txt
+?? runs/2026-09-07-dryrun-one-month/quota-claude-final.txt
+?? runs/2026-09-07-dryrun-one-month/quota-codex-after.txt
+?? runs/2026-09-07-dryrun-one-month/quota-codex-before.txt
+?? runs/2026-09-07-dryrun-one-month/quota-codex-final.txt
+?? runs/2026-09-07-dryrun-one-month/routing-audit-final.json
+?? runs/2026-09-07-dryrun-one-month/routing-audit.json
+?? runs/2026-09-07-dryrun-one-month/verification-report.txt
+?? runs/2026-09-07-dryrun-one-month/verification-report.txt.bak
+?? runs/2026-09-07-dryrun-one-month/verification-sha256-final.json
+?? runs/2026-09-07-dryrun-one-month/verification-sha256.json
+?? runs/2026-09-07-dryrun-one-month/verified-config-redacted.yaml
+?? runs/_reference/hermes-review-verdict-final.md
+?? runs/_reference/hermes-review.md
+?? runs/_reference/hermes-su2qc-commands.sh
+?? runs/_reference/su2qc-run-protocol-SKILL.md.bak-20260907T135704
+?? runs/section8_v0.5.0_20260907T0628Z/analysis/tables/exact_at_window.csv
+?? runs/section8_v0.5.0_20260907T0628Z/circuits/resources_synth.md
+?? runs/section8_v0.5.0_20260907T0628Z/compile/layout.json
+?? runs/section8_v0.5.0_20260907T0628Z/compile/resources_routed.json
+?? runs/section8_v0.5.0_20260907T0628Z/compile/resources_routed.md
+?? runs/section8_v0.5.0_20260907T0628Z/gates/gate_G4.py
+?? runs/section8_v0.5.0_20260907T0628Z/logs/agents/synth_l12.out.md
+?? runs/section8_v0.5.0_20260907T0628Z/logs/agents/synth_l12.prompt.md
+?? runs/section8_v0.5.0_20260907T0628Z/logs/cmd/run_g4.log
+?? runs/section8_v0.5.0_20260907T0628Z/src/su2qc/circuits/synth_l12.py
+?? runs/section8_v0.5.0_20260907T0628Z/src/su2qc/compile/__init__.py
+?? runs/section8_v0.5.0_20260907T0628Z/src/su2qc/compile/route.py
+?? runs/section8_v0.5.0_20260907T0628Z/src/su2qc/compile/run_g4.py
+?? runs/section8_v0.5.0_20260907T0628Z/src/su2qc/twin/__init__.py
+?? runs/section8_v0.5.0_20260907T0628Z/src/su2qc/twin/twin.py
+?? runs/section8_v0.5.0_20260907T0628Z/tests/test_synth_l12.py

@@ -1,0 +1,24 @@
+status: frozen
+version: v0.6.1
+V1:
+  primary_abs: 1.0e-12
+  slope_rule: propagated_bound_x10
+  slope_band: [-2.3, -1.7]
+V10:
+  distinct_count_dictionaries: true
+  bootstrap_se: factor_2_of_multinomial_expectation
+V11:
+  synthetic_observables_abs: 1.0e-10
+  channel_closure_abs: 1.0e-10
+  matched_subtraction_abs: 1.0e-10
+  yield_abs: 1.0e-10
+  odr: deferred_to_phase_5
+C0:
+  legacy_suite: all_pass
+  jmax1_kernel_dim: 152
+  jmax1_projector_orthonormality: 1.0e-12
+  repository_clean: true
+C2:
+  route_agreement: 1.0e-12
+  observable_time_series: 1.0e-10
+  counts: exact

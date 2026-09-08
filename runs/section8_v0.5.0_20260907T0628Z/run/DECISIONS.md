@@ -20,3 +20,5 @@ exact and leak-free (the "symmetry-verified" property) but cost ~45.9k CZ per
 Strang step under generic synthesis vs the ~250 budget. G4 must attempt
 structured synthesis (D: sparse phase polynomial; h_l: 2x2/3x3 block rotations;
 B: fan-out ladder + uniformly-controlled rotation) before the budget decision.
+D6 (campaign v0.6.1): G4 is REDUCED. The best recorded structured synthesis is 2,156 logical two-qubit gates per step (D=16, h0-h3=248/248/239/241, B=174), 3,976 routed per step and 12,142 routed at r=3, an 8.6x logical gap against 250. No GATE_G4.json was written because compile/twin_check.json was never produced; the twin was killed at r=1. Evidence: compile/resources_routed.md, circuits/resources_synth.md and logs/cmd/run_g4.log.
+D7 (campaign v0.6.1): pyzx_basic_TP is retired because its pre-route equivalence error is 1.0e+00, below the >=1-1e-10 hardware-eligibility criterion; root cause not diagnosed; no orthogonality claim.

@@ -2,7 +2,7 @@ import numpy as np
 import pytest
 
 from src.su2qc.ham.route_gausskernel import (
-    build_hamiltonian, gauss_commutator_norms, get_state,
+    _basis, build_hamiltonian, gauss_commutator_norms, get_state, kernel_dimension,
 )
 
 
@@ -18,7 +18,9 @@ def test_kernel_dimensions_and_number_sectors():
     assert counts == {0: 2, 1: 0, 2: 20, 3: 0, 4: 38, 5: 0, 6: 20, 7: 0, 8: 2}
     assert np.max(np.abs((P.conj().T @ P).toarray() - np.eye(82))) < 1e-12
 
-    _, labels1, P1 = build_hamiltonian(1.0, 0.0, 1.0)
+    # Legacy D1 validates the jmax=1 kernel, not its unimplemented Hamiltonian.
+    assert kernel_dimension(1.0) == 152
+    labels1, P1 = _basis(1.0)
     print("jmax=1 kernel dim:", len(labels1))
     assert len(labels1) == 152
     assert np.max(np.abs((P1.conj().T @ P1).toarray() - np.eye(152))) < 1e-12

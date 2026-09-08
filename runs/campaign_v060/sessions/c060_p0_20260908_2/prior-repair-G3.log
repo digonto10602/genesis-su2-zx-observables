@@ -1,0 +1,19 @@
+PASS  l12_test_suite target all pass value 17 passed, 11 warnings in 194.72s (0:03:14)
+PASS  l12_physical_codes target 82 value 82
+FAIL  s8_encoding target built value NOT BUILT (scope, see DECISIONS)
+FAIL  c7_encoding target built value NOT BUILT (scope, see DECISIONS)
+PASS  block_unitary_dev target <=1e-12 value 2.720537598072569e-14
+PASS  block_unitary_leak_prob target <=1e-12 value 0.0
+PASS  noiseless_leakage_prob target <=1e-14 value 0.0
+PASS  trotter_slope_Psurv target [-2.3,-1.7] value -2.097968195703498
+PASS  trotter_slope_E2 target [-2.3,-1.7] value -2.149461957500186
+PASS  resources_logical target exists value True
+PASS  export_l12_r0_qpy target exists, non-trivial value True
+PASS  export_l12_r0_qasm target exists, non-trivial value True
+PASS  export_l12_r1_qpy target exists, non-trivial value True
+PASS  export_l12_r1_qasm target exists, non-trivial value True
+PASS  export_l12_r2_qpy target exists, non-trivial value True
+PASS  export_l12_r2_qasm target exists, non-trivial value True
+PASS  export_l12_r3_qpy target exists, non-trivial value True
+PASS  export_l12_r3_qasm target exists, non-trivial value True
+PASS

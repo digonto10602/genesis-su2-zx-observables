@@ -1,0 +1,26 @@
+[
+  {
+    "source": "runs/section8_v0.5.0_20260907T0628Z/circuits/trotter_scaling.json",
+    "copy": "runs/campaign_v060/00_repair/v050_working_tree_divergent/circuits/trotter_scaling.json",
+    "sha256": "a28ecc16e27cc98cd92ba46e8e1365b089e36458d72347e740df383a58539ef3",
+    "bytes": 586
+  },
+  {
+    "source": "runs/section8_v0.5.0_20260907T0628Z/analysis/figures/exact_casimir.png",
+    "copy": "runs/campaign_v060/00_repair/v050_working_tree_divergent/analysis/figures/exact_casimir.png",
+    "sha256": "b5ee4aab4f3858ce1a93aee6675a3cf242962aa99f32733bb1ec06b65d2d1414",
+    "bytes": 61865
+  },
+  {
+    "source": "runs/section8_v0.5.0_20260907T0628Z/analysis/figures/exact_channels.png",
+    "copy": "runs/campaign_v060/00_repair/v050_working_tree_divergent/analysis/figures/exact_channels.png",
+    "sha256": "7627e6c75e5f596dfe9327343b996f19111da9e11db4975f8f56d2306e0bc9c1",
+    "bytes": 62232
+  },
+  {
+    "source": "runs/section8_v0.5.0_20260907T0628Z/analysis/figures/exact_density.png",
+    "copy": "runs/campaign_v060/00_repair/v050_working_tree_divergent/analysis/figures/exact_density.png",
+    "sha256": "ebe4e61db4aedc8e236781524f5e8b1d2ee7df5a53a56736bb6168d03126b0f8",
+    "bytes": 56069
+  }
+]

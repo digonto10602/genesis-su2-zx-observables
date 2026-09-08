@@ -1,0 +1,21 @@
+PASS  expm_vs_krylov target <=1e-9 value 2.3150546104230026e-15
+PASS  energy_conservation target <=1e-10 value 4.440892098500626e-16
+PASS  N_conservation target <=1e-10 value 1.7763568394002505e-15
+PASS  mass_scan_table target exists value True
+PASS  resonance_reported target m*/g2 recorded vs 3/16 value {'1.0': 0.0, '2.0': 0.0625, '4.0': 0.0, '8.0': 0.0}
+PASS  mass_scan_points target >=21 value 25
+PASS  g2_values target >=2 value 4
+PASS  timeseries_table target exists value True
+PASS  truncation_error_doc target exists value True
+PASS  truncation_max_dprob target reported (<=0.1 preferred) value 0.2570428115237551
+PASS  window_exists target exists value True
+PASS  window_g2 target present value 4.0
+PASS  window_m target present value 0.75
+PASS  window_dt target present value 0.8333333333333334
+PASS  window_r_max target present value 3
+PASS  window_rmax target in {2,3} value 3
+PASS  window_Psurv_drop target >=0.3 (or shortfall flagged) value 0.9934750194734104
+PASS  window_pair_weight target >=0.05 (or shortfall flagged) value 0.8193295376106189
+PASS  window_strang_err target <=0.05 value 0.01906524448986846
+PASS  physics_signoff target exists value True
+PASS

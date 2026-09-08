@@ -25,20 +25,24 @@ from su2qc import conventions as cv  # noqa: E402
 from su2qc.encodings import l12  # noqa: E402
 
 
-def twin_backend(seed=1234, backend=None):
+def twin_backend(seed=1234, backend=None, compact=False):
     from qiskit_aer import AerSimulator
     if backend is None:
         from qiskit_ibm_runtime.fake_provider import FakeTorino
         backend = FakeTorino()
-    sim = AerSimulator.from_backend(backend, seed_simulator=seed)
-    return sim
+    if compact:
+        from qiskit_aer.noise import NoiseModel
+        noise = NoiseModel.from_backend(backend)
+        return AerSimulator(noise_model=noise)
+    return AerSimulator.from_backend(backend, seed_simulator=seed)
 
 
 def add_measurements(isa):
     """Measure the 12 logical qubits (at their final physical positions) into
     classical bits c[i] = logical i, so the count strings read q11..q0."""
     from qiskit import ClassicalRegister
-    fil = isa.layout.final_index_layout()
+    fil = (isa.layout.final_index_layout() if isa.layout is not None
+           else list(range(len(isa.qubits))))
     qc = isa.copy()
     cr = ClassicalRegister(12, "c")
     qc.add_register(cr)
@@ -52,6 +56,8 @@ def run_counts(isa_meas_list, shots, seed, sim):
     out = []
     for k, qc in enumerate(isa_meas_list):
         t = transpile(qc, sim, optimization_level=0, seed_transpiler=seed)
+        if hasattr(sim, "set_options"):
+            sim.set_options(seed_simulator=seed + k)
         res = sim.run(t, shots=shots, seed_simulator=seed + k).result()
         out.append(dict(res.get_counts()))
     return out
@@ -94,6 +100,59 @@ def observables(kept):
         acc[f"n_v{v+1}"] = float(nv[v])
     acc["dC"] = float(e2.sum() - 2.25)
     return acc
+
+
+def channel_weights(kept):
+    """Return signed-weight channel totals without renormalizing the input."""
+    out = {"P_surv": 0.0, "P_meson": 0.0, "P_BBbar": 0.0,
+           "P_other": 0.0, "P_stretched": 0.0, "P_short": 0.0}
+    for bits, weight in kept.items():
+        lab = l12.decode(bits)
+        if lab is None:
+            continue
+        js, ns, _ = lab
+        q = tuple(ns[v] - cv.N_VAC[v] for v in range(4))
+        if any(abs(x) == 2 for x in q):
+            out["P_BBbar"] += weight
+        elif q == (1, -1, 0, 0):
+            out["P_surv"] += weight
+            if tuple(js) == (0.0, 0.5, 0.5, 0.5):
+                out["P_stretched"] += weight
+            elif tuple(js) == (0.5, 0.0, 0.0, 0.0):
+                out["P_short"] += weight
+        elif all(abs(x) == 1 for x in q):
+            out["P_meson"] += weight
+        elif sum(ns) == 4:
+            out["P_other"] += weight
+    return out
+
+
+def channel_closure_residual(kept):
+    """Check the corrected V11 closure identity on signed quasi-weights."""
+    channels = channel_weights(kept)
+    lhs = sum(channels[k] for k in ("P_surv", "P_meson", "P_BBbar", "P_other"))
+    rhs = 0.0
+    for bits, weight in kept.items():
+        lab = l12.decode(bits)
+        if lab is None:
+            continue
+        _, ns, _ = lab
+        q = tuple(ns[v] - cv.N_VAC[v] for v in range(4))
+        if sum(ns) == 4 or any(abs(x) == 2 for x in q):
+            rhs += weight
+    return float(lhs - rhs)
+
+
+def matched_subtraction(observed, control):
+    """Compute O(t)-O(0) over the union of observable keys."""
+    return {key: float(observed.get(key, 0.0) - control.get(key, 0.0))
+            for key in set(observed) | set(control)}
+
+
+def physical_yield(counts, physical_keys):
+    """Return the fraction of counts in the supplied physical-key set."""
+    total = sum(counts.values())
+    return float(sum(value for key, value in counts.items() if key in physical_keys) / total)
 
 
 def bootstrap(counts_list, n_boot=400, seed=0):

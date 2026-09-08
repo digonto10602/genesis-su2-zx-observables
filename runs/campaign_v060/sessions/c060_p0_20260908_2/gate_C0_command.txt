@@ -1,0 +1,1 @@
+PYTHONPATH=runs/section8_v0.5.0_20260907T0628Z/src .mamba/envs/su2zx/bin/python -m pytest runs/campaign_v060/tests/gate_C0 -q -p no:cacheprovider

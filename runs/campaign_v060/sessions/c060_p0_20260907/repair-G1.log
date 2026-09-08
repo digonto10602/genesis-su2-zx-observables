@@ -1,0 +1,18 @@
+PASS  dim_route1_jmax0.5 target 82 value 82
+PASS  dim_route2_jmax0.5 target 82 value 82
+PASS  dim_route1_jmax1.0 target 152 value 152
+PASS  dim_route2_jmax1.0 target 152 value 152
+PASS  sectors_route1 target {0: 2, 2: 20, 4: 38, 6: 20, 8: 2} value {0: 2, 2: 20, 4: 38, 6: 20, 8: 2}
+PASS  HN_commutator_route1 target <=1e-13 value 0.0
+PASS  hermiticity_route1 target <=1e-13 value 0.0
+PASS  sectors_route2 target {0: 2, 2: 20, 4: 38, 6: 20, 8: 2} value {0: 2, 2: 20, 4: 38, 6: 20, 8: 2}
+PASS  HN_commutator_route2 target <=1e-13 value 0.0
+PASS  hermiticity_route2 target <=1e-13 value 0.0
+PASS  route_spectra_rel_dev target <=1e-12 value 2.670602755759933e-15
+PASS  route_time_series_dev target <=1e-10 value 1.5543122344752192e-15
+PASS  gauss_commutators target <=1e-12 value 0.0
+PASS  pure_electric_degeneracies target 16,16,18,16,16 value [16, 16, 18, 16, 16]
+PASS  frozen_matter_H1_match target <=+1e-08 value 2.9802320611338473e-09
+PASS  magnetic_off_1d_chain target <=1e-10 value 1.2609084468256753e-15
+PASS  physics_signoff target exists value True
+PASS

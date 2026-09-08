@@ -1,0 +1,15 @@
+{
+  "GATE_LEDGER.jsonl": [],
+  "window.json": [
+    "runs/section8_v0.5.0_20260907T0628Z/physics/window.json"
+  ],
+  "strang_table.md": [],
+  "resource_table.md": [],
+  "resources_synth.md": [
+    "runs/section8_v0.5.0_20260907T0628Z/circuits/resources_synth.md"
+  ],
+  "run_g4.py": [
+    "runs/section8_v0.5.0_20260907T0628Z/src/su2qc/compile/run_g4.py"
+  ],
+  "00_conventions.md": []
+}

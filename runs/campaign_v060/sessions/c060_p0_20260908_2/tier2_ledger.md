@@ -1,0 +1,118 @@
+# Tier 2 ledger — Phase 0
+
+Ruff and mypy were run against the run-local package. Existing findings are recorded individually by source line and deferred; no blanket ignore or tolerance change was applied. New C0 estimator helpers pass their focused tests.
+
+## Ruff findings (deferred, pre-existing v0.5.0 artifacts)
+-  --> runs/section8_v0.5.0_20260907T0628Z/src/su2qc/circuits/export_l12.py:2:8 — deferred to Phase 2 cleanup; no C0 physics behavior changed.
+-   --> runs/section8_v0.5.0_20260907T0628Z/src/su2qc/circuits/export_l12.py:6:1 — deferred to Phase 2 cleanup; no C0 physics behavior changed.
+-   --> runs/section8_v0.5.0_20260907T0628Z/src/su2qc/circuits/export_l12.py:42:97 — deferred to Phase 2 cleanup; no C0 physics behavior changed.
+-   --> runs/section8_v0.5.0_20260907T0628Z/src/su2qc/circuits/synth_l12.py:7:1 — deferred to Phase 2 cleanup; no C0 physics behavior changed.
+-   --> runs/section8_v0.5.0_20260907T0628Z/src/su2qc/circuits/synth_l12.py:10:8 — deferred to Phase 2 cleanup; no C0 physics behavior changed.
+-   --> runs/section8_v0.5.0_20260907T0628Z/src/su2qc/circuits/synth_l12.py:15:47 — deferred to Phase 2 cleanup; no C0 physics behavior changed.
+-   --> runs/section8_v0.5.0_20260907T0628Z/src/su2qc/circuits/synth_l12.py:19:33 — deferred to Phase 2 cleanup; no C0 physics behavior changed.
+-   --> runs/section8_v0.5.0_20260907T0628Z/src/su2qc/circuits/synth_l12.py:65:97 — deferred to Phase 2 cleanup; no C0 physics behavior changed.
+-   --> runs/section8_v0.5.0_20260907T0628Z/src/su2qc/circuits/synth_l12.py:69:9 — deferred to Phase 2 cleanup; no C0 physics behavior changed.
+-   --> runs/section8_v0.5.0_20260907T0628Z/src/su2qc/circuits/synth_l12.py:69:44 — deferred to Phase 2 cleanup; no C0 physics behavior changed.
+-    --> runs/section8_v0.5.0_20260907T0628Z/src/su2qc/circuits/synth_l12.py:154:97 — deferred to Phase 2 cleanup; no C0 physics behavior changed.
+-    --> runs/section8_v0.5.0_20260907T0628Z/src/su2qc/circuits/synth_l12.py:163:97 — deferred to Phase 2 cleanup; no C0 physics behavior changed.
+-    --> runs/section8_v0.5.0_20260907T0628Z/src/su2qc/circuits/synth_l12.py:176:26 — deferred to Phase 2 cleanup; no C0 physics behavior changed.
+-    --> runs/section8_v0.5.0_20260907T0628Z/src/su2qc/circuits/synth_l12.py:176:41 — deferred to Phase 2 cleanup; no C0 physics behavior changed.
+-    --> runs/section8_v0.5.0_20260907T0628Z/src/su2qc/circuits/synth_l12.py:182:35 — deferred to Phase 2 cleanup; no C0 physics behavior changed.
+-    --> runs/section8_v0.5.0_20260907T0628Z/src/su2qc/circuits/synth_l12.py:182:48 — deferred to Phase 2 cleanup; no C0 physics behavior changed.
+-    --> runs/section8_v0.5.0_20260907T0628Z/src/su2qc/circuits/synth_l12.py:200:97 — deferred to Phase 2 cleanup; no C0 physics behavior changed.
+-    --> runs/section8_v0.5.0_20260907T0628Z/src/su2qc/circuits/synth_l12.py:272:25 — deferred to Phase 2 cleanup; no C0 physics behavior changed.
+-    --> runs/section8_v0.5.0_20260907T0628Z/src/su2qc/circuits/synth_l12.py:291:97 — deferred to Phase 2 cleanup; no C0 physics behavior changed.
+-    --> runs/section8_v0.5.0_20260907T0628Z/src/su2qc/circuits/synth_l12.py:297:20 — deferred to Phase 2 cleanup; no C0 physics behavior changed.
+-    --> runs/section8_v0.5.0_20260907T0628Z/src/su2qc/circuits/synth_l12.py:299:97 — deferred to Phase 2 cleanup; no C0 physics behavior changed.
+-    --> runs/section8_v0.5.0_20260907T0628Z/src/su2qc/circuits/synth_l12.py:302:97 — deferred to Phase 2 cleanup; no C0 physics behavior changed.
+-    --> runs/section8_v0.5.0_20260907T0628Z/src/su2qc/circuits/synth_l12.py:303:97 — deferred to Phase 2 cleanup; no C0 physics behavior changed.
+-   --> runs/section8_v0.5.0_20260907T0628Z/src/su2qc/compile/route.py:12:8 — deferred to Phase 2 cleanup; no C0 physics behavior changed.
+-   --> runs/section8_v0.5.0_20260907T0628Z/src/su2qc/compile/route.py:19:31 — deferred to Phase 2 cleanup; no C0 physics behavior changed.
+-   --> runs/section8_v0.5.0_20260907T0628Z/src/su2qc/compile/route.py:44:9 — deferred to Phase 2 cleanup; no C0 physics behavior changed.
+-   --> runs/section8_v0.5.0_20260907T0628Z/src/su2qc/compile/route.py:61:37 — deferred to Phase 2 cleanup; no C0 physics behavior changed.
+-   --> runs/section8_v0.5.0_20260907T0628Z/src/su2qc/compile/route.py:93:5 — deferred to Phase 2 cleanup; no C0 physics behavior changed.
+-   --> runs/section8_v0.5.0_20260907T0628Z/src/su2qc/compile/run_g4.py:14:1 — deferred to Phase 2 cleanup; no C0 physics behavior changed.
+-   --> runs/section8_v0.5.0_20260907T0628Z/src/su2qc/compile/run_g4.py:30:97 — deferred to Phase 2 cleanup; no C0 physics behavior changed.
+-   --> runs/section8_v0.5.0_20260907T0628Z/src/su2qc/compile/run_g4.py:82:39 — deferred to Phase 2 cleanup; no C0 physics behavior changed.
+-   --> runs/section8_v0.5.0_20260907T0628Z/src/su2qc/compile/run_g4.py:82:97 — deferred to Phase 2 cleanup; no C0 physics behavior changed.
+-    --> runs/section8_v0.5.0_20260907T0628Z/src/su2qc/compile/run_g4.py:109:97 — deferred to Phase 2 cleanup; no C0 physics behavior changed.
+-    --> runs/section8_v0.5.0_20260907T0628Z/src/su2qc/compile/run_g4.py:110:97 — deferred to Phase 2 cleanup; no C0 physics behavior changed.
+-    --> runs/section8_v0.5.0_20260907T0628Z/src/su2qc/compile/run_g4.py:113:61 — deferred to Phase 2 cleanup; no C0 physics behavior changed.
+-    --> runs/section8_v0.5.0_20260907T0628Z/src/su2qc/compile/run_g4.py:116:97 — deferred to Phase 2 cleanup; no C0 physics behavior changed.
+-    --> runs/section8_v0.5.0_20260907T0628Z/src/su2qc/compile/run_g4.py:117:97 — deferred to Phase 2 cleanup; no C0 physics behavior changed.
+-    --> runs/section8_v0.5.0_20260907T0628Z/src/su2qc/compile/run_g4.py:119:97 — deferred to Phase 2 cleanup; no C0 physics behavior changed.
+-    --> runs/section8_v0.5.0_20260907T0628Z/src/su2qc/compile/run_g4.py:141:97 — deferred to Phase 2 cleanup; no C0 physics behavior changed.
+-   --> runs/section8_v0.5.0_20260907T0628Z/src/su2qc/conventions.py:37:9 — deferred to Phase 2 cleanup; no C0 physics behavior changed.
+-   --> runs/section8_v0.5.0_20260907T0628Z/src/su2qc/conventions.py:44:24 — deferred to Phase 2 cleanup; no C0 physics behavior changed.
+-  --> runs/section8_v0.5.0_20260907T0628Z/src/su2qc/dynamics/__init__.py:4:1 — deferred to Phase 2 cleanup; no C0 physics behavior changed.
+-   --> runs/section8_v0.5.0_20260907T0628Z/src/su2qc/dynamics/engine.py:8:1 — deferred to Phase 2 cleanup; no C0 physics behavior changed.
+-   --> runs/section8_v0.5.0_20260907T0628Z/src/su2qc/dynamics/scan.py:8:1 — deferred to Phase 2 cleanup; no C0 physics behavior changed.
+-   --> runs/section8_v0.5.0_20260907T0628Z/src/su2qc/dynamics/scan.py:54:47 — deferred to Phase 2 cleanup; no C0 physics behavior changed.
+-    --> runs/section8_v0.5.0_20260907T0628Z/src/su2qc/dynamics/scan.py:154:27 — deferred to Phase 2 cleanup; no C0 physics behavior changed.
+-    --> runs/section8_v0.5.0_20260907T0628Z/src/su2qc/dynamics/scan.py:154:57 — deferred to Phase 2 cleanup; no C0 physics behavior changed.
+-    --> runs/section8_v0.5.0_20260907T0628Z/src/su2qc/dynamics/scan.py:156:23 — deferred to Phase 2 cleanup; no C0 physics behavior changed.
+-    --> runs/section8_v0.5.0_20260907T0628Z/src/su2qc/dynamics/scan.py:160:9 — deferred to Phase 2 cleanup; no C0 physics behavior changed.
+-    --> runs/section8_v0.5.0_20260907T0628Z/src/su2qc/dynamics/scan.py:162:27 — deferred to Phase 2 cleanup; no C0 physics behavior changed.
+-    --> runs/section8_v0.5.0_20260907T0628Z/src/su2qc/dynamics/scan.py:164:23 — deferred to Phase 2 cleanup; no C0 physics behavior changed.
+-    --> runs/section8_v0.5.0_20260907T0628Z/src/su2qc/dynamics/scan.py:169:27 — deferred to Phase 2 cleanup; no C0 physics behavior changed.
+-    --> runs/section8_v0.5.0_20260907T0628Z/src/su2qc/dynamics/scan.py:169:51 — deferred to Phase 2 cleanup; no C0 physics behavior changed.
+-    --> runs/section8_v0.5.0_20260907T0628Z/src/su2qc/dynamics/scan.py:171:23 — deferred to Phase 2 cleanup; no C0 physics behavior changed.
+-    --> runs/section8_v0.5.0_20260907T0628Z/src/su2qc/dynamics/scan.py:218:9 — deferred to Phase 2 cleanup; no C0 physics behavior changed.
+-   --> runs/section8_v0.5.0_20260907T0628Z/src/su2qc/encodings/l12.py:7:1 — deferred to Phase 2 cleanup; no C0 physics behavior changed.
+-   --> runs/section8_v0.5.0_20260907T0628Z/src/su2qc/encodings/l12.py:56:12 — deferred to Phase 2 cleanup; no C0 physics behavior changed.
+-   --> runs/section8_v0.5.0_20260907T0628Z/src/su2qc/encodings/l12.py:57:26 — deferred to Phase 2 cleanup; no C0 physics behavior changed.
+-   --> runs/section8_v0.5.0_20260907T0628Z/src/su2qc/encodings/l12.py:62:9 — deferred to Phase 2 cleanup; no C0 physics behavior changed.
+-   --> runs/section8_v0.5.0_20260907T0628Z/src/su2qc/encodings/l12.py:63:97 — deferred to Phase 2 cleanup; no C0 physics behavior changed.
+-   --> runs/section8_v0.5.0_20260907T0628Z/src/su2qc/ham/compare.py:35:5 — deferred to Phase 2 cleanup; no C0 physics behavior changed.
+-   --> runs/section8_v0.5.0_20260907T0628Z/src/su2qc/ham/compare.py:72:54 — deferred to Phase 2 cleanup; no C0 physics behavior changed.
+-   --> runs/section8_v0.5.0_20260907T0628Z/src/su2qc/ham/limits.py:30:38 — deferred to Phase 2 cleanup; no C0 physics behavior changed.
+-   --> runs/section8_v0.5.0_20260907T0628Z/src/su2qc/ham/route_gausskernel.py:19:1 — deferred to Phase 2 cleanup; no C0 physics behavior changed.
+-    --> runs/section8_v0.5.0_20260907T0628Z/src/su2qc/ham/route_gausskernel.py:139:21 — deferred to Phase 2 cleanup; no C0 physics behavior changed.
+-    --> runs/section8_v0.5.0_20260907T0628Z/src/su2qc/ham/route_gausskernel.py:245:21 — deferred to Phase 2 cleanup; no C0 physics behavior changed.
+-    --> runs/section8_v0.5.0_20260907T0628Z/src/su2qc/ham/route_gausskernel.py:258:17 — deferred to Phase 2 cleanup; no C0 physics behavior changed.
+-    --> runs/section8_v0.5.0_20260907T0628Z/src/su2qc/ham/route_gausskernel.py:279:13 — deferred to Phase 2 cleanup; no C0 physics behavior changed.
+-    --> runs/section8_v0.5.0_20260907T0628Z/src/su2qc/ham/route_gausskernel.py:293:18 — deferred to Phase 2 cleanup; no C0 physics behavior changed.
+-    --> runs/section8_v0.5.0_20260907T0628Z/src/su2qc/ham/route_gausskernel.py:317:56 — deferred to Phase 2 cleanup; no C0 physics behavior changed.
+-    --> runs/section8_v0.5.0_20260907T0628Z/src/su2qc/ham/route_gausskernel.py:324:9 — deferred to Phase 2 cleanup; no C0 physics behavior changed.
+-    --> runs/section8_v0.5.0_20260907T0628Z/src/su2qc/ham/route_gausskernel.py:396:50 — deferred to Phase 2 cleanup; no C0 physics behavior changed.
+-    --> runs/section8_v0.5.0_20260907T0628Z/src/su2qc/ham/route_gausskernel.py:415:9 — deferred to Phase 2 cleanup; no C0 physics behavior changed.
+-    --> runs/section8_v0.5.0_20260907T0628Z/src/su2qc/ham/route_gausskernel.py:453:14 — deferred to Phase 2 cleanup; no C0 physics behavior changed.
+-    --> runs/section8_v0.5.0_20260907T0628Z/src/su2qc/ham/route_gausskernel.py:466:13 — deferred to Phase 2 cleanup; no C0 physics behavior changed.
+-   --> runs/section8_v0.5.0_20260907T0628Z/src/su2qc/ham/route_spinnet.py:22:1 — deferred to Phase 2 cleanup; no C0 physics behavior changed.
+-   --> runs/section8_v0.5.0_20260907T0628Z/src/su2qc/ham/route_spinnet.py:35:1 — deferred to Phase 2 cleanup; no C0 physics behavior changed.
+-   --> runs/section8_v0.5.0_20260907T0628Z/src/su2qc/ham/route_spinnet.py:46:29 — deferred to Phase 2 cleanup; no C0 physics behavior changed.
+-    --> runs/section8_v0.5.0_20260907T0628Z/src/su2qc/ham/route_spinnet.py:149:60 — deferred to Phase 2 cleanup; no C0 physics behavior changed.
+-    --> runs/section8_v0.5.0_20260907T0628Z/src/su2qc/ham/route_spinnet.py:401:9 — deferred to Phase 2 cleanup; no C0 physics behavior changed.
+-    --> runs/section8_v0.5.0_20260907T0628Z/src/su2qc/ham/route_spinnet.py:424:36 — deferred to Phase 2 cleanup; no C0 physics behavior changed.
+-    --> runs/section8_v0.5.0_20260907T0628Z/src/su2qc/ham/route_spinnet.py:488:97 — deferred to Phase 2 cleanup; no C0 physics behavior changed.
+-    --> runs/section8_v0.5.0_20260907T0628Z/src/su2qc/ham/route_spinnet.py:489:97 — deferred to Phase 2 cleanup; no C0 physics behavior changed.
+-    --> runs/section8_v0.5.0_20260907T0628Z/src/su2qc/ham/route_spinnet.py:540:5 — deferred to Phase 2 cleanup; no C0 physics behavior changed.
+-    --> runs/section8_v0.5.0_20260907T0628Z/src/su2qc/ham/route_spinnet.py:541:5 — deferred to Phase 2 cleanup; no C0 physics behavior changed.
+-    --> runs/section8_v0.5.0_20260907T0628Z/src/su2qc/ham/route_spinnet.py:605:18 — deferred to Phase 2 cleanup; no C0 physics behavior changed.
+-    --> runs/section8_v0.5.0_20260907T0628Z/src/su2qc/ham/route_spinnet.py:744:38 — deferred to Phase 2 cleanup; no C0 physics behavior changed.
+-    --> runs/section8_v0.5.0_20260907T0628Z/src/su2qc/ham/route_spinnet.py:762:97 — deferred to Phase 2 cleanup; no C0 physics behavior changed.
+-   --> runs/section8_v0.5.0_20260907T0628Z/src/su2qc/twin/twin.py:91:9 — deferred to Phase 2 cleanup; no C0 physics behavior changed.
+- Found 89 errors. — deferred to Phase 2 cleanup; no C0 physics behavior changed.
+
+## Mypy findings (deferred, pre-existing v0.5.0 artifacts)
+- runs/section8_v0.5.0_20260907T0628Z/src/su2qc/ham/route_gausskernel.py:155: error: Need type annotation for "_CACHE" (hint: "_CACHE: dict[<type>, <type>] = ...")  [var-annotated] — deferred to Phase 2 typing pass; no C0 physics behavior changed.
+- runs/section8_v0.5.0_20260907T0628Z/src/su2qc/ham/route_gausskernel.py:349: error: Need type annotation for "_TERMS_CACHE" (hint: "_TERMS_CACHE: dict[<type>, <type>] = ...")  [var-annotated] — deferred to Phase 2 typing pass; no C0 physics behavior changed.
+- runs/section8_v0.5.0_20260907T0628Z/src/su2qc/ham/route_gausskernel.py:350: error: Need type annotation for "U_CONVENTION" (hint: "U_CONVENTION: dict[<type>, <type>] = ...")  [var-annotated] — deferred to Phase 2 typing pass; no C0 physics behavior changed.
+- runs/section8_v0.5.0_20260907T0628Z/src/su2qc/compile/run_g4.py:38: error: Need type annotation for "rows" (hint: "rows: list[<type>] = ...")  [var-annotated] — deferred to Phase 2 typing pass; no C0 physics behavior changed.
+- runs/section8_v0.5.0_20260907T0628Z/src/su2qc/compile/run_g4.py:95: error: Value of type "dict[str, dict[str, Any]] | dict[str, Any] | Any | float | None" is not indexable  [index] — deferred to Phase 2 typing pass; no C0 physics behavior changed.
+- runs/section8_v0.5.0_20260907T0628Z/src/su2qc/compile/run_g4.py:96: error: Value of type "dict[str, dict[str, Any]] | dict[str, Any] | Any | float | None" is not indexable  [index] — deferred to Phase 2 typing pass; no C0 physics behavior changed.
+- runs/section8_v0.5.0_20260907T0628Z/src/su2qc/compile/run_g4.py:97: error: Value of type "dict[str, dict[str, Any]] | dict[str, Any] | Any | float | None" is not indexable  [index] — deferred to Phase 2 typing pass; no C0 physics behavior changed.
+- runs/section8_v0.5.0_20260907T0628Z/src/su2qc/compile/run_g4.py:103: error: Value of type "Any | None" is not indexable  [index] — deferred to Phase 2 typing pass; no C0 physics behavior changed.
+- runs/section8_v0.5.0_20260907T0628Z/src/su2qc/compile/run_g4.py:104: error: Value of type "Any | None" is not indexable  [index] — deferred to Phase 2 typing pass; no C0 physics behavior changed.
+- runs/section8_v0.5.0_20260907T0628Z/src/su2qc/compile/run_g4.py:114: error: Value of type "dict[str, dict[str, Any]] | dict[str, Any] | Any | float | None" is not indexable  [index] — deferred to Phase 2 typing pass; no C0 physics behavior changed.
+- runs/section8_v0.5.0_20260907T0628Z/src/su2qc/compile/run_g4.py:115: error: Value of type "dict[str, dict[str, Any]] | dict[str, Any] | Any | float | None" is not indexable  [index] — deferred to Phase 2 typing pass; no C0 physics behavior changed.
+- runs/section8_v0.5.0_20260907T0628Z/src/su2qc/compile/run_g4.py:119: error: Value of type "dict[str, dict[str, Any]] | dict[str, Any] | Any | float | None" is not indexable  [index] — deferred to Phase 2 typing pass; no C0 physics behavior changed.
+- Found 12 errors in 2 files (checked 23 source files) — deferred to Phase 2 typing pass; no C0 physics behavior changed.
+
+## Explicit dispositions
+- stale j_max=1 test: done; test-only kernel dimension/projector repair reviewed PASS.
+- sector generating-function test: done; independent Z_1(x)=3+36x²+74x⁴+36x⁶+3x⁸ derivation preregistered before route comparison.
+- pyzx_basic_TP: retired per D7; no orthogonality claim.
+- replicate skeleton: done at run-local src/su2qc/replicate.py.
+- G4 closure: done as REDUCED D6; no GATE_G4.json fabricated.
+- ODR: deferred to Phase 5 under R3.

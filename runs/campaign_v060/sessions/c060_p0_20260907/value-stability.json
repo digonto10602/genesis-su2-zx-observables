@@ -1,0 +1,26 @@
+[
+  {
+    "criterion": "slope_Psurv",
+    "committed": -2.0979681962024204,
+    "working": -2.097968195703498,
+    "abs_delta": 4.989222368578794e-10,
+    "threshold": 1e-12,
+    "pass": false
+  },
+  {
+    "criterion": "slope_E2",
+    "committed": -2.1494619561018267,
+    "working": -2.149461957500186,
+    "abs_delta": 1.3983592062061234e-09,
+    "threshold": 1e-12,
+    "pass": false
+  },
+  {
+    "criterion": "slope_state",
+    "committed": -2.0070143886994325,
+    "working": -2.007014388709902,
+    "abs_delta": 1.0469403122215226e-11,
+    "threshold": 1e-12,
+    "pass": false
+  }
+]

@@ -1,0 +1,35 @@
+[
+  {
+    "observable": "Psurv",
+    "refit_committed": -2.0979681962024204,
+    "refit_abs_delta": 0.0,
+    "max_error_array_delta": 6.29704621779581e-16,
+    "propagated_abs_bound": 5.004459831629447e-10,
+    "predicted_slope_delta": 4.989226257233225e-10,
+    "measured_slope_delta": 4.989222368578794e-10,
+    "stability_threshold": 1e-12,
+    "stability_pass": false
+  },
+  {
+    "observable": "E2",
+    "refit_committed": -2.1494619561018267,
+    "refit_abs_delta": 0.0,
+    "max_error_array_delta": 5.35682609381638e-15,
+    "propagated_abs_bound": 1.4039061534481113e-09,
+    "predicted_slope_delta": -1.3983585234973115e-09,
+    "measured_slope_delta": -1.3983592062061234e-09,
+    "stability_threshold": 1e-12,
+    "stability_pass": false
+  },
+  {
+    "observable": "state",
+    "refit_committed": -2.007014388699432,
+    "refit_abs_delta": 4.440892098500626e-16,
+    "max_error_array_delta": 2.446935883082535e-15,
+    "propagated_abs_bound": 1.0472161412482408e-11,
+    "predicted_slope_delta": -1.046934239715905e-11,
+    "measured_slope_delta": -1.0469403122215226e-11,
+    "stability_threshold": 1e-12,
+    "stability_pass": false
+  }
+]
