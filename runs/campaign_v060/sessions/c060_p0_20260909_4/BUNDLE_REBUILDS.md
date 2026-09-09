@@ -24,3 +24,18 @@ runs against the newest `zip_results/SU2ZX_QUERY_*.zip`, extracts it to
 `.work/c063_bundle_scratch/extract`, and writes `SELFTEST.json` back into both
 the archive and this session directory together with a `.receipt.json` and a
 `.sha256` sidecar.
+
+## Archive digests
+
+SHA-256 of every build. Only the shipped archive is kept on disk; the five
+superseded builds were deleted on 2026-09-09 after their digests and verdicts
+were recorded here.
+
+| Archive | SHA-256 |
+|---|---|
+| `SU2ZX_QUERY_2166dd4_20260909T190552Z.zip` | `d21e171130418322f0a95ce763084dfe7522231d2fe229deddc64ce109c6d00d` |
+| `SU2ZX_QUERY_2166dd4_20260909T193333Z.zip` | `2f1e9a875a230abfee54bb77463a71d4974226496c683560e5fdfae68f239c4c` |
+| `SU2ZX_QUERY_2166dd4_20260909T193441Z.zip` | `a1098b72dc35b2be25ad6101afcab2731cb14756548bcd9e7fa9aaac64f6d08f` |
+| `SU2ZX_QUERY_2166dd4_20260909T193542Z.zip` | `ba610a44a92db24f336bf9f7ace3ae3a5b80d54c7c955752ea813770ec83f9d1` |
+| `SU2ZX_QUERY_2166dd4_20260909T193730Z.zip` | `81f470ce060d73b88fb5be32eda521890208960841cb2e85e234bb7031e72c73` |
+| `SU2ZX_QUERY_2542af2_20260909T194325Z.zip` | `c1dbcbb886e3589fb2e236f7e4f51d12e96c66a338bae6a6a33a633f497708bf` |

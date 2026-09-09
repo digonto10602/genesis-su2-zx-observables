@@ -12,3 +12,15 @@ Wall times are copied from prior logged diagnostics; no new measurement was run.
 | seed run seed-diagnosis.json r=0 | n/a | 32.3 | seed-diagnosis.json | 4000 |
 
 Known timeouts (recorded, not re-measured): r=1 seed diagnosis exceeded a 2400 s cap and exited 124 with no completed counts.
+
+## Scratch sandboxes, deleted 2026-09-09
+
+The `.work/` sandboxes named in the table above — `c062_diagnostics`,
+`c060_p0_legacy_baseline`, `c060_p0_repair_snapshot` and `c060_p0_final_sandbox`
+— were deleted from disk at the user's request during the repository cleanup of
+2026-09-09, reclaiming about 597 MB. They were isolated working copies of
+`runs/section8_v0.5.0_20260907T0628Z/`, created so that regressions could run
+without writing over committed evidence. Their measured outputs are the logs and
+JSON files in the session directories, which are committed; the sandboxes
+themselves held no unique evidence. To rerun any probe, make a fresh copy of the
+committed run directory rather than expecting these paths to exist.
