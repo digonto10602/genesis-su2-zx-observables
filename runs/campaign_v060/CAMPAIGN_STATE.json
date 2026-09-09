@@ -7,7 +7,8 @@
       "evidence": "runs/campaign_v060/sessions/c060_p0_20260909_5",
       "failed": [
         "V10 twin variance: r=1 shot count not met on cost"
-      ]
+      ],
+      "cleanliness": "pass at commit d683118"
     },
     "C1": {
       "status": "pass",
