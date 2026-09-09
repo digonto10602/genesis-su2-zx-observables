@@ -1,0 +1,88 @@
+.............................................                            [100%]
+=============================== warnings summary ===============================
+src/su2qc/conventions.py:1
+src/su2qc/conventions.py:1
+  /home/digimonk/Projects/SU2ZX_Foundation_Code_Package/SU2ZX/.work/c062_diagnostics/SU2ZX/runs/section8_v0.5.0_20260907T0628Z/src/su2qc/conventions.py:1: DeprecationWarning: invalid escape sequence '\d'
+    """FROZEN conventions for the SU(2) single-plaquette patch with dynamical matter.
+
+tests/test_route_spinnet.py:23
+  /home/digimonk/Projects/SU2ZX_Foundation_Code_Package/SU2ZX/.work/c062_diagnostics/SU2ZX/runs/section8_v0.5.0_20260907T0628Z/tests/test_route_spinnet.py:23: PytestUnknownMarkWarning: Unknown pytest.mark.unit - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.unit
+
+tests/test_route_spinnet.py:49
+  /home/digimonk/Projects/SU2ZX_Foundation_Code_Package/SU2ZX/.work/c062_diagnostics/SU2ZX/runs/section8_v0.5.0_20260907T0628Z/tests/test_route_spinnet.py:49: PytestUnknownMarkWarning: Unknown pytest.mark.unit - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.unit
+
+tests/test_route_spinnet.py:66
+  /home/digimonk/Projects/SU2ZX_Foundation_Code_Package/SU2ZX/.work/c062_diagnostics/SU2ZX/runs/section8_v0.5.0_20260907T0628Z/tests/test_route_spinnet.py:66: PytestUnknownMarkWarning: Unknown pytest.mark.unit - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.unit
+
+tests/test_route_spinnet.py:90
+  /home/digimonk/Projects/SU2ZX_Foundation_Code_Package/SU2ZX/.work/c062_diagnostics/SU2ZX/runs/section8_v0.5.0_20260907T0628Z/tests/test_route_spinnet.py:90: PytestUnknownMarkWarning: Unknown pytest.mark.unit - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.unit
+
+tests/test_route_spinnet.py:109
+  /home/digimonk/Projects/SU2ZX_Foundation_Code_Package/SU2ZX/.work/c062_diagnostics/SU2ZX/runs/section8_v0.5.0_20260907T0628Z/tests/test_route_spinnet.py:109: PytestUnknownMarkWarning: Unknown pytest.mark.unit - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.unit
+
+tests/test_route_spinnet.py:146
+  /home/digimonk/Projects/SU2ZX_Foundation_Code_Package/SU2ZX/.work/c062_diagnostics/SU2ZX/runs/section8_v0.5.0_20260907T0628Z/tests/test_route_spinnet.py:146: PytestUnknownMarkWarning: Unknown pytest.mark.unit - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.unit
+
+tests/test_route_gausskernel.py:9
+  /home/digimonk/Projects/SU2ZX_Foundation_Code_Package/SU2ZX/.work/c062_diagnostics/SU2ZX/runs/section8_v0.5.0_20260907T0628Z/tests/test_route_gausskernel.py:9: PytestUnknownMarkWarning: Unknown pytest.mark.unit - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    pytestmark = pytest.mark.unit
+
+tests/test_dynamics.py:14
+  /home/digimonk/Projects/SU2ZX_Foundation_Code_Package/SU2ZX/.work/c062_diagnostics/SU2ZX/runs/section8_v0.5.0_20260907T0628Z/tests/test_dynamics.py:14: PytestUnknownMarkWarning: Unknown pytest.mark.unit - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.unit
+
+tests/test_dynamics.py:22
+  /home/digimonk/Projects/SU2ZX_Foundation_Code_Package/SU2ZX/.work/c062_diagnostics/SU2ZX/runs/section8_v0.5.0_20260907T0628Z/tests/test_dynamics.py:22: PytestUnknownMarkWarning: Unknown pytest.mark.unit - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.unit
+
+tests/test_dynamics.py:33
+  /home/digimonk/Projects/SU2ZX_Foundation_Code_Package/SU2ZX/.work/c062_diagnostics/SU2ZX/runs/section8_v0.5.0_20260907T0628Z/tests/test_dynamics.py:33: PytestUnknownMarkWarning: Unknown pytest.mark.unit - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.unit
+
+tests/test_dynamics.py:43
+  /home/digimonk/Projects/SU2ZX_Foundation_Code_Package/SU2ZX/.work/c062_diagnostics/SU2ZX/runs/section8_v0.5.0_20260907T0628Z/tests/test_dynamics.py:43: PytestUnknownMarkWarning: Unknown pytest.mark.unit - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.unit
+
+tests/test_dynamics.py:53
+  /home/digimonk/Projects/SU2ZX_Foundation_Code_Package/SU2ZX/.work/c062_diagnostics/SU2ZX/runs/section8_v0.5.0_20260907T0628Z/tests/test_dynamics.py:53: PytestUnknownMarkWarning: Unknown pytest.mark.unit - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.unit
+
+tests/test_l12.py:17
+  /home/digimonk/Projects/SU2ZX_Foundation_Code_Package/SU2ZX/.work/c062_diagnostics/SU2ZX/runs/section8_v0.5.0_20260907T0628Z/tests/test_l12.py:17: PytestUnknownMarkWarning: Unknown pytest.mark.unit - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.unit
+
+tests/test_l12.py:55
+  /home/digimonk/Projects/SU2ZX_Foundation_Code_Package/SU2ZX/.work/c062_diagnostics/SU2ZX/runs/section8_v0.5.0_20260907T0628Z/tests/test_l12.py:55: PytestUnknownMarkWarning: Unknown pytest.mark.unit - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.unit
+
+tests/test_l12.py:67
+  /home/digimonk/Projects/SU2ZX_Foundation_Code_Package/SU2ZX/.work/c062_diagnostics/SU2ZX/runs/section8_v0.5.0_20260907T0628Z/tests/test_l12.py:67: PytestUnknownMarkWarning: Unknown pytest.mark.unit - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.unit
+
+tests/test_l12.py:82
+  /home/digimonk/Projects/SU2ZX_Foundation_Code_Package/SU2ZX/.work/c062_diagnostics/SU2ZX/runs/section8_v0.5.0_20260907T0628Z/tests/test_l12.py:82: PytestUnknownMarkWarning: Unknown pytest.mark.unit - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.unit
+
+tests/test_l12.py:99
+  /home/digimonk/Projects/SU2ZX_Foundation_Code_Package/SU2ZX/.work/c062_diagnostics/SU2ZX/runs/section8_v0.5.0_20260907T0628Z/tests/test_l12.py:99: PytestUnknownMarkWarning: Unknown pytest.mark.unit - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.unit
+
+tests/test_l12.py:135
+  /home/digimonk/Projects/SU2ZX_Foundation_Code_Package/SU2ZX/.work/c062_diagnostics/SU2ZX/runs/section8_v0.5.0_20260907T0628Z/tests/test_l12.py:135: PytestUnknownMarkWarning: Unknown pytest.mark.unit - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.unit
+
+test_l12.py::test_block_unitary_exact_and_leak_free[0.13-D]
+test_l12.py::test_block_unitary_exact_and_leak_free[0.61-D]
+test_l12.py::test_full_strang_step_matches_exact_product
+test_l12.py::test_full_strang_step_matches_exact_product
+  /home/digimonk/Projects/SU2ZX_Foundation_Code_Package/SU2ZX/.work/c062_diagnostics/SU2ZX/runs/section8_v0.5.0_20260907T0628Z/src/su2qc/circuits/strang_l12.py:156: DeprecationWarning: The class ``qiskit.circuit.library.generalized_gates.diagonal.Diagonal`` is deprecated as of Qiskit 2.1. It will be removed in Qiskit 3.0. Use DiagonalGate instead.
+    qc.append(Diagonal(diag), range(NQ))
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+45 passed, 24 warnings in 507.70s (0:08:27)

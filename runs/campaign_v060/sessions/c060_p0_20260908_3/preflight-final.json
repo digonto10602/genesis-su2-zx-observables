@@ -1,0 +1,18 @@
+{
+  "git_and_clock": {
+    "output": "?? artifacts/SU2ZX_latest_update_723d083_complete.zip\n?? prompts/gi_cost_campaign_v.0.6.2.md\n?? runs/campaign_v060/sessions/c060_p0_20260908_3/\n723d083 campaign: add reference index\n0caa14a campaign: C0 partial V10 twin variance blocks C2\nb993ca6 ops: hermes run records 2026-09-07\nc7172eb repo: status report, graphify refresh, campaign references (2026-09-07)\n6a49f68 campaign: commit phase-4 artifacts from v0.5.0\n4276d72 campaign: commit phase-4 artifacts from v0.5.0\nzip_results/SU2ZX_GI_cost_campaign_v060_last_run.zip\n2026-09-08T20:52:14Z",
+    "exit_code": 0,
+    "error": null
+  },
+  "v040_seed_search": {
+    "scope": "src/su2zx",
+    "patterns": [
+      "seed_simulator",
+      "AerSimulator",
+      "seed\\s*\\+"
+    ],
+    "finding": "No consecutive-seed Aer sampled-repeat pattern found in text search. Aer usages inspected: tn_study.py:29-41 saves an MPS statevector; scaling_study.py:56-81 saves expectations/MPS with fixed seed 11 and shots=1. No v0.4.0 source changed.",
+    "method": "search_files plus read_file; static inspection only"
+  },
+  "status": "BLOCKED before mandatory Fable planning; not a gate manifest"
+}

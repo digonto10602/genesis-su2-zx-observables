@@ -1,0 +1,142 @@
+{
+ "gate": "G2",
+ "status": "PASS",
+ "attempt": 1,
+ "finished": "2026-09-08T22:10:11.403024Z",
+ "mode": "n/a",
+ "criteria": [
+  {
+   "name": "expm_vs_krylov",
+   "target": "<=1e-9",
+   "value": 2.3150546104230026e-15,
+   "pass": true
+  },
+  {
+   "name": "energy_conservation",
+   "target": "<=1e-10",
+   "value": 4.440892098500626e-16,
+   "pass": true
+  },
+  {
+   "name": "N_conservation",
+   "target": "<=1e-10",
+   "value": 1.7763568394002505e-15,
+   "pass": true
+  },
+  {
+   "name": "mass_scan_table",
+   "target": "exists",
+   "value": true,
+   "pass": true
+  },
+  {
+   "name": "resonance_reported",
+   "target": "m*/g2 recorded vs 3/16",
+   "value": {
+    "1.0": 0.0,
+    "2.0": 0.0625,
+    "4.0": 0.0,
+    "8.0": 0.0
+   },
+   "pass": true
+  },
+  {
+   "name": "mass_scan_points",
+   "target": ">=21",
+   "value": 25,
+   "pass": true
+  },
+  {
+   "name": "g2_values",
+   "target": ">=2",
+   "value": 4,
+   "pass": true
+  },
+  {
+   "name": "timeseries_table",
+   "target": "exists",
+   "value": true,
+   "pass": true
+  },
+  {
+   "name": "truncation_error_doc",
+   "target": "exists",
+   "value": true,
+   "pass": true
+  },
+  {
+   "name": "truncation_max_dprob",
+   "target": "reported (<=0.1 preferred)",
+   "value": 0.2570428115237551,
+   "pass": true
+  },
+  {
+   "name": "window_exists",
+   "target": "exists",
+   "value": true,
+   "pass": true
+  },
+  {
+   "name": "window_g2",
+   "target": "present",
+   "value": 4.0,
+   "pass": true
+  },
+  {
+   "name": "window_m",
+   "target": "present",
+   "value": 0.75,
+   "pass": true
+  },
+  {
+   "name": "window_dt",
+   "target": "present",
+   "value": 0.8333333333333334,
+   "pass": true
+  },
+  {
+   "name": "window_r_max",
+   "target": "present",
+   "value": 3,
+   "pass": true
+  },
+  {
+   "name": "window_rmax",
+   "target": "in {2,3}",
+   "value": 3,
+   "pass": true
+  },
+  {
+   "name": "window_Psurv_drop",
+   "target": ">=0.3 (or shortfall flagged)",
+   "value": 0.9934750194734104,
+   "pass": true
+  },
+  {
+   "name": "window_pair_weight",
+   "target": ">=0.05 (or shortfall flagged)",
+   "value": 0.8193295376106189,
+   "pass": true
+  },
+  {
+   "name": "window_strang_err",
+   "target": "<=0.05",
+   "value": 0.01906524448986846,
+   "pass": true
+  },
+  {
+   "name": "physics_signoff",
+   "target": "exists",
+   "value": true,
+   "pass": true
+  }
+ ],
+ "signoff": {
+  "physics": "physics/signoff_G2.md"
+ },
+ "artifacts": [
+  "analysis/tables/",
+  "physics/window.json"
+ ],
+ "notes": ""
+}

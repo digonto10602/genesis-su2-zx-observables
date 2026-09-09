@@ -1,0 +1,148 @@
+{
+  "processes": [
+    {
+      "name": "baseline-regression",
+      "command": [
+        "/home/digimonk/Projects/SU2ZX_Foundation_Code_Package/SU2ZX/.mamba/envs/su2zx/bin/python",
+        "-m",
+        "pytest",
+        "tests/test_route_spinnet.py",
+        "tests/test_route_gausskernel.py",
+        "tests/test_dynamics.py",
+        "tests/test_l12.py",
+        "-q",
+        "-p",
+        "no:cacheprovider",
+        "--junitxml=/home/digimonk/Projects/SU2ZX_Foundation_Code_Package/SU2ZX/runs/campaign_v060/sessions/c060_p0_20260908_3/diagnostic-regression.xml"
+      ],
+      "cwd": "/home/digimonk/Projects/SU2ZX_Foundation_Code_Package/SU2ZX/.work/c062_diagnostics/SU2ZX/runs/section8_v0.5.0_20260907T0628Z",
+      "exit_code": 0,
+      "seconds": 508.7978798280001,
+      "log": "baseline-regression.log"
+    },
+    {
+      "name": "baseline-G1",
+      "command": [
+        "/home/digimonk/Projects/SU2ZX_Foundation_Code_Package/SU2ZX/.mamba/envs/su2zx/bin/python",
+        "gates/gate_G1.py"
+      ],
+      "cwd": "/home/digimonk/Projects/SU2ZX_Foundation_Code_Package/SU2ZX/.work/c062_diagnostics/SU2ZX/runs/section8_v0.5.0_20260907T0628Z",
+      "exit_code": 0,
+      "seconds": 123.82708275799996,
+      "log": "baseline-G1.log"
+    },
+    {
+      "name": "baseline-G2",
+      "command": [
+        "/home/digimonk/Projects/SU2ZX_Foundation_Code_Package/SU2ZX/.mamba/envs/su2zx/bin/python",
+        "gates/gate_G2.py"
+      ],
+      "cwd": "/home/digimonk/Projects/SU2ZX_Foundation_Code_Package/SU2ZX/.work/c062_diagnostics/SU2ZX/runs/section8_v0.5.0_20260907T0628Z",
+      "exit_code": 0,
+      "seconds": 2.3213880580005934,
+      "log": "baseline-G2.log"
+    },
+    {
+      "name": "baseline-G3",
+      "command": [
+        "/home/digimonk/Projects/SU2ZX_Foundation_Code_Package/SU2ZX/.mamba/envs/su2zx/bin/python",
+        "gates/gate_G3.py"
+      ],
+      "cwd": "/home/digimonk/Projects/SU2ZX_Foundation_Code_Package/SU2ZX/.work/c062_diagnostics/SU2ZX/runs/section8_v0.5.0_20260907T0628Z",
+      "exit_code": 0,
+      "seconds": 404.8926556440001,
+      "log": "baseline-G3.log"
+    },
+    {
+      "name": "baseline-C0",
+      "command": [
+        "/home/digimonk/Projects/SU2ZX_Foundation_Code_Package/SU2ZX/.mamba/envs/su2zx/bin/python",
+        "-m",
+        "pytest",
+        "runs/campaign_v060/tests/gate_C0",
+        "-q",
+        "-p",
+        "no:cacheprovider",
+        "--junitxml=/home/digimonk/Projects/SU2ZX_Foundation_Code_Package/SU2ZX/runs/campaign_v060/sessions/c060_p0_20260908_3/diagnostic-C0.xml"
+      ],
+      "cwd": "/home/digimonk/Projects/SU2ZX_Foundation_Code_Package/SU2ZX/.work/c062_diagnostics/SU2ZX",
+      "exit_code": 1,
+      "seconds": 181.71452743400005,
+      "log": "baseline-C0.log"
+    }
+  ],
+  "junit": {
+    "diagnostic-regression.xml": [
+      {
+        "name": "pytest",
+        "errors": "0",
+        "failures": "0",
+        "skipped": "0",
+        "tests": "45",
+        "time": "507.706",
+        "timestamp": "2026-09-08T15:59:37.068567-06:00",
+        "hostname": "pichkaCommander"
+      }
+    ],
+    "diagnostic-C0.xml": [
+      {
+        "name": "pytest",
+        "errors": "0",
+        "failures": "2",
+        "skipped": "0",
+        "tests": "6",
+        "time": "180.609",
+        "timestamp": "2026-09-08T16:16:56.686001-06:00",
+        "hostname": "pichkaCommander"
+      }
+    ]
+  },
+  "raw_shift": {
+    "production": true,
+    "compact": true
+  },
+  "pre_fix_distinct": {
+    "0": 4
+  },
+  "source_preservation": "all original legacy/campaign-test hashes unchanged",
+  "source_file_count": 200,
+  "slopes": [
+    {
+      "observable": "Psurv",
+      "refit_reference": -2.0979681962024204,
+      "refit_fresh": -2.097968195703498,
+      "delta_slope": 4.989222368578794e-10,
+      "propagated_bound": 5.004459685980343e-10,
+      "bound_x10": 5.004459685980343e-09,
+      "primary_max_delta": 6.29704621779581e-16,
+      "primary_within_1e12": true,
+      "slope_within_bound": true,
+      "slope_in_band": true
+    },
+    {
+      "observable": "E2",
+      "refit_reference": -2.1494619561018267,
+      "refit_fresh": -2.149461957500186,
+      "delta_slope": -1.3983592062061234e-09,
+      "propagated_bound": 1.403906152005171e-09,
+      "bound_x10": 1.403906152005171e-08,
+      "primary_max_delta": 5.35682609381638e-15,
+      "primary_within_1e12": true,
+      "slope_within_bound": true,
+      "slope_in_band": true
+    },
+    {
+      "observable": "state",
+      "refit_reference": -2.0070143886994325,
+      "refit_fresh": -2.007014388709902,
+      "delta_slope": -1.0469403122215226e-11,
+      "propagated_bound": 1.0472129200422348e-11,
+      "bound_x10": 1.0472129200422348e-10,
+      "primary_max_delta": 2.446935883082535e-15,
+      "primary_within_1e12": true,
+      "slope_within_bound": true,
+      "slope_in_band": true
+    }
+  ],
+  "status": "DIAGNOSTICS ONLY; production fix and physics sign-off deferred"
+}

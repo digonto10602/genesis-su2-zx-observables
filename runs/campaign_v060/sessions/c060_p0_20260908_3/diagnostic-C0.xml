@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="2" skipped="0" tests="6" time="180.609" timestamp="2026-09-08T16:16:56.686001-06:00" hostname="pichkaCommander"><testcase classname=".work.c062_diagnostics.SU2ZX.runs.campaign_v060.tests.gate_C0.test_estimator" name="test_v11_synthetic_channels_support_signed_weights_and_exact_closure" time="0.001" /><testcase classname=".work.c062_diagnostics.SU2ZX.runs.campaign_v060.tests.gate_C0.test_estimator" name="test_v11_matched_subtraction_and_yield" time="0.001" /><testcase classname=".work.c062_diagnostics.SU2ZX.runs.campaign_v060.tests.gate_C0.test_jmax1_counts" name="test_jmax1_sector_counts_match_independent_transfer_polynomial" time="96.477" /><testcase classname=".work.c062_diagnostics.SU2ZX.runs.campaign_v060.tests.gate_C0.test_twin_variance" name="test_twin_variance_and_runtime_seed_detection" time="28.017"><failure message="assert 3 == 5">def test_twin_variance_and_runtime_seed_detection():
+        repeats = {}
+        evidence = {}
+        for r in (0, 1):
+            counts = _measured_repeats(r)
+            repeats[r] = counts
+            evidence[str(r)] = {
+                "distinct_dictionaries": len({tuple(sorted(c.items())) for c in counts}),
+                "repeat_sizes": [len(c) for c in counts],
+            }
+            Path("runs/campaign_v060/sessions/c060_p0_20260908_2/twin_variance.json").write_text(
+                json.dumps(evidence, indent=2) + "\n"
+            )
+&gt;           assert evidence[str(r)]["distinct_dictionaries"] == 5
+E           assert 3 == 5
+
+runs/campaign_v060/tests/gate_C0/test_twin_variance.py:30: AssertionError</failure></testcase><testcase classname=".work.c062_diagnostics.SU2ZX.runs.campaign_v060.tests.gate_C0.test_twin_variance" name="test_twin_seed_reproducibility" time="54.824" /><testcase classname=".work.c062_diagnostics.SU2ZX.runs.campaign_v060.tests.gate_C0.test_v1_regression" name="test_v1_restored_evidence_and_conditioned_slopes" time="0.015"><failure message="assert b'{\n &quot;r&quot;: [\...4388709902\n}' == b'{\n &quot;r&quot;: [\...3886994325\n}'&#10;  &#10;  At index 89 diff: b'1' != b'0'&#10;  Use -v to get more diff">def test_v1_restored_evidence_and_conditioned_slopes():
+        repo = _repo()
+        rel = "runs/section8_v0.5.0_20260907T0628Z/circuits/trotter_scaling.json"
+        current = (repo / rel).read_bytes()
+&gt;       assert current == _head_bytes(rel)
+E       assert b'{\n "r": [\...4388709902\n}' == b'{\n "r": [\...3886994325\n}'
+E         
+E         At index 89 diff: b'1' != b'0'
+E         Use -v to get more diff
+
+runs/campaign_v060/tests/gate_C0/test_v1_regression.py:18: AssertionError</failure></testcase></testsuite></testsuites>

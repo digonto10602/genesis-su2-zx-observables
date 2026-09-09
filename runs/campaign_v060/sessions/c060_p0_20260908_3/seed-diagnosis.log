@@ -1,0 +1,5 @@
+production raw shift True separated distinct 5
+compact raw shift True separated distinct 5
+pre-fix production r 0 starting
+pre-fix production r 0 distinct 4
+pre-fix production r 1 starting

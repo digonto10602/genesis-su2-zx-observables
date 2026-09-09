@@ -1,0 +1,44 @@
+{
+  "source": "fresh sandbox G3 output; not final repaired snapshot",
+  "reference_commit": "723d083",
+  "reference_sha256": "c265cb18bfb610a9cade03f2b4e4a3eed4fc87cc7eeb098d7d84feb187d8fd07",
+  "centered_log_r_sum_squares": 4.804530139182013,
+  "rows": [
+    {
+      "observable": "Psurv",
+      "refit_reference": -2.0979681962024204,
+      "refit_fresh": -2.097968195703498,
+      "delta_slope": 4.989222368578794e-10,
+      "propagated_bound": 5.004459685980343e-10,
+      "bound_x10": 5.004459685980343e-09,
+      "primary_max_delta": 6.29704621779581e-16,
+      "primary_within_1e12": true,
+      "slope_within_bound": true,
+      "slope_in_band": true
+    },
+    {
+      "observable": "E2",
+      "refit_reference": -2.1494619561018267,
+      "refit_fresh": -2.149461957500186,
+      "delta_slope": -1.3983592062061234e-09,
+      "propagated_bound": 1.403906152005171e-09,
+      "bound_x10": 1.403906152005171e-08,
+      "primary_max_delta": 5.35682609381638e-15,
+      "primary_within_1e12": true,
+      "slope_within_bound": true,
+      "slope_in_band": true
+    },
+    {
+      "observable": "state",
+      "refit_reference": -2.0070143886994325,
+      "refit_fresh": -2.007014388709902,
+      "delta_slope": -1.0469403122215226e-11,
+      "propagated_bound": 1.0472129200422348e-11,
+      "bound_x10": 1.0472129200422348e-10,
+      "primary_max_delta": 2.446935883082535e-15,
+      "primary_within_1e12": true,
+      "slope_within_bound": true,
+      "slope_in_band": true
+    }
+  ]
+}

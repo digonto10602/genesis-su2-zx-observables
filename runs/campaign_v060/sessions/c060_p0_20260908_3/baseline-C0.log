@@ -1,0 +1,43 @@
+...F.F                                                                   [100%]
+=================================== FAILURES ===================================
+________________ test_twin_variance_and_runtime_seed_detection _________________
+
+    def test_twin_variance_and_runtime_seed_detection():
+        repeats = {}
+        evidence = {}
+        for r in (0, 1):
+            counts = _measured_repeats(r)
+            repeats[r] = counts
+            evidence[str(r)] = {
+                "distinct_dictionaries": len({tuple(sorted(c.items())) for c in counts}),
+                "repeat_sizes": [len(c) for c in counts],
+            }
+            Path("runs/campaign_v060/sessions/c060_p0_20260908_2/twin_variance.json").write_text(
+                json.dumps(evidence, indent=2) + "\n"
+            )
+>           assert evidence[str(r)]["distinct_dictionaries"] == 5
+E           assert 3 == 5
+
+runs/campaign_v060/tests/gate_C0/test_twin_variance.py:30: AssertionError
+_______________ test_v1_restored_evidence_and_conditioned_slopes _______________
+
+    def test_v1_restored_evidence_and_conditioned_slopes():
+        repo = _repo()
+        rel = "runs/section8_v0.5.0_20260907T0628Z/circuits/trotter_scaling.json"
+        current = (repo / rel).read_bytes()
+>       assert current == _head_bytes(rel)
+E       assert b'{\n "r": [\...4388709902\n}' == b'{\n "r": [\...3886994325\n}'
+E         
+E         At index 89 diff: b'1' != b'0'
+E         Use -v to get more diff
+
+runs/campaign_v060/tests/gate_C0/test_v1_regression.py:18: AssertionError
+=============================== warnings summary ===============================
+runs/section8_v0.5.0_20260907T0628Z/src/su2qc/conventions.py:1
+  /home/digimonk/Projects/SU2ZX_Foundation_Code_Package/SU2ZX/.work/c062_diagnostics/SU2ZX/runs/section8_v0.5.0_20260907T0628Z/src/su2qc/conventions.py:1: DeprecationWarning: invalid escape sequence '\d'
+    """FROZEN conventions for the SU(2) single-plaquette patch with dynamical matter.
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED runs/campaign_v060/tests/gate_C0/test_twin_variance.py::test_twin_variance_and_runtime_seed_detection
+FAILED runs/campaign_v060/tests/gate_C0/test_v1_regression.py::test_v1_restored_evidence_and_conditioned_slopes

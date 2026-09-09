@@ -1,0 +1,33 @@
+{
+  "source": "fresh unchanged-code sandbox G3, not final repaired snapshot",
+  "sum_squared_centered_log_r": 4.804530139182013,
+  "rows": [
+    {
+      "observable": "Psurv",
+      "fresh_slope": -2.097968195703498,
+      "slope_delta": 4.989222368578794e-10,
+      "bound_x10": 5.004459685980343e-09,
+      "primary_max_delta": 6.29704621779581e-16,
+      "within_bound": true,
+      "within_band": true
+    },
+    {
+      "observable": "E2",
+      "fresh_slope": -2.149461957500186,
+      "slope_delta": -1.3983592062061234e-09,
+      "bound_x10": 1.403906152005171e-08,
+      "primary_max_delta": 5.35682609381638e-15,
+      "within_bound": true,
+      "within_band": true
+    },
+    {
+      "observable": "state",
+      "fresh_slope": -2.007014388709902,
+      "slope_delta": -1.0469403122215226e-11,
+      "bound_x10": 1.0472129200422348e-10,
+      "primary_max_delta": 2.446935883082535e-15,
+      "within_bound": true,
+      "within_band": true
+    }
+  ]
+}

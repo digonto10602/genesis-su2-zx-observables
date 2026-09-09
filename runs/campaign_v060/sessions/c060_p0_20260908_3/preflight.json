@@ -1,0 +1,49 @@
+{
+  "t0": "2026-09-08T20:49:08+00:00",
+  "deadline": "2026-09-09T08:49:08+00:00",
+  "baseline": "723d083d939a355da1a88880e38b7f08c0c2029a",
+  "hash_checks": {
+    "prompt": {
+      "path": "prompts/gi_cost_campaign_v.0.6.0.md",
+      "recorded": "50c60ffb91e6e61120e8a749d1a9c68dc6f9c11b059ce8d110feaed5e15d0481",
+      "actual": "50c60ffb91e6e61120e8a749d1a9c68dc6f9c11b059ce8d110feaed5e15d0481",
+      "match": true
+    },
+    "prompt_v061": {
+      "path": "prompts/gi_cost_campaign_v.0.6.1.md",
+      "recorded": "655e13d9a76098a03863cab34e5a5810c9f0765bea4f401244640fc2c8c3c4c3",
+      "actual": "655e13d9a76098a03863cab34e5a5810c9f0765bea4f401244640fc2c8c3c4c3",
+      "match": true
+    },
+    "thresholds": {
+      "path": "runs/campaign_v060/GATE_THRESHOLDS.yaml",
+      "recorded": "a7d1135ebd09c2a327802dc449758545e1b9ee235ab7abc19a383bf1d4dc8ecd",
+      "actual": "a7d1135ebd09c2a327802dc449758545e1b9ee235ab7abc19a383bf1d4dc8ecd",
+      "match": true
+    },
+    "preregistration": {
+      "path": "runs/campaign_v060/PREREGISTRATION.md",
+      "recorded": "b587c4859c16ec44b09c756599ca226387bd835502d2658986b80f8ab041324b",
+      "actual": "b587c4859c16ec44b09c756599ca226387bd835502d2658986b80f8ab041324b",
+      "match": true
+    },
+    "conventions": {
+      "path": "runs/campaign_v060/00_conventions.md",
+      "recorded": "d7de725c3895d5f5221c62d77000fcb99432f389fbf295fa2d7ad516fbcc0b99",
+      "actual": "d7de725c3895d5f5221c62d77000fcb99432f389fbf295fa2d7ad516fbcc0b99",
+      "match": true
+    },
+    "conventions_py": {
+      "path": "runs/section8_v0.5.0_20260907T0628Z/src/su2qc/conventions.py",
+      "actual": "fb3b7525b1a1d69bcb30ace986465880b972cc9fb23a417af5a9ca78ebade306"
+    }
+  },
+  "archive_move": {
+    "from": "artifacts/SU2ZX_GI_cost_campaign_v060_last_run.zip",
+    "to": "zip_results/SU2ZX_GI_cost_campaign_v060_last_run.zip",
+    "sha256": "1a48e30820db638c494ba543f8cd13d15223108315ec1d202e089e5308518919"
+  },
+  "preserved_archive": "artifacts/SU2ZX_latest_update_723d083_complete.zip",
+  "prompt_sha256": "74264a168e1baae3c3d647fa5c4fe29c9a1bf3d598a70275ea3c087464c29e93",
+  "repo_SOUL": "absent; no outside-root read"
+}

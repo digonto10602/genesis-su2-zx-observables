@@ -1,0 +1,119 @@
+{
+ "gate": "G1",
+ "status": "PASS",
+ "attempt": 1,
+ "finished": "2026-09-08T22:10:08.996316Z",
+ "mode": "n/a",
+ "criteria": [
+  {
+   "name": "dim_route1_jmax0.5",
+   "target": 82,
+   "value": 82,
+   "pass": true
+  },
+  {
+   "name": "dim_route2_jmax0.5",
+   "target": 82,
+   "value": 82,
+   "pass": true
+  },
+  {
+   "name": "dim_route1_jmax1.0",
+   "target": 152,
+   "value": 152,
+   "pass": true
+  },
+  {
+   "name": "dim_route2_jmax1.0",
+   "target": 152,
+   "value": 152,
+   "pass": true
+  },
+  {
+   "name": "sectors_route1",
+   "target": "{0: 2, 2: 20, 4: 38, 6: 20, 8: 2}",
+   "value": "{0: 2, 2: 20, 4: 38, 6: 20, 8: 2}",
+   "pass": true
+  },
+  {
+   "name": "HN_commutator_route1",
+   "target": "<=1e-13",
+   "value": 0.0,
+   "pass": true
+  },
+  {
+   "name": "hermiticity_route1",
+   "target": "<=1e-13",
+   "value": 0.0,
+   "pass": true
+  },
+  {
+   "name": "sectors_route2",
+   "target": "{0: 2, 2: 20, 4: 38, 6: 20, 8: 2}",
+   "value": "{0: 2, 2: 20, 4: 38, 6: 20, 8: 2}",
+   "pass": true
+  },
+  {
+   "name": "HN_commutator_route2",
+   "target": "<=1e-13",
+   "value": 0.0,
+   "pass": true
+  },
+  {
+   "name": "hermiticity_route2",
+   "target": "<=1e-13",
+   "value": 0.0,
+   "pass": true
+  },
+  {
+   "name": "route_spectra_rel_dev",
+   "target": "<=1e-12",
+   "value": 2.670602755759933e-15,
+   "pass": true
+  },
+  {
+   "name": "route_time_series_dev",
+   "target": "<=1e-10",
+   "value": 1.5543122344752192e-15,
+   "pass": true
+  },
+  {
+   "name": "gauss_commutators",
+   "target": "<=1e-12",
+   "value": 0.0,
+   "pass": true
+  },
+  {
+   "name": "pure_electric_degeneracies",
+   "target": "16,16,18,16,16",
+   "value": "[16, 16, 18, 16, 16]",
+   "pass": true
+  },
+  {
+   "name": "frozen_matter_H1_match",
+   "target": "<=+1e-08",
+   "value": 2.9802320611338473e-09,
+   "pass": true
+  },
+  {
+   "name": "magnetic_off_1d_chain",
+   "target": "<=1e-10",
+   "value": 1.2609084468256753e-15,
+   "pass": true
+  },
+  {
+   "name": "physics_signoff",
+   "target": "exists",
+   "value": true,
+   "pass": true
+  }
+ ],
+ "signoff": {
+  "physics": "physics/signoff_G1.md"
+ },
+ "artifacts": [
+  "src/su2qc/ham/",
+  "tests/"
+ ],
+ "notes": ""
+}

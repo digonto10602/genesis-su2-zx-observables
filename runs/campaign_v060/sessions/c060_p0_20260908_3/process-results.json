@@ -1,0 +1,11 @@
+{
+  "classification": "independent diagnostic execution; not a gate",
+  "opus_code_review": {"process": "proc_b9af70ff3e59", "exit_code": 0, "model_requested": "claude-opus-5", "artifact": "diagnostic-code-review.md"},
+  "unchanged_baseline": {"process": "proc_12c041eada84", "exit_code": 0, "child_results": "diagnostic-execution.json", "note": "C0 child exit 1 remains a failure despite orchestrator exit 0"},
+  "seed_attempt1": {"process": "proc_cc2a72eb5d89", "exit_code": 1, "reason": "compact simulator CircuitTooWideForTarget", "evidence": "attempt1/"},
+  "seed_attempt2": {"process": "proc_34564e7a66a8", "exit_code": 124, "wall_cap_seconds": 2400, "termination": "GNU timeout TERM with 15-second kill grace", "last_stage": "production pre-fix r=1, five repeats at 1024 shots", "completed_points": [0], "missing": "r1 counts and uncertainty table", "evidence": "seed-diagnosis.json; seed-diagnosis.log"},
+  "r0_equal_seed_control": {"exit_code": 0, "evidence": "equal-seed-control.json; equal-seed-control.log"},
+  "finite_oracle_probe": {"exit_code": 0, "evidence": "oracle-diagnostics.json"},
+  "production_code_changes": false,
+  "Fable_planning_and_final_signoff": "DEFERRED under budget policy"
+}
