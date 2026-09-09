@@ -1,0 +1,2 @@
+# git status --short, recorded after the C0 gate commit
+# (no lines below the header: the working tree is clean)

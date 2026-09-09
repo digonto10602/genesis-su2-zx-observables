@@ -3,11 +3,10 @@
   "gates": {
     "C0": {
       "status": "partial",
-      "utc": "2026-09-09T23:22:54.052012+00:00",
+      "utc": "2026-09-09T23:23:57.700443+00:00",
       "evidence": "runs/campaign_v060/sessions/c060_p0_20260909_5",
       "failed": [
-        "V10 twin variance",
-        "repository cleanliness"
+        "V10 twin variance: r=1 shot count not met on cost"
       ]
     },
     "C1": {
@@ -43,7 +42,7 @@
     "backend": null,
     "job_ids": []
   },
-  "next_action": "Resolve the V10 seed-plumbing failure, rerun the full C0 command with a fresh evidence manifest and review/sign-off; do not start C2.",
+  "next_action": "Decide the r=1 shot count deliberately at C1 (lower it, move to the cheaper simulator path, or budget ~39 h of compute), rerun V10 r=1, then close C0. C2 rows V2, V4, V6 untouched.",
   "baseline": "d66d02b31d7ce466303502d661fc1ed394000796",
   "preservation_policy": "User approved preserve unrelated changes; C0 remains blocked on cleanliness."
 }
