@@ -19,3 +19,4 @@ runs/**/circuits/*.qpy
 runs/**/__pycache__/
 runs/**/.review_scratch/
 implementation_summary.json
+artifacts/*.zip
