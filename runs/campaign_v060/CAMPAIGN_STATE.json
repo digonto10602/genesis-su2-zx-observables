@@ -3,13 +3,11 @@
   "gates": {
     "C0": {
       "status": "partial",
-      "utc": "2026-09-08T17:38:00.494567+00:00",
-      "evidence": "runs/campaign_v060/sessions/c060_p0_20260908_2",
+      "utc": "2026-09-09T23:22:54.052012+00:00",
+      "evidence": "runs/campaign_v060/sessions/c060_p0_20260909_5",
       "failed": [
-        "V10 seed/variance distinctness",
-        "V11 independent closure evidence",
-        "repository cleanliness",
-        "evidence review snapshot was superseded during repair"
+        "V10 twin variance",
+        "repository cleanliness"
       ]
     },
     "C1": {
@@ -37,7 +35,8 @@
       "t0": "2026-09-08T16:56:58Z",
       "phase": 0,
       "outcome": "C0 partial; C1 pass; C2 blocked; final fresh regression 45/45, G1/G2/G3 green"
-    }
+    },
+    "c060_p0_20260909_5"
   ],
   "hardware": {
     "mode": "disabled",
@@ -45,6 +44,6 @@
     "job_ids": []
   },
   "next_action": "Resolve the V10 seed-plumbing failure, rerun the full C0 command with a fresh evidence manifest and review/sign-off; do not start C2.",
-  "baseline": "eee1e162a0b28b4c8f6f8f917454e795efbea606",
+  "baseline": "d66d02b31d7ce466303502d661fc1ed394000796",
   "preservation_policy": "User approved preserve unrelated changes; C0 remains blocked on cleanliness."
 }

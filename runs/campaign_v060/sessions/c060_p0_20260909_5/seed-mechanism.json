@@ -1,0 +1,36 @@
+{
+  "path": "AerSimulator.from_backend(FakeTorino)",
+  "qubits": 12,
+  "adjacent_seeds": {
+    "500->501": {
+      "same_index_matches": 0,
+      "shift_matches": 1023,
+      "shots": 1024
+    },
+    "501->502": {
+      "same_index_matches": 0,
+      "shift_matches": 1023,
+      "shots": 1024
+    }
+  },
+  "spawned_seeds": {
+    "seeds": [
+      2142847655,
+      3468886739,
+      2616834282
+    ],
+    "pairs": {
+      "2142847655->3468886739": {
+        "same_index_matches": 0,
+        "shift_matches": 1,
+        "shots": 1024
+      },
+      "3468886739->2616834282": {
+        "same_index_matches": 0,
+        "shift_matches": 1,
+        "shots": 1024
+      }
+    }
+  },
+  "seconds": 35.1
+}

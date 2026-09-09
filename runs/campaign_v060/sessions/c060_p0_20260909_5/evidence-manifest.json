@@ -1,0 +1,112 @@
+{
+  "files": [
+    {
+      "bytes": 1454,
+      "path": "runs/campaign_v060/sessions/c060_p0_20260909_5/gate_C0.xml",
+      "sha256": "76e52393728f599cca6e44a6a8ade92f85e0bbaac8ad49e85c98f450fcecceeb"
+    },
+    {
+      "bytes": 175,
+      "path": "runs/campaign_v060/sessions/c060_p0_20260909_5/gate_C0.log",
+      "sha256": "db48726cc08956752eff43b515170a237d7147e84f09044ca66efa816a7e19f4"
+    },
+    {
+      "bytes": 2909,
+      "path": "runs/campaign_v060/sessions/c060_p0_20260909_5/twin-row-calibrated.json",
+      "sha256": "5852bb1b72c7fc1df9e2aa2be6dbc7604e4c777be20c55f8131869f2cdb021d4"
+    },
+    {
+      "bytes": 698,
+      "path": "runs/campaign_v060/sessions/c060_p0_20260909_5/seed-mechanism.json",
+      "sha256": "4de25261d77162394897c7f754b7318c848f17249c6292f495351043b818654b"
+    },
+    {
+      "bytes": 902,
+      "path": "runs/campaign_v060/sessions/c060_p0_20260909_5/v10-prefix-baseline.json",
+      "sha256": "0d8a27465a50f6dc37d279cd82eaaf466f42ec1f84a6c00dde4a17bb15b537a0"
+    },
+    {
+      "bytes": 3023,
+      "path": "runs/campaign_v060/sessions/c060_p0_20260909_5/ruling-R9-closure-residual.md",
+      "sha256": "687c937c44188e7dcc31a319a154100d8008a5e4c8f9c2e2c9b2f7455bd767b2"
+    },
+    {
+      "bytes": 4339,
+      "path": "runs/campaign_v060/sessions/c060_p0_20260909_5/SESSION_SUMMARY.md",
+      "sha256": "6e2512b28e1d6efdcecd4821ec84d5638462b047067afeeb9fe3b86d959888a5"
+    },
+    {
+      "bytes": 2265,
+      "path": "runs/campaign_v060/sessions/c060_p0_20260909_5/slope-conditioning.json",
+      "sha256": "4773e4c0ced8c1464ed2dd42657cec4e9bf0fabdf5cdade94140f2a157c7493b"
+    },
+    {
+      "bytes": 698,
+      "path": "runs/campaign_v060/sessions/c060_p0_20260909_5/seed-mechanism.json",
+      "sha256": "4de25261d77162394897c7f754b7318c848f17249c6292f495351043b818654b"
+    },
+    {
+      "bytes": 1030,
+      "path": "runs/campaign_v060/sessions/c060_p0_20260909_5/v040-seed-pattern-finding.md",
+      "sha256": "fe99d9e8c739899c9daf0414831f9776f49cff844265c7ae5d965143dd8722fc"
+    },
+    {
+      "bytes": 7715,
+      "path": "runs/campaign_v060/GATE_LEDGER.jsonl",
+      "sha256": "32fb0f4e240255abe412c9a8f09148a1bde6b50664bea27720117af184d23861"
+    },
+    {
+      "bytes": 1864,
+      "path": "runs/campaign_v060/CAMPAIGN_STATE.json",
+      "sha256": "3c498d06ec7ec52aabb157857abd36ec8b52f0f7dff94d7527559beeccd41d0c"
+    },
+    {
+      "bytes": 570,
+      "path": "runs/campaign_v060/GATE_THRESHOLDS.yaml",
+      "sha256": "a7d1135ebd09c2a327802dc449758545e1b9ee235ab7abc19a383bf1d4dc8ecd"
+    },
+    {
+      "bytes": 8447,
+      "path": "runs/campaign_v060/PREREGISTRATION.md",
+      "sha256": "b587c4859c16ec44b09c756599ca226387bd835502d2658986b80f8ab041324b"
+    },
+    {
+      "bytes": 1077,
+      "path": "runs/campaign_v060/CLAIM_TABLE.md",
+      "sha256": "12df1b4ddfefd68f552b3a334b60e98b06e1041a2882d5b719ae88e6dbb761b4"
+    },
+    {
+      "bytes": 180,
+      "path": "runs/campaign_v060/tests/gate_C0/conftest.py",
+      "sha256": "8de821d08a4e0515c3124e5c81a3954bc1bdbd7b434812c334341ea3cde38fa9"
+    },
+    {
+      "bytes": 15213,
+      "path": "runs/campaign_v060/tests/gate_C0/test_twin_variance.py",
+      "sha256": "0f70dc58dee957331e1c5983556ee1551765e3b6c19824655ec1635e0cb825f9"
+    },
+    {
+      "bytes": 16723,
+      "path": "runs/campaign_v060/tests/gate_C0/test_estimator.py",
+      "sha256": "17f203688d7e1ad7c814ea11e5e80684b038a0372e9beb8c7dcc832cc563aff7"
+    },
+    {
+      "bytes": 10307,
+      "path": "runs/campaign_v060/tests/gate_C0/test_v1_regression.py",
+      "sha256": "638199ec19196c281a27fe09fa6a1de54e954735f5e2781bb62e675e6fc6ee8f"
+    },
+    {
+      "bytes": 1444,
+      "path": "runs/campaign_v060/tests/gate_C0/test_jmax1_counts.py",
+      "sha256": "c73e16bf178d0dc059c7b6d5687167ec5cc4673812b42e78ba28b54eaef20fa1"
+    },
+    {
+      "bytes": 10628,
+      "path": "runs/section8_v0.5.0_20260907T0628Z/src/su2qc/twin/twin.py",
+      "sha256": "f24116bf26ec2ac1d823694225d7366b80be6b0dfa4546b0780949de62f9e989"
+    }
+  ],
+  "missing": [],
+  "note": "Hashes are of the snapshot the review and sign-off read. Any write to a listed file after this point invalidates the manifest.",
+  "tag": "c060_p0_20260909_5"
+}

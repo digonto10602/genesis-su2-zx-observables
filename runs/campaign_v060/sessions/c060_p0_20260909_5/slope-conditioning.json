@@ -1,0 +1,113 @@
+[
+  {
+    "observable": "Psurv",
+    "r": [
+      8,
+      16,
+      32,
+      64,
+      128
+    ],
+    "sum_w_squared": 4.804530139182013,
+    "slope_stored": -2.0979681962024204,
+    "refit_committed": -2.0979681962024204,
+    "refit_rerun": -2.0979681962024204,
+    "refit_abs_delta": 0.0,
+    "error_array_deltas": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "max_error_array_delta": 0.0,
+    "primary_abs_threshold": 1e-12,
+    "primary_pass": true,
+    "propagated_abs_bound": 0.0,
+    "predicted_slope_delta": 0.0,
+    "measured_slope_delta": 0.0,
+    "ratio_to_bound": 0.0,
+    "ratio_to_band": 0.0,
+    "bound_factor": 10.0,
+    "band": [
+      -2.3,
+      -1.7
+    ],
+    "band_pass": true,
+    "stability_1e_12": true
+  },
+  {
+    "observable": "E2",
+    "r": [
+      8,
+      16,
+      32,
+      64,
+      128
+    ],
+    "sum_w_squared": 4.804530139182013,
+    "slope_stored": -2.1494619561018267,
+    "refit_committed": -2.1494619561018267,
+    "refit_rerun": -2.1494619561018267,
+    "refit_abs_delta": 0.0,
+    "error_array_deltas": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "max_error_array_delta": 0.0,
+    "primary_abs_threshold": 1e-12,
+    "primary_pass": true,
+    "propagated_abs_bound": 0.0,
+    "predicted_slope_delta": 0.0,
+    "measured_slope_delta": 0.0,
+    "ratio_to_bound": 0.0,
+    "ratio_to_band": 0.0,
+    "bound_factor": 10.0,
+    "band": [
+      -2.3,
+      -1.7
+    ],
+    "band_pass": true,
+    "stability_1e_12": true
+  },
+  {
+    "observable": "state",
+    "r": [
+      8,
+      16,
+      32,
+      64,
+      128
+    ],
+    "sum_w_squared": 4.804530139182013,
+    "slope_stored": -2.0070143886994325,
+    "refit_committed": -2.0070143886994325,
+    "refit_rerun": -2.0070143886994325,
+    "refit_abs_delta": 0.0,
+    "error_array_deltas": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "max_error_array_delta": 0.0,
+    "primary_abs_threshold": 1e-12,
+    "primary_pass": true,
+    "propagated_abs_bound": 0.0,
+    "predicted_slope_delta": 0.0,
+    "measured_slope_delta": 0.0,
+    "ratio_to_bound": 0.0,
+    "ratio_to_band": 0.0,
+    "bound_factor": 10.0,
+    "band": [
+      -2.3,
+      -1.7
+    ],
+    "band_pass": true,
+    "stability_1e_12": true
+  }
+]

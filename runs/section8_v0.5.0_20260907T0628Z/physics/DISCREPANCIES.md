@@ -63,3 +63,19 @@ window keeps the tree-level operating point and reports the shortfall.
 g² = 4, m = 0.75, δt = 0.8333, r_max = 3 (t = 2.5):
 exact P_surv drop 0.993 (≥ 0.3 ✓), pair weight 0.819 (≥ 0.05 ✓),
 Strang error 0.016 (≤ 0.05 ✓). No shortfall flag on window criteria.
+
+## D-E. v0.5.0 twin repeats were not independent
+
+The v0.5.0 twin seeded its repeats `seed + k` (`src/su2qc/twin/twin.py`,
+`run_counts`). Under Aer's per-shot seeding, consecutive seeds produce the same
+shot stream offset by one shot, so repeats overlap in N - 1 of N shots. Every
+v0.5.0 twin sigma is therefore void as an independent-repeat uncertainty. No
+v0.5.0 twin number was ever gated, so no gate result changes.
+
+Mechanism evidence, measured on the production path
+`AerSimulator.from_backend(FakeTorino)` at 12 qubits and 1,024 shots:
+`runs/campaign_v060/sessions/c060_p0_20260909_5/seed-mechanism.json` records
+same-index matches 0 and shift matches 1,023 of 1,024 for the seed pair
+(500, 501), against 1 of 1,024 for seeds spawned from a numpy SeedSequence.
+The repair replaces the increment with spawned seeds and is recorded in the
+campaign C0 gate, not here.

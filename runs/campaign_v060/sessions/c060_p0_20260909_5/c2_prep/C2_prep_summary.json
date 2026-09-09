@@ -1,0 +1,31 @@
+{
+  "meta": {
+    "session": "c060_p0_20260909_5",
+    "generated_utc": "2026-09-09T20:34:11.144790+00:00",
+    "generator": "runs/campaign_v060/sessions/c060_p0_20260909_5/tools/c2_prep_counts.py",
+    "python": "3.11.16",
+    "numpy": "2.4.6",
+    "platform": "Linux-7.1.9-arch1-2-x86_64-with-glibc2.44",
+    "read_only_sources": [
+      "runs/section8_v0.5.0_20260907T0628Z/src/su2qc/conventions.py",
+      "runs/section8_v0.5.0_20260907T0628Z/src/su2qc/ham/route_spinnet.py",
+      "runs/section8_v0.5.0_20260907T0628Z/src/su2qc/ham/route_gausskernel.py"
+    ],
+    "disclaimer": "Preparation evidence for gate C2. This session does not gate C2 and issues no gate verdict."
+  },
+  "rows": {
+    "V3": {
+      "file": "V3_jmax1_counts.json",
+      "verdict": "ALL METHODS AGREE WITH TARGET"
+    },
+    "V5": {
+      "file": "V5_static_bridge_counts.json",
+      "verdict": "BOTH CASES MATCH TARGET"
+    },
+    "V7": {
+      "file": "V7_ladder_2x3_counts.json",
+      "verdict": "THREE METHODS AGREE WITH TARGET"
+    }
+  },
+  "total_wall_seconds": 351.39
+}

@@ -1,0 +1,1145 @@
+{
+  "row": "V5",
+  "statement": "Two static fundamental (j = 1/2) background charges entering G^a_v as +B^a_v; count the Gauss-law kernel.",
+  "gauss_law_reading": "A static fundamental charge at vertex v contributes one extra j = 1/2 representation to the SU(2) invariance condition at v. The gauge-invariant dimension is therefore the product over vertices of the singlet multiplicity of (x)_{l incident on v} V_{j_l} (x) V_{matter(n_v)} (x) V_{1/2}, summed over all link-spin and matter configurations. No coupling, convention or basis definition is altered.",
+  "cases": {
+    "static112_1x1": {
+      "geometry_note": "frozen 1x1 plaquette; static charges at v0=(0,0) (bottom-left) and v2=(1,1) (top-right), as Appendix A of the campaign prompt specifies.",
+      "jmax": 0.5,
+      "results": {
+        "cg": {
+          "geometry": {
+            "name": "1x1",
+            "vertices": [
+              [
+                0,
+                0
+              ],
+              [
+                1,
+                0
+              ],
+              [
+                1,
+                1
+              ],
+              [
+                0,
+                1
+              ]
+            ],
+            "links": [
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                2
+              ],
+              [
+                3,
+                2
+              ],
+              [
+                0,
+                3
+              ]
+            ],
+            "static_charges_at": [
+              0,
+              2
+            ],
+            "valence": [
+              2,
+              2,
+              2,
+              2
+            ],
+            "staggered_vacuum": [
+              0,
+              2,
+              0,
+              2
+            ]
+          },
+          "jmax": 0.5,
+          "method": "cg",
+          "total": 112,
+          "histogram": {
+            "0": 2,
+            "2": 27,
+            "4": 54,
+            "6": 27,
+            "8": 2
+          },
+          "link_configs_with_a_live_vertex_set": 16,
+          "max_rounding_error": 0.0,
+          "integer_within_tol": true,
+          "wall_seconds": 0.007,
+          "method_doc": "M1 integer Clebsch-Gordan series: singlet multiplicity at each vertex from the exact integer decomposition of the tensor product of the incident link irreps, the matter irrep and any static-charge irrep."
+        },
+        "nullity": {
+          "geometry": {
+            "name": "1x1",
+            "vertices": [
+              [
+                0,
+                0
+              ],
+              [
+                1,
+                0
+              ],
+              [
+                1,
+                1
+              ],
+              [
+                0,
+                1
+              ]
+            ],
+            "links": [
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                2
+              ],
+              [
+                3,
+                2
+              ],
+              [
+                0,
+                3
+              ]
+            ],
+            "static_charges_at": [
+              0,
+              2
+            ],
+            "valence": [
+              2,
+              2,
+              2,
+              2
+            ],
+            "staggered_vacuum": [
+              0,
+              2,
+              0,
+              2
+            ]
+          },
+          "jmax": 0.5,
+          "method": "nullity",
+          "total": 112,
+          "histogram": {
+            "0": 2,
+            "2": 27,
+            "4": 54,
+            "6": 27,
+            "8": 2
+          },
+          "link_configs_with_a_live_vertex_set": 16,
+          "max_rounding_error": 0.0,
+          "integer_within_tol": true,
+          "wall_seconds": 0.615,
+          "method_doc": "M2 dense linear algebra: build J^a_total on the explicit tensor-product carrier space of the vertex and count the exact zero eigenvalues of sum_a (J^a_total)^2 (|eig| < 1e-9)."
+        },
+        "haar": {
+          "geometry": {
+            "name": "1x1",
+            "vertices": [
+              [
+                0,
+                0
+              ],
+              [
+                1,
+                0
+              ],
+              [
+                1,
+                1
+              ],
+              [
+                0,
+                1
+              ]
+            ],
+            "links": [
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                2
+              ],
+              [
+                3,
+                2
+              ],
+              [
+                0,
+                3
+              ]
+            ],
+            "static_charges_at": [
+              0,
+              2
+            ],
+            "valence": [
+              2,
+              2,
+              2,
+              2
+            ],
+            "staggered_vacuum": [
+              0,
+              2,
+              0,
+              2
+            ]
+          },
+          "jmax": 0.5,
+          "method": "haar",
+          "total": 112,
+          "histogram": {
+            "0": 2,
+            "2": 27,
+            "4": 54,
+            "6": 27,
+            "8": 2
+          },
+          "link_configs_with_a_live_vertex_set": 16,
+          "max_rounding_error": 1.2079226507921703e-11,
+          "integer_within_tol": true,
+          "wall_seconds": 0.072,
+          "method_doc": "M3 Haar character integral: singlet multiplicity as (2/pi) int_0^pi sin^2(psi) prod_i chi_{j_i}(psi) d psi with chi_j(psi) = sin((2j+1)psi)/sin(psi), by 400-node Gauss-Legendre."
+        },
+        "methods_agree": true
+      },
+      "target": {
+        "total": 112,
+        "histogram": {
+          "0": 2,
+          "2": 27,
+          "4": 54,
+          "6": 27,
+          "8": 2
+        },
+        "source": "prompts/gi_cost_campaign_v.0.6.0.md line 112 (V5), Appendix A"
+      },
+      "vs_target": {
+        "total_matches_target": true,
+        "histogram_matches_target": true
+      }
+    },
+    "static2417_2x3": {
+      "geometry_note": "2x3 ladder, 6 vertices / 7 links / 2 plaquettes; v = 3*row + col, (x,y) = (col,row); static charges at v0=(0,0) and v5=(2,1), the two diagonally opposite far corners.",
+      "jmax": 0.5,
+      "results": {
+        "cg": {
+          "geometry": {
+            "name": "2x3",
+            "vertices": [
+              [
+                0,
+                0
+              ],
+              [
+                1,
+                0
+              ],
+              [
+                2,
+                0
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                1
+              ],
+              [
+                2,
+                1
+              ]
+            ],
+            "links": [
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                2
+              ],
+              [
+                0,
+                3
+              ],
+              [
+                1,
+                4
+              ],
+              [
+                2,
+                5
+              ],
+              [
+                3,
+                4
+              ],
+              [
+                4,
+                5
+              ]
+            ],
+            "static_charges_at": [
+              0,
+              5
+            ],
+            "valence": [
+              2,
+              3,
+              2,
+              2,
+              3,
+              2
+            ],
+            "staggered_vacuum": [
+              0,
+              2,
+              0,
+              2,
+              0,
+              2
+            ]
+          },
+          "jmax": 0.5,
+          "method": "cg",
+          "total": 2417,
+          "histogram": {
+            "0": 4,
+            "2": 119,
+            "4": 597,
+            "6": 977,
+            "8": 597,
+            "10": 119,
+            "12": 4
+          },
+          "link_configs_with_a_live_vertex_set": 128,
+          "max_rounding_error": 0.0,
+          "integer_within_tol": true,
+          "wall_seconds": 0.237,
+          "method_doc": "M1 integer Clebsch-Gordan series: singlet multiplicity at each vertex from the exact integer decomposition of the tensor product of the incident link irreps, the matter irrep and any static-charge irrep."
+        },
+        "nullity": {
+          "geometry": {
+            "name": "2x3",
+            "vertices": [
+              [
+                0,
+                0
+              ],
+              [
+                1,
+                0
+              ],
+              [
+                2,
+                0
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                1
+              ],
+              [
+                2,
+                1
+              ]
+            ],
+            "links": [
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                2
+              ],
+              [
+                0,
+                3
+              ],
+              [
+                1,
+                4
+              ],
+              [
+                2,
+                5
+              ],
+              [
+                3,
+                4
+              ],
+              [
+                4,
+                5
+              ]
+            ],
+            "static_charges_at": [
+              0,
+              5
+            ],
+            "valence": [
+              2,
+              3,
+              2,
+              2,
+              3,
+              2
+            ],
+            "staggered_vacuum": [
+              0,
+              2,
+              0,
+              2,
+              0,
+              2
+            ]
+          },
+          "jmax": 0.5,
+          "method": "nullity",
+          "total": 2417,
+          "histogram": {
+            "0": 4,
+            "2": 119,
+            "4": 597,
+            "6": 977,
+            "8": 597,
+            "10": 119,
+            "12": 4
+          },
+          "link_configs_with_a_live_vertex_set": 128,
+          "max_rounding_error": 0.0,
+          "integer_within_tol": true,
+          "wall_seconds": 4.443,
+          "method_doc": "M2 dense linear algebra: build J^a_total on the explicit tensor-product carrier space of the vertex and count the exact zero eigenvalues of sum_a (J^a_total)^2 (|eig| < 1e-9)."
+        },
+        "haar": {
+          "geometry": {
+            "name": "2x3",
+            "vertices": [
+              [
+                0,
+                0
+              ],
+              [
+                1,
+                0
+              ],
+              [
+                2,
+                0
+              ],
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                1
+              ],
+              [
+                2,
+                1
+              ]
+            ],
+            "links": [
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                2
+              ],
+              [
+                0,
+                3
+              ],
+              [
+                1,
+                4
+              ],
+              [
+                2,
+                5
+              ],
+              [
+                3,
+                4
+              ],
+              [
+                4,
+                5
+              ]
+            ],
+            "static_charges_at": [
+              0,
+              5
+            ],
+            "valence": [
+              2,
+              3,
+              2,
+              2,
+              3,
+              2
+            ],
+            "staggered_vacuum": [
+              0,
+              2,
+              0,
+              2,
+              0,
+              2
+            ]
+          },
+          "jmax": 0.5,
+          "method": "haar",
+          "total": 2417,
+          "histogram": {
+            "0": 4,
+            "2": 119,
+            "4": 597,
+            "6": 977,
+            "8": 597,
+            "10": 119,
+            "12": 4
+          },
+          "link_configs_with_a_live_vertex_set": 128,
+          "max_rounding_error": 3.724380803760141e-10,
+          "integer_within_tol": true,
+          "wall_seconds": 0.481,
+          "method_doc": "M3 Haar character integral: singlet multiplicity as (2/pi) int_0^pi sin^2(psi) prod_i chi_{j_i}(psi) d psi with chi_j(psi) = sin((2j+1)psi)/sin(psi), by 400-node Gauss-Legendre."
+        },
+        "methods_agree": true
+      },
+      "target": {
+        "total": 2417,
+        "histogram": {
+          "0": 4,
+          "2": 119,
+          "4": 597,
+          "6": 977,
+          "8": 597,
+          "10": 119,
+          "12": 4
+        },
+        "source": "prompts/gi_cost_campaign_v.0.6.0.md line 112 (V5), Appendix A"
+      },
+      "vs_target": {
+        "total_matches_target": true,
+        "histogram_matches_target": true
+      }
+    }
+  },
+  "placement_audit": {
+    "1x1": {
+      "target_total": 112,
+      "placements": [
+        {
+          "charges_at": [
+            0,
+            1
+          ],
+          "coords": [
+            [
+              0,
+              0
+            ],
+            [
+              1,
+              0
+            ]
+          ],
+          "total": 113,
+          "histogram": {
+            "0": 2,
+            "2": 27,
+            "4": 55,
+            "6": 27,
+            "8": 2
+          },
+          "equals_target": false
+        },
+        {
+          "charges_at": [
+            0,
+            2
+          ],
+          "coords": [
+            [
+              0,
+              0
+            ],
+            [
+              1,
+              1
+            ]
+          ],
+          "total": 112,
+          "histogram": {
+            "0": 2,
+            "2": 27,
+            "4": 54,
+            "6": 27,
+            "8": 2
+          },
+          "equals_target": true
+        },
+        {
+          "charges_at": [
+            0,
+            3
+          ],
+          "coords": [
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              1
+            ]
+          ],
+          "total": 113,
+          "histogram": {
+            "0": 2,
+            "2": 27,
+            "4": 55,
+            "6": 27,
+            "8": 2
+          },
+          "equals_target": false
+        },
+        {
+          "charges_at": [
+            1,
+            2
+          ],
+          "coords": [
+            [
+              1,
+              0
+            ],
+            [
+              1,
+              1
+            ]
+          ],
+          "total": 113,
+          "histogram": {
+            "0": 2,
+            "2": 27,
+            "4": 55,
+            "6": 27,
+            "8": 2
+          },
+          "equals_target": false
+        },
+        {
+          "charges_at": [
+            1,
+            3
+          ],
+          "coords": [
+            [
+              1,
+              0
+            ],
+            [
+              0,
+              1
+            ]
+          ],
+          "total": 112,
+          "histogram": {
+            "0": 2,
+            "2": 27,
+            "4": 54,
+            "6": 27,
+            "8": 2
+          },
+          "equals_target": true
+        },
+        {
+          "charges_at": [
+            2,
+            3
+          ],
+          "coords": [
+            [
+              1,
+              1
+            ],
+            [
+              0,
+              1
+            ]
+          ],
+          "total": 113,
+          "histogram": {
+            "0": 2,
+            "2": 27,
+            "4": 55,
+            "6": 27,
+            "8": 2
+          },
+          "equals_target": false
+        }
+      ]
+    },
+    "2x3": {
+      "target_total": 2417,
+      "placements": [
+        {
+          "charges_at": [
+            0,
+            1
+          ],
+          "coords": [
+            [
+              0,
+              0
+            ],
+            [
+              1,
+              0
+            ]
+          ],
+          "total": 2729,
+          "histogram": {
+            "0": 5,
+            "2": 141,
+            "4": 674,
+            "6": 1089,
+            "8": 674,
+            "10": 141,
+            "12": 5
+          },
+          "equals_target": false
+        },
+        {
+          "charges_at": [
+            0,
+            2
+          ],
+          "coords": [
+            [
+              0,
+              0
+            ],
+            [
+              2,
+              0
+            ]
+          ],
+          "total": 2418,
+          "histogram": {
+            "0": 4,
+            "2": 119,
+            "4": 597,
+            "6": 978,
+            "8": 597,
+            "10": 119,
+            "12": 4
+          },
+          "equals_target": false
+        },
+        {
+          "charges_at": [
+            0,
+            3
+          ],
+          "coords": [
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              1
+            ]
+          ],
+          "total": 2442,
+          "histogram": {
+            "0": 4,
+            "2": 119,
+            "4": 601,
+            "6": 994,
+            "8": 601,
+            "10": 119,
+            "12": 4
+          },
+          "equals_target": false
+        },
+        {
+          "charges_at": [
+            0,
+            4
+          ],
+          "coords": [
+            [
+              0,
+              0
+            ],
+            [
+              1,
+              1
+            ]
+          ],
+          "total": 2706,
+          "histogram": {
+            "0": 5,
+            "2": 140,
+            "4": 668,
+            "6": 1080,
+            "8": 668,
+            "10": 140,
+            "12": 5
+          },
+          "equals_target": false
+        },
+        {
+          "charges_at": [
+            0,
+            5
+          ],
+          "coords": [
+            [
+              0,
+              0
+            ],
+            [
+              2,
+              1
+            ]
+          ],
+          "total": 2417,
+          "histogram": {
+            "0": 4,
+            "2": 119,
+            "4": 597,
+            "6": 977,
+            "8": 597,
+            "10": 119,
+            "12": 4
+          },
+          "equals_target": true
+        },
+        {
+          "charges_at": [
+            1,
+            2
+          ],
+          "coords": [
+            [
+              1,
+              0
+            ],
+            [
+              2,
+              0
+            ]
+          ],
+          "total": 2729,
+          "histogram": {
+            "0": 5,
+            "2": 141,
+            "4": 674,
+            "6": 1089,
+            "8": 674,
+            "10": 141,
+            "12": 5
+          },
+          "equals_target": false
+        },
+        {
+          "charges_at": [
+            1,
+            3
+          ],
+          "coords": [
+            [
+              1,
+              0
+            ],
+            [
+              0,
+              1
+            ]
+          ],
+          "total": 2706,
+          "histogram": {
+            "0": 5,
+            "2": 140,
+            "4": 668,
+            "6": 1080,
+            "8": 668,
+            "10": 140,
+            "12": 5
+          },
+          "equals_target": false
+        },
+        {
+          "charges_at": [
+            1,
+            4
+          ],
+          "coords": [
+            [
+              1,
+              0
+            ],
+            [
+              1,
+              1
+            ]
+          ],
+          "total": 3041,
+          "histogram": {
+            "0": 7,
+            "2": 165,
+            "4": 750,
+            "6": 1197,
+            "8": 750,
+            "10": 165,
+            "12": 7
+          },
+          "equals_target": false
+        },
+        {
+          "charges_at": [
+            1,
+            5
+          ],
+          "coords": [
+            [
+              1,
+              0
+            ],
+            [
+              2,
+              1
+            ]
+          ],
+          "total": 2706,
+          "histogram": {
+            "0": 5,
+            "2": 140,
+            "4": 668,
+            "6": 1080,
+            "8": 668,
+            "10": 140,
+            "12": 5
+          },
+          "equals_target": false
+        },
+        {
+          "charges_at": [
+            2,
+            3
+          ],
+          "coords": [
+            [
+              2,
+              0
+            ],
+            [
+              0,
+              1
+            ]
+          ],
+          "total": 2417,
+          "histogram": {
+            "0": 4,
+            "2": 119,
+            "4": 597,
+            "6": 977,
+            "8": 597,
+            "10": 119,
+            "12": 4
+          },
+          "equals_target": true
+        },
+        {
+          "charges_at": [
+            2,
+            4
+          ],
+          "coords": [
+            [
+              2,
+              0
+            ],
+            [
+              1,
+              1
+            ]
+          ],
+          "total": 2706,
+          "histogram": {
+            "0": 5,
+            "2": 140,
+            "4": 668,
+            "6": 1080,
+            "8": 668,
+            "10": 140,
+            "12": 5
+          },
+          "equals_target": false
+        },
+        {
+          "charges_at": [
+            2,
+            5
+          ],
+          "coords": [
+            [
+              2,
+              0
+            ],
+            [
+              2,
+              1
+            ]
+          ],
+          "total": 2442,
+          "histogram": {
+            "0": 4,
+            "2": 119,
+            "4": 601,
+            "6": 994,
+            "8": 601,
+            "10": 119,
+            "12": 4
+          },
+          "equals_target": false
+        },
+        {
+          "charges_at": [
+            3,
+            4
+          ],
+          "coords": [
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              1
+            ]
+          ],
+          "total": 2729,
+          "histogram": {
+            "0": 5,
+            "2": 141,
+            "4": 674,
+            "6": 1089,
+            "8": 674,
+            "10": 141,
+            "12": 5
+          },
+          "equals_target": false
+        },
+        {
+          "charges_at": [
+            3,
+            5
+          ],
+          "coords": [
+            [
+              0,
+              1
+            ],
+            [
+              2,
+              1
+            ]
+          ],
+          "total": 2418,
+          "histogram": {
+            "0": 4,
+            "2": 119,
+            "4": 597,
+            "6": 978,
+            "8": 597,
+            "10": 119,
+            "12": 4
+          },
+          "equals_target": false
+        },
+        {
+          "charges_at": [
+            4,
+            5
+          ],
+          "coords": [
+            [
+              1,
+              1
+            ],
+            [
+              2,
+              1
+            ]
+          ],
+          "total": 2729,
+          "histogram": {
+            "0": 5,
+            "2": 141,
+            "4": 674,
+            "6": 1089,
+            "8": 674,
+            "10": 141,
+            "12": 5
+          },
+          "equals_target": false
+        }
+      ]
+    }
+  },
+  "verdict": "BOTH CASES MATCH TARGET",
+  "meta": {
+    "session": "c060_p0_20260909_5",
+    "generated_utc": "2026-09-09T20:34:11.144790+00:00",
+    "generator": "runs/campaign_v060/sessions/c060_p0_20260909_5/tools/c2_prep_counts.py",
+    "python": "3.11.16",
+    "numpy": "2.4.6",
+    "platform": "Linux-7.1.9-arch1-2-x86_64-with-glibc2.44",
+    "read_only_sources": [
+      "runs/section8_v0.5.0_20260907T0628Z/src/su2qc/conventions.py",
+      "runs/section8_v0.5.0_20260907T0628Z/src/su2qc/ham/route_spinnet.py",
+      "runs/section8_v0.5.0_20260907T0628Z/src/su2qc/ham/route_gausskernel.py"
+    ],
+    "disclaimer": "Preparation evidence for gate C2. This session does not gate C2 and issues no gate verdict."
+  }
+}

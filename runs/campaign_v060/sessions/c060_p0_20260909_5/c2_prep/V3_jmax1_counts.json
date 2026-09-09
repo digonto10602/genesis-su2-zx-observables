@@ -1,0 +1,290 @@
+{
+  "row": "V3",
+  "statement": "j_max = 1 single plaquette: 152 gauge-invariant states, fermion-number sectors (3, 36, 74, 36, 3).",
+  "target": {
+    "total": 152,
+    "histogram": {
+      "0": 3,
+      "2": 36,
+      "4": 74,
+      "6": 36,
+      "8": 3
+    },
+    "source": "prompts/gi_cost_campaign_v.0.6.0.md line 110 (V3), line 228"
+  },
+  "independent_enumeration": {
+    "cg": {
+      "geometry": {
+        "name": "1x1",
+        "vertices": [
+          [
+            0,
+            0
+          ],
+          [
+            1,
+            0
+          ],
+          [
+            1,
+            1
+          ],
+          [
+            0,
+            1
+          ]
+        ],
+        "links": [
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            3,
+            2
+          ],
+          [
+            0,
+            3
+          ]
+        ],
+        "static_charges_at": [],
+        "valence": [
+          2,
+          2,
+          2,
+          2
+        ],
+        "staggered_vacuum": [
+          0,
+          2,
+          0,
+          2
+        ]
+      },
+      "jmax": 1.0,
+      "method": "cg",
+      "total": 152,
+      "histogram": {
+        "0": 3,
+        "2": 36,
+        "4": 74,
+        "6": 36,
+        "8": 3
+      },
+      "link_configs_with_a_live_vertex_set": 35,
+      "max_rounding_error": 0.0,
+      "integer_within_tol": true,
+      "wall_seconds": 0.012,
+      "method_doc": "M1 integer Clebsch-Gordan series: singlet multiplicity at each vertex from the exact integer decomposition of the tensor product of the incident link irreps, the matter irrep and any static-charge irrep."
+    },
+    "nullity": {
+      "geometry": {
+        "name": "1x1",
+        "vertices": [
+          [
+            0,
+            0
+          ],
+          [
+            1,
+            0
+          ],
+          [
+            1,
+            1
+          ],
+          [
+            0,
+            1
+          ]
+        ],
+        "links": [
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            3,
+            2
+          ],
+          [
+            0,
+            3
+          ]
+        ],
+        "static_charges_at": [],
+        "valence": [
+          2,
+          2,
+          2,
+          2
+        ],
+        "staggered_vacuum": [
+          0,
+          2,
+          0,
+          2
+        ]
+      },
+      "jmax": 1.0,
+      "method": "nullity",
+      "total": 152,
+      "histogram": {
+        "0": 3,
+        "2": 36,
+        "4": 74,
+        "6": 36,
+        "8": 3
+      },
+      "link_configs_with_a_live_vertex_set": 35,
+      "max_rounding_error": 0.0,
+      "integer_within_tol": true,
+      "wall_seconds": 1.885,
+      "method_doc": "M2 dense linear algebra: build J^a_total on the explicit tensor-product carrier space of the vertex and count the exact zero eigenvalues of sum_a (J^a_total)^2 (|eig| < 1e-9)."
+    },
+    "haar": {
+      "geometry": {
+        "name": "1x1",
+        "vertices": [
+          [
+            0,
+            0
+          ],
+          [
+            1,
+            0
+          ],
+          [
+            1,
+            1
+          ],
+          [
+            0,
+            1
+          ]
+        ],
+        "links": [
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            3,
+            2
+          ],
+          [
+            0,
+            3
+          ]
+        ],
+        "static_charges_at": [],
+        "valence": [
+          2,
+          2,
+          2,
+          2
+        ],
+        "staggered_vacuum": [
+          0,
+          2,
+          0,
+          2
+        ]
+      },
+      "jmax": 1.0,
+      "method": "haar",
+      "total": 152,
+      "histogram": {
+        "0": 3,
+        "2": 36,
+        "4": 74,
+        "6": 36,
+        "8": 3
+      },
+      "link_configs_with_a_live_vertex_set": 35,
+      "max_rounding_error": 1.6825651982799172e-11,
+      "integer_within_tol": true,
+      "wall_seconds": 0.44,
+      "method_doc": "M3 Haar character integral: singlet multiplicity as (2/pi) int_0^pi sin^2(psi) prod_i chi_{j_i}(psi) d psi with chi_j(psi) = sin((2j+1)psi)/sin(psi), by 400-node Gauss-Legendre."
+    },
+    "methods_agree": true
+  },
+  "route_implementations": {
+    "route_A_spinnet": {
+      "module": "runs/section8_v0.5.0_20260907T0628Z/src/su2qc/ham/route_spinnet.py",
+      "call": "enumerate_basis(1.0) / build_hamiltonian(1.0, 0.1, 1.0)",
+      "total": 152,
+      "histogram": {
+        "0": 3,
+        "2": 36,
+        "4": 74,
+        "6": 36,
+        "8": 3
+      },
+      "hamiltonian_shape": [
+        152,
+        152
+      ],
+      "hermiticity_max_abs_asymmetry": 0.0,
+      "wall_seconds_basis": 0.001,
+      "wall_seconds_hamiltonian": 6.424,
+      "duplicate_labels": 0
+    },
+    "route_B_gausskernel": {
+      "module": "runs/section8_v0.5.0_20260907T0628Z/src/su2qc/ham/route_gausskernel.py",
+      "call": "_basis(1.0)  (equivalently kernel_dimension(1.0))",
+      "total": 152,
+      "histogram": {
+        "0": 3,
+        "2": 36,
+        "4": 74,
+        "6": 36,
+        "8": 3
+      },
+      "projector_orthonormality_max_abs_dev": 8.881784197001252e-16,
+      "projector_orthonormality_threshold": 1e-12,
+      "projector_orthonormality_pass": true,
+      "wall_seconds": 317.222,
+      "note": "route B builds only the kernel at j_max = 1; the projected H is route-A-only per its module docstring."
+    }
+  },
+  "route_label_set_identical": true,
+  "route_label_order_identical": true,
+  "agreement": {
+    "independent_vs_route_A": true,
+    "independent_vs_route_B": true,
+    "route_A_vs_route_B": true
+  },
+  "vs_target": {
+    "total_matches_target": true,
+    "histogram_matches_target": true
+  },
+  "verdict": "ALL METHODS AGREE WITH TARGET",
+  "meta": {
+    "session": "c060_p0_20260909_5",
+    "generated_utc": "2026-09-09T20:34:11.144790+00:00",
+    "generator": "runs/campaign_v060/sessions/c060_p0_20260909_5/tools/c2_prep_counts.py",
+    "python": "3.11.16",
+    "numpy": "2.4.6",
+    "platform": "Linux-7.1.9-arch1-2-x86_64-with-glibc2.44",
+    "read_only_sources": [
+      "runs/section8_v0.5.0_20260907T0628Z/src/su2qc/conventions.py",
+      "runs/section8_v0.5.0_20260907T0628Z/src/su2qc/ham/route_spinnet.py",
+      "runs/section8_v0.5.0_20260907T0628Z/src/su2qc/ham/route_gausskernel.py"
+    ],
+    "disclaimer": "Preparation evidence for gate C2. This session does not gate C2 and issues no gate verdict."
+  }
+}

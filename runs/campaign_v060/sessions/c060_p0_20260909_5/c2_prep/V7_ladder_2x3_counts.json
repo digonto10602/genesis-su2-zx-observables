@@ -1,0 +1,330 @@
+{
+  "row": "V7",
+  "statement": "2x3 ladder, j_max = 1/2, OURS (no static charges): 1,727 gauge-invariant states, by three independent methods.",
+  "geometry_note": "6 vertices, 7 links, 2 plaquettes; v = 3*row + col, (x,y) = (col,row); horizontal links left->right, rungs bottom->top, matching the 1x1 link orientation convention. The 3x2 reading is the same graph up to relabelling and gives the same counts.",
+  "jmax": 0.5,
+  "three_methods": {
+    "cg": {
+      "geometry": {
+        "name": "2x3",
+        "vertices": [
+          [
+            0,
+            0
+          ],
+          [
+            1,
+            0
+          ],
+          [
+            2,
+            0
+          ],
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            1
+          ],
+          [
+            2,
+            1
+          ]
+        ],
+        "links": [
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            1,
+            4
+          ],
+          [
+            2,
+            5
+          ],
+          [
+            3,
+            4
+          ],
+          [
+            4,
+            5
+          ]
+        ],
+        "static_charges_at": [],
+        "valence": [
+          2,
+          3,
+          2,
+          2,
+          3,
+          2
+        ],
+        "staggered_vacuum": [
+          0,
+          2,
+          0,
+          2,
+          0,
+          2
+        ]
+      },
+      "jmax": 0.5,
+      "method": "cg",
+      "total": 1727,
+      "histogram": {
+        "0": 4,
+        "2": 95,
+        "4": 426,
+        "6": 677,
+        "8": 426,
+        "10": 95,
+        "12": 4
+      },
+      "link_configs_with_a_live_vertex_set": 128,
+      "max_rounding_error": 0.0,
+      "integer_within_tol": true,
+      "wall_seconds": 0.111,
+      "method_doc": "M1 integer Clebsch-Gordan series: singlet multiplicity at each vertex from the exact integer decomposition of the tensor product of the incident link irreps, the matter irrep and any static-charge irrep."
+    },
+    "nullity": {
+      "geometry": {
+        "name": "2x3",
+        "vertices": [
+          [
+            0,
+            0
+          ],
+          [
+            1,
+            0
+          ],
+          [
+            2,
+            0
+          ],
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            1
+          ],
+          [
+            2,
+            1
+          ]
+        ],
+        "links": [
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            1,
+            4
+          ],
+          [
+            2,
+            5
+          ],
+          [
+            3,
+            4
+          ],
+          [
+            4,
+            5
+          ]
+        ],
+        "static_charges_at": [],
+        "valence": [
+          2,
+          3,
+          2,
+          2,
+          3,
+          2
+        ],
+        "staggered_vacuum": [
+          0,
+          2,
+          0,
+          2,
+          0,
+          2
+        ]
+      },
+      "jmax": 0.5,
+      "method": "nullity",
+      "total": 1727,
+      "histogram": {
+        "0": 4,
+        "2": 95,
+        "4": 426,
+        "6": 677,
+        "8": 426,
+        "10": 95,
+        "12": 4
+      },
+      "link_configs_with_a_live_vertex_set": 128,
+      "max_rounding_error": 0.0,
+      "integer_within_tol": true,
+      "wall_seconds": 4.129,
+      "method_doc": "M2 dense linear algebra: build J^a_total on the explicit tensor-product carrier space of the vertex and count the exact zero eigenvalues of sum_a (J^a_total)^2 (|eig| < 1e-9)."
+    },
+    "haar": {
+      "geometry": {
+        "name": "2x3",
+        "vertices": [
+          [
+            0,
+            0
+          ],
+          [
+            1,
+            0
+          ],
+          [
+            2,
+            0
+          ],
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            1
+          ],
+          [
+            2,
+            1
+          ]
+        ],
+        "links": [
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            1,
+            4
+          ],
+          [
+            2,
+            5
+          ],
+          [
+            3,
+            4
+          ],
+          [
+            4,
+            5
+          ]
+        ],
+        "static_charges_at": [],
+        "valence": [
+          2,
+          3,
+          2,
+          2,
+          3,
+          2
+        ],
+        "staggered_vacuum": [
+          0,
+          2,
+          0,
+          2,
+          0,
+          2
+        ]
+      },
+      "jmax": 0.5,
+      "method": "haar",
+      "total": 1727,
+      "histogram": {
+        "0": 4,
+        "2": 95,
+        "4": 426,
+        "6": 677,
+        "8": 426,
+        "10": 95,
+        "12": 4
+      },
+      "link_configs_with_a_live_vertex_set": 128,
+      "max_rounding_error": 2.7421265258453786e-10,
+      "integer_within_tol": true,
+      "wall_seconds": 0.485,
+      "method_doc": "M3 Haar character integral: singlet multiplicity as (2/pi) int_0^pi sin^2(psi) prod_i chi_{j_i}(psi) d psi with chi_j(psi) = sin((2j+1)psi)/sin(psi), by 400-node Gauss-Legendre."
+    },
+    "methods_agree": true
+  },
+  "target": {
+    "total": 1727,
+    "histogram": null,
+    "source": "prompts/gi_cost_campaign_v.0.6.0.md line 114 (V7), line 228"
+  },
+  "vs_target": {
+    "total_matches_target": true,
+    "histogram_matches_target": null
+  },
+  "note_on_routes": "Neither frozen v0.5.0 route implements a 2x3 geometry (both are hard-coded to the single plaquette), so no route number exists for this row yet. The 1x1 cross-check below shows the same three methods reproduce both routes where they do exist.",
+  "cross_check_1x1_jmax_half": {
+    "route_A_total": 82,
+    "route_B_total": 82,
+    "three_methods": {
+      "cg": 82,
+      "nullity": 82,
+      "haar": 82
+    },
+    "conventions_EXPECTED_DIM_half": 82,
+    "all_equal": true
+  },
+  "verdict": "THREE METHODS AGREE WITH TARGET",
+  "meta": {
+    "session": "c060_p0_20260909_5",
+    "generated_utc": "2026-09-09T20:34:11.144790+00:00",
+    "generator": "runs/campaign_v060/sessions/c060_p0_20260909_5/tools/c2_prep_counts.py",
+    "python": "3.11.16",
+    "numpy": "2.4.6",
+    "platform": "Linux-7.1.9-arch1-2-x86_64-with-glibc2.44",
+    "read_only_sources": [
+      "runs/section8_v0.5.0_20260907T0628Z/src/su2qc/conventions.py",
+      "runs/section8_v0.5.0_20260907T0628Z/src/su2qc/ham/route_spinnet.py",
+      "runs/section8_v0.5.0_20260907T0628Z/src/su2qc/ham/route_gausskernel.py"
+    ],
+    "disclaimer": "Preparation evidence for gate C2. This session does not gate C2 and issues no gate verdict."
+  }
+}

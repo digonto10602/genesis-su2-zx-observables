@@ -1,0 +1,21 @@
+{
+  "code": "pre-fix (seed + k), untouched sandbox copy of the v0.5.0 package",
+  "path": "AerSimulator.from_backend(FakeTorino), production twin",
+  "0": {
+    "shots": 4000,
+    "distinct_dictionaries": 4,
+    "repeat_sizes": [
+      83,
+      83,
+      83,
+      83,
+      83
+    ],
+    "seconds": 40.8
+  },
+  "1": {
+    "status": "not measured",
+    "reason": "The r=1 twin at 5 x 1024 shots on the 45,875-CZ circuit was still running after 16 minutes against a machine load of 27 on 12 cores, with the post-fix gate run and two build lanes queued behind it. It was stopped deliberately to free the critical path. The pre-fix claim does not depend on it: the mechanism is established directly by seed-mechanism.json, and the r=0 row already shows the old code failing the five-distinct requirement."
+  },
+  "verdict": "Pre-fix code fails R8(a) at r=0: 4 distinct dictionaries of the 5 required."
+}

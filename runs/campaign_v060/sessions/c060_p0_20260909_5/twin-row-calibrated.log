@@ -1,0 +1,8 @@
+[16:58:35] r=0: prepared in 8.6s, 133 qubits, depth 1, 7 ops
+[16:58:55] r=0: 4000 shots x 5 in 20.1s, distinct=5, N_kept_mean=2553.4
+[16:59:10] r=1: prepared in 11.0s, 133 qubits, depth 506888, 821320 ops
+[16:59:10] r=1: calibrating with 1 repeat x 4 shots
+[17:01:00] r=1: measured 27.50 s per shot
+[17:01:00] r=1: budget 900s -> 8 shots per repeat
+[17:11:23] r=1: 8 shots x 5 in 622.4s, distinct=5, N_kept_mean=0.2
+[17:11:23] written twin-row-calibrated.json
