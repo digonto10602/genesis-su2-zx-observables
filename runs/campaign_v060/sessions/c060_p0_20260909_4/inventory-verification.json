@@ -1,0 +1,11 @@
+{
+  "legacy_byte_identical": true,
+  "legacy_sha256": "213fc67fdc7f1b23900a2373a87dfbdc55d2243769ae7a28af1d8c9286f89ce3",
+  "modules": 23,
+  "all_source_test_gate_files": 34,
+  "callable_entries": 203,
+  "schema": "original AST headings/docs/sorted direct-call expressions; test assertions on tests and gates",
+  "physics_imports_or_execution": false,
+  "tool_tests": 3,
+  "status": "PASS"
+}

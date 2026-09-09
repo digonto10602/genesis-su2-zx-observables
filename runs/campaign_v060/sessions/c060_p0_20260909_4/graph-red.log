@@ -1,0 +1,13 @@
+F
+======================================================================
+FAIL: test_stale_out_of_corpus_document_is_excluded_and_asserted (__main__.GraphPolicyTests.test_stale_out_of_corpus_document_is_excluded_and_asserted)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/digimonk/Projects/SU2ZX_Foundation_Code_Package/SU2ZX/runs/campaign_v060/sessions/c060_p0_20260909_4/tools/test_graph_policy.py", line 12, in test_stale_out_of_corpus_document_is_excluded_and_asserted
+    self.assertIn("docs/REFERENCES.md", ignore)
+AssertionError: 'docs/REFERENCES.md' not found in 'zip_results/\nartifacts/figures/\nartifacts/environment-pip-freeze.txt\nartifacts/data/v040/*.qpy\nruns/*/graphify-out/\nruns/*/logs/agents/*.out.md\nruns/*/circuits/*.qpy\nruns/*/circuits/*.qasm\nruns/*/tests/.pytest_cache/\n'
+
+----------------------------------------------------------------------
+Ran 1 test in 0.001s
+
+FAILED (failures=1)

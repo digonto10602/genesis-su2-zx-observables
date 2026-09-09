@@ -1,0 +1,12 @@
+== test_inventory
+Ran 8 tests in 1.023s
+
+OK
+== test_bundle
+Ran 3 tests in 0.017s
+
+OK
+== test_graph_policy
+Ran 1 test in 0.040s
+
+OK

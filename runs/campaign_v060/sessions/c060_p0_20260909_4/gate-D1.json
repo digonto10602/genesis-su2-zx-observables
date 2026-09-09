@@ -1,0 +1,9 @@
+{
+  "status": "PASS",
+  "scope": "documentation generator only",
+  "deterministic": "D1-attempt2-evidence.json",
+  "review": "review-D1.json",
+  "review_exit_code": 0,
+  "source_sha256": "75dbf4715ace4b79df1ee5451925dbe306ec186aa72922094bdf70a917e40674",
+  "invalid_review_attempt2_rejected": true
+}

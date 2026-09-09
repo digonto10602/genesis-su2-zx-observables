@@ -1,0 +1,3 @@
+# Time ledger
+T0 2026-09-09T16:24:32Z
+Hard cutoff 2026-09-10T00:24:32Z

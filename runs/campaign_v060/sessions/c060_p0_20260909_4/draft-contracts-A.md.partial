@@ -1,0 +1,743 @@
+# SU2QC_CONTRACTS — first draft (source-derived)
+
+**Lane:** documentation-only (Opus PHYSICS-as-documentation lane of the accepted Fable plan). No code was edited, no `su2qc` module was imported or executed, and no tests were run to produce this draft. Every substantive statement below is derived from the numbered source supplied with the task, from the test files supplied with the task, or from the named historical JSON summaries. Test outputs referenced here are **historical**; they are not new gate passes.
+
+**Campaign status (carried, unchanged by this document):** C0 **PARTIAL**; C1 **unamended**; C2 **NOT STARTED** (stored state may say BLOCKED — that stored value is superseded by NOT STARTED). No production repair has been made. All noisy-simulator results in the cited evidence are **EMULATED**. Every v0.5.0 twin sigma is **void as independent-repeat uncertainty**. All proposed repairs are **PROPOSED, NOT IMPLEMENTED**. No thresholds were changed. **No campaign physics sign-off is given or implied by this document.**
+
+**Scope:** exactly the 43 public functions listed in the task. The AST scan reports no public classes in these modules, so there are no class entries. Imported external-library primitives (`numpy`, `scipy.sparse`, `scipy.linalg`, `hashlib`, `json`, `itertools`, `pathlib`) are not package-authored API and get no entries; locally imported `su2qc` callables are documented at their own definitions (e.g. `conventions.casimir` is documented once, not again at each import site).
+
+**Enforcement vocabulary.** *Direct* = a supplied test calls the documented function and asserts on its result. *Indirect* = a supplied test asserts on a value that the function contributes to through another code path (this never pins the function's own contract beyond what the assertion literally states). *UNENFORCED* = no supplied test constrains the stated behaviour. **Missing input validation is never reported as a validated precondition**, and no test is described as enforcing more than its literal assertions.
+
+## Front matter A — mandatory R15 correction (supersedes the prompt's meson paragraph)
+
+Under the frozen conventions, occupation `n_v ∈ {0,1,2}` (`conventions.py:51`, `conventions.py:98-99`) and `N_VAC = (0,2,0,2)` (`conventions.py:53`). With `q_v = n_v − N_VAC[v]` (`conventions.py:55-57`), requiring `|q_v| = 1` at **every** vertex forces `n_1 = 1`, `n_2 = 1` (since `n_2 = 3` is outside the domain), `n_3 = 1`, `n_4 = 1`. Hence every state selected by the meson predicate has `n = (1,1,1,1)`, total `N = 4`, and `q = (1,−1,1,−1)` with `Σ_v q_v = 0`.
+
+Therefore **the claimed non-`N=4` meson hazard and the associated `jmax=1` recurrence argument are false under these conventions and are explicitly superseded.** The incorrect original R15 paragraph is not reproduced here and is not to be quoted as true. Channels are preserved exactly as implemented (`route_gausskernel.py:457-462`, `route_spinnet.py:634-676`); no channel definition is amended by this document.
+
+Two independent supports, kept distinct:
+
+* **Structural argument (domain-level, exact):** the argument above rests only on `n_v ∈ {0,1,2}` and `N_VAC = (0,2,0,2)`. It holds for any `jmax` and any basis size.
+* **Measured finite oracle (82 codes only):** `runs/campaign_v060/sessions/c060_p0_20260908_3/oracle-diagnostics.json` reports `physical_code_count: 82`, `vacuum_occupations: [0,2,0,2]`, and `non_N4_meson_codes: []`. This is a finite inspection of the 82-code `jmax=1/2` set, explicitly annotated `"Finite code inspection only; no channel-definition amendment or gate sign-off."` It corroborates but does not prove the structural claim, and it says nothing about `jmax=1`.
+
+## Front matter B — closure relations as implemented
+
+The only channel-closure content in the numbered source is the set of diagonal indicator definitions. Stated exactly:
+
+```
+q_v          = n_v - N_VAC[v]                       conventions.py:57
+P_surv[i,i]  = 1 iff (q_1,q_2,q_3,q_4) == (1,-1,0,0)   route_gausskernel.py:457-458
+P_meson[i,i] = 1 iff all_v |q_v| == 1                  route_gausskernel.py:459-460
+P_BBbar[i,i] = 1 iff any_v |q_v| == 2                  route_gausskernel.py:461-462
+```
+
+with the same three predicates re-implemented in `route_spinnet.py:627-631`, `:660-663`, `:672-675`. These three indicators are pairwise disjoint (a `(1,−1,0,0)` charge vector has no `|q|=1` at v3/v4 and no `|q|=2` anywhere; `all |q|=1` excludes `any |q|=2`) but they are **not exhaustive**: no completeness identity, no residual, and no normalisation is computed anywhere in the numbered source. `route_spinnet.P_BBbar`'s docstring phrase "takes precedence" (`route_spinnet.py:668`) describes no implemented logic — there is no precedence branch in the code.
+
+A separate, finer channel set (`P_stretched`, `P_short`, `P_surv`, `P_BBbar`) with an explicit closure residual exists in `su2qc.twin.twin` and is exercised by `runs/campaign_v060/tests/gate_C0/test_estimator.py:15-26`. That module's source is **not** in this bundle, so its closure equation is not quoted here and no claim is made about it beyond the literal test assertions.
+
+**R9 (residual as an invalid-code detector) is UNSATISFIABLE AS WRITTEN.** `runs/campaign_v060/sessions/c060_p0_20260908_3/oracle-diagnostics.json` records `invalid_input: {code: 1, decode_is_none: true, residual: 0.0}`: an invalid code carrying nonzero weight is skipped by **both** sides of the residual, so the residual is identically zero whether or not such weight is present and cannot detect it. The R9 demand awaits a ruling; nothing in this document satisfies it.
+
+## Front matter C — cross-cutting findings on functions outside the entry list
+
+These are recorded because they bound how any listed function's outputs may be used downstream. They are **not** function entries.
+
+* **`su2qc.twin.twin.run_counts` (measured backend/path).** Uses a fixed transpiler seed, **re-transpiles every circuit**, assigns per-circuit simulator seed `seed + k`, and mutates `sim.set_options`; the mutation **persists** after the call. Independence between the resulting "repeats" is **VIOLATED on the measured backend/path**: `runs/campaign_v060/sessions/c060_p0_20260908_3/seed-diagnosis.json` reports, for both the production and compact paths, `shift_equal: true` with `shift_matches: 1023` of `shots_shift: 1024` shots matching after a **one-shot shift**, versus `same_index_matches: 424` (production) and `414` (compact). `runs/campaign_v060/sessions/c060_p0_20260908_3/equal-seed-control.json` shows caller seed 101 overwritten to 500 (`simulator_seed_option_before: 101`, `simulator_seed_option_after: 500`), five runtime seeds all 500, `distinct: 1`. That control is scoped `"independent pre-fix r0 control; not the post-fix R8 r0/r1 controls"`. Both JSONs are `source: EMULATED`; `seed-diagnosis.json` carries `status: "partial: diagnostic process exited 124 at 2400-second cap during r1; no completed r1 counts"`. **Do not extrapolate this to every random generator or every backend** — the evidence covers the two paths named. The repair is **PROPOSED, NOT IMPLEMENTED**; campaign physics acceptance is **DEFERRED**. The current quota is **not** described as exhausted.
+* **`su2qc.twin.twin.bootstrap`.** Resamples elements of `counts_list`; because those elements are correlated in the measured path above, the returned `2*s` is **not** valid independent-repeat uncertainty for them. Independence alone would also not suffice: ordinary bootstrap adequacy additionally requires representative replicates and sufficient sample size. `runs/campaign_v060/tests/gate_C0/test_twin_variance.py:32-33` asserts only that some `two_sigma` value exceeds 0.0 and that means are not NaN; it asserts nothing about coverage or calibration. That test also writes `runs/campaign_v060/sessions/c060_p0_20260908_2/twin_variance.json` via a **CWD-relative** path (`test_twin_variance.py:27-29`).
+* **`physical_yield` vs `postselect` on empty input.** Empty counts raise `ZeroDivisionError` in `physical_yield`, whereas `postselect` returns `({}, 0.0)` — an asymmetry recorded in `oracle-diagnostics.json` (`empty_physical_yield`, `empty_postselect`) and **UNENFORCED** by any supplied test. `test_estimator.py:36` covers only the non-empty case (`0.75`). The physical-yield denominator includes **all reported shots** and can be zero.
+* **Caller preconditions, not guarantees.** Negative and unnormalised weights, and float-vs-int key typing, are accepted without validation throughout the estimator path. `test_estimator.py:23-26` demonstrates that a signed weight still yields residual 0.0; that is a demonstration of closure under signed input, not a validation of the input.
+* **Encoding bit order.** `conventions.py:94` freezes `QISKIT_BIT_ORDER = "q_(N-1)...q_0"` for Qiskit strings and displayed bitstrings. `test_l12.py:28-29` pins `encode(STRETCHED) == 3793` and `decode(format(3793, "012b")) == STRETCHED`, i.e. a 12-character most-significant-first string; the state-preparation loop at `test_l12.py:45-47` uses `(c >> q) & 1` to drive qubit `q`, i.e. integer bit `q` ↔ qubit index `q`. Both conventions must be preserved by any consumer of the projector/observable entries below.
+
+---
+
+### su2qc.conventions.parity
+
+**Signature** `parity(v: int) -> int`
+**Source** `runs/section8_v0.5.0_20260907T0628Z/src/su2qc/conventions.py:23-26`
+**Inputs** `v` — used directly as an index into `VERTICES` (`conventions.py:20`). No range, type, or sign validation.
+**Outputs** Python `int`, exactly `1` or `-1`: `1 if (x + y) % 2 == 0 else -1` where `(x, y) = VERTICES[v]`.
+**Invariants**
+1. `parity(0..3) == (+1, −1, +1, −1)`, materialised as the module constant `PARITY` (`conventions.py:28`). — **UNENFORCED** (no supplied test imports `conventions.parity` or asserts on `PARITY`).
+2. Return is a signed unit, never 0. — **UNENFORCED**.
+
+**Side effects** None. Module import evaluates `PARITY` once (`conventions.py:28`).
+**Empty/degenerate and errors** `v ∈ {-4..-1}` is silently accepted via Python negative indexing and returns the parity of a different vertex; `|v| ≥ 4` raises `IndexError`; non-integer `v` raises `TypeError` from tuple indexing. None of these is a validated precondition.
+**Enforcement** No direct coverage. Indirect only: `PARITY` enters the mass diagonal at `route_spinnet.py:324` and `route_gausskernel.py:320`, and the resulting `H` is asserted Hermitian (`tests/test_route_spinnet.py::TestHermiticity::test_H_hermitian`, line 59, assert line 63) and to commute with `N` (`test_route_spinnet.py::TestCommutator::test_H_commutes_with_N`, line 75, assert line 87). Neither assertion is sensitive to the sign pattern: any real diagonal satisfies both. The staggered sign convention is therefore **UNENFORCED**.
+
+### su2qc.conventions.eta
+
+**Signature** `eta(l: int) -> int`
+**Source** `runs/section8_v0.5.0_20260907T0628Z/src/su2qc/conventions.py:37-42`
+**Inputs** `l` — index into `LINKS` (`conventions.py:34`). No validation.
+**Outputs** `int`, `1` or `-1`. For direction `"x"` returns `1` unconditionally (`:40-41`); otherwise returns `1` if the **source** vertex has even `x`, else `-1` (`:42`).
+**Invariants**
+1. `eta(0..3) == (+1, −1, +1, +1)`, materialised as `ETA` (`conventions.py:44`); only `l2` (source `v2`, `x=1`) is negative. — **UNENFORCED**.
+2. The staggered phase depends on the **source** vertex only, never the target. — **UNENFORCED**.
+
+**Side effects** None; `ETA` computed at import (`:44`).
+**Empty/degenerate and errors** Negative `l` wraps silently; `|l| ≥ 4` raises `IndexError`; the `"y"` branch is reached for any direction string that is not exactly `"x"`.
+**Enforcement** No direct coverage. `ETA` multiplies each hopping block in `route_gausskernel._h_red` (`:416`) and `route_spinnet._hopping_matrix_element` (`:366`). Because **both routes import the same constant** from the same frozen module, any cross-route spectral agreement is *not* independent evidence for the sign pattern. **UNENFORCED**.
+
+### su2qc.conventions.charge
+
+**Signature** `charge(v: int, n: int) -> int`
+**Source** `runs/section8_v0.5.0_20260907T0628Z/src/su2qc/conventions.py:55-57`
+**Inputs** `v` — index into `N_VAC` (`:53`), unvalidated. `n` — occupation; **not** checked against the documented domain `{0,1,2}` (`:51`).
+**Outputs** `n - N_VAC[v]`. Returns `int` when `n` is `int`; a float `n` propagates to a float result (no coercion).
+**Invariants**
+1. `N_VAC = (0,2,0,2)`, so `charge` maps `{0,1,2}` to `{0,1,2}` at even vertices and `{−2,−1,0}` at odd vertices. — **UNENFORCED**.
+2. Consequence used throughout the channel definitions: `|q_v| = 1` at every vertex ⇒ `n = (1,1,1,1)`, `N = 4`, `Σq = 0` (the R15 correction above). — Structurally exact; measured only over the finite 82-code set by `runs/campaign_v060/sessions/c060_p0_20260908_3/oracle-diagnostics.json` (`non_N4_meson_codes: []`). No supplied test asserts it.
+
+**Side effects** None.
+**Empty/degenerate and errors** `|v| ≥ 4` raises `IndexError`; out-of-domain `n` (e.g. `3`, `−1`) is accepted and produces an out-of-range charge silently.
+**Enforcement** No direct coverage. Indirect: `compare._observables` calls it at `ham/compare.py:70` to build the survival mask, but `compare.py` is not imported by any supplied test. **UNENFORCED.**
+
+### su2qc.conventions.casimir
+
+**Signature** `casimir(j: float) -> float`
+**Source** `runs/section8_v0.5.0_20260907T0628Z/src/su2qc/conventions.py:67-69`
+**Inputs** `j` — no check for non-negativity or half-integrality.
+**Outputs** `j * (j + 1.0)`, always `float` (the `1.0` literal forces float promotion for integer `j`). `casimir(0.0) = 0.0`, `casimir(0.5) = 0.75`, `casimir(1.0) = 2.0`.
+**Invariants**
+1. `E_l² = j(j+1)` per link, matching the frozen model statement at `conventions.py:14`. — **UNENFORCED directly**; see Enforcement.
+2. Monotone non-negative on `j ≥ 0`; negative `j ∈ (−1,0)` returns a negative value without error. — **UNENFORCED**.
+
+**Side effects** None.
+**Empty/degenerate and errors** Non-numeric `j` raises `TypeError`. A numpy scalar returns a numpy scalar, not a Python float.
+**Enforcement** No supplied test calls `casimir`. **Indirect** coverage of the value `0.75` at `j=1/2` only: `test_route_spinnet.py::TestPureElectricDegeneracy::test_electric_degeneracies` (line 94) fixes `unit = 1e6/2.0*0.75` and asserts the degeneracy pattern `[16,16,18,16,16]` (line 102) and `rel <= 1e-8` (line 106); `test_route_gausskernel.py::test_pure_electric_clusters_and_stretched_label` (line 39) asserts the diagonal multiplicities `[16,16,18,16,16]` (line 43). Both reach `casimir` through the electric diagonal (`route_spinnet.py:319`, `route_gausskernel.py:316`, `:452`). Neither constrains `casimir` at `j=1.0`.
+
+### su2qc.conventions.coupling_electric
+
+**Signature** `coupling_electric(g2: float) -> float`
+**Source** `runs/section8_v0.5.0_20260907T0628Z/src/su2qc/conventions.py:77-79`
+**Inputs** `g2`, unvalidated (negative and zero accepted).
+**Outputs** `g2 / 2.0`, float.
+**Invariants**
+1. Coefficient of `Σ_l E_l²`, i.e. `H_E = (g²/2) Σ_l j_l(j_l+1)` per `conventions.py:9`. — **UNENFORCED directly**.
+2. Only `route_gausskernel` consumes it (`:414`); `route_spinnet._electric_diag` hardcodes `g2 / 2.0` (`route_spinnet.py:319`) instead of importing it. The two routes therefore duplicate rather than share this constant. — **UNENFORCED**.
+
+**Side effects** None.
+**Empty/degenerate and errors** `g2 = 0.0` returns `0.0` without error.
+**Enforcement** **Indirect** only, and only at `g2 = 1e6`: the `unit = g2/2*0.75` scaling used in `test_route_spinnet.py:98` and the cluster multiplicities asserted at `test_route_gausskernel.py:43` are consistent with the factor `1/2`, but no supplied test calls the function or varies `g2` against it.
+
+### su2qc.conventions.coupling_magnetic
+
+**Signature** `coupling_magnetic(g2: float) -> float`
+**Source** `runs/section8_v0.5.0_20260907T0628Z/src/su2qc/conventions.py:81-83`
+**Inputs** `g2`, unvalidated.
+**Outputs** `1.0 / (2.0 * g2)`, float. Sign convention per docstring and `conventions.py:12`: this is `c` in `H_B = −c · Tr(U_box + U_box†)`; the minus sign lives at the call site (`route_gausskernel.py:418`), not in this function.
+**Invariants**
+1. `H_B = −(1/(2g²)) Tr(U_box + U_box†)`. — **UNENFORCED**.
+2. Consumed by `route_gausskernel._h_red` (`:418`) only. `route_spinnet.build_hamiltonian` hardcodes `-(1.0 / (2.0 * g2))` at `route_spinnet.py:515` rather than calling this function — a second duplication of a frozen constant. — **UNENFORCED**.
+
+**Side effects** None.
+**Empty/degenerate and errors** `g2 = 0.0` raises `ZeroDivisionError` (float division); `g2 < 0` silently flips the sign of the magnetic coupling.
+**Enforcement** No supplied test calls it, and no supplied test pins any magnetic matrix element magnitude. **UNENFORCED.**
+
+### su2qc.conventions.tree_level_resonance
+
+**Signature** `tree_level_resonance(g2: float) -> float`
+**Source** `runs/section8_v0.5.0_20260907T0628Z/src/su2qc/conventions.py:89-90` (no docstring; the physics rationale is the preceding comment at `:87-88` — removing one `j=1/2` link releases `(g²/2)(3/4)`, equal to the pair cost `2m` at `m* = 3g²/16`).
+**Inputs** `g2`, unvalidated.
+**Outputs** `3.0 * g2 / 16.0`, float. `tree_level_resonance(1.0) = 0.1875`.
+**Invariants**
+1. `m*(g²) = 3g²/16`, linear in `g2` through the origin. — **UNENFORCED**.
+
+**Side effects** None.
+**Empty/degenerate and errors** No error path.
+**Enforcement** **UNENFORCED.** The value `0.1875` appears as a literal in `ham/compare.py:23` (`COUPLING_POINTS`), `compare.time_series_comparison`'s default (`:88`), and `test_route_spinnet.py:55,72` — in every case hardcoded, never obtained by calling this function. No test asserts consistency between the literal and the function.
+
+### su2qc.ham.compare.spectra_comparison
+
+**Signature** `spectra_comparison(jmax=0.5, points=COUPLING_POINTS)`
+**Source** `runs/section8_v0.5.0_20260907T0628Z/src/su2qc/ham/compare.py:45-60` (helpers `_get_routes` `:34-37`; defaults `COUPLING_POINTS` `:21-28`)
+**Inputs** `jmax` — forwarded verbatim to both route builders. `points` — iterable of `(g2, m)` pairs; the default list has 6 entries and includes `m = 0.0` (`:22`). No validation of either argument.
+**Outputs** `list[dict]`, one dict per point, in the order of `points`, each with keys `g2`, `m`, `max_rel_dev` (Python float), `dim1`, `dim2` (ints from `H.shape[0]`). A fresh list is built per call; nothing is cached here.
+**Invariants**
+1. `max_rel_dev = max|e1 − e2| / max(1.0, max|e1|)` over **sorted** eigenvalues from `scipy.linalg.eigh(..., eigvals_only=True)` (`:54-57`). The normalising scale uses route 1's spectrum only — the comparison is asymmetric. — **UNENFORCED**.
+2. Comparison is basis-independent (sorted spectra), so it cannot detect a basis-ordering disagreement between routes. — **UNENFORCED**.
+3. The function **returns** deviations and applies **no threshold and no assertion**; acceptance is entirely the caller's. — **UNENFORCED**.
+
+**Side effects** Imports `route_spinnet` and `route_gausskernel` lazily on first call (`:35-36`). Through `route_gausskernel.build_hamiltonian` it populates the module-global caches `_CACHE` (`route_gausskernel.py:155-162`), `_TERMS_CACHE` and `U_CONVENTION` (`:349-350`, `:378-379`) — persistent process state, and the dominant cost of the first call. `H1`/`H2` are densified via `.toarray()` (`:52-53`), so peak memory is `O(dim²)` per point. No file writes.
+**Empty/degenerate and errors** `points = []` returns `[]` (vacuous, no error). `jmax > 0.75` raises `NotImplementedError` from route 2 (`route_gausskernel.py:425-427`) before any comparison. If the two routes ever returned different dimensions, `e1 - e2` (`:57`) raises a numpy broadcast `ValueError` rather than reporting a mismatch. Route 1 raises `ValueError` for `jmax ∉ {0.5, 1.0}` (`route_spinnet.py:245`).
+**Enforcement** **UNENFORCED.** No supplied test file imports `su2qc.ham.compare`. The cross-route agreement criterion described in the module docstring (`:1-7`) is therefore not covered by any test in this bundle; the only supplied cross-route assertions are on **dimensions and label counts**, not spectra (`test_route_gausskernel.py:17-26`; `runs/campaign_v060/tests/gate_C0/test_jmax1_counts.py:36-40`).
+
+### su2qc.ham.compare.time_series_comparison
+
+**Signature** `time_series_comparison(g2=1.0, m=0.1875, jmax=0.5, times=TIMES)`
+**Source** `runs/section8_v0.5.0_20260907T0628Z/src/su2qc/ham/compare.py:88-106` (observable helper `_observables` `:63-85`; `STRETCHED` `:30`; `TIMES = np.linspace(0.0, 10.0, 21)` `:31`; `_norm_label` `:40-42`)
+**Inputs** `g2`, `m`, `jmax` forwarded to both builders; `times` a sequence of length ≥ 2 (index `times[1]` is taken at `:74`).
+**Outputs** Tuple `(dev, s1)`. `dev` is a Python float: the maximum over time steps of the absolute deviations of `P_surv`, all four `n_v`, and all four `E2_l` between routes (`:101-105`). `s1` is **route 1's** series only — a list of dicts `{"t": float, "P_surv": float, "n": list[4], "E2": list[4]}` (`:80-83`). Route 2's series is discarded.
+**Invariants**
+1. Initial state is the single basis vector matching `STRETCHED = ((0.0,0.5,0.5,0.5),(1,1,0,2),0)` after label normalisation that **drops the intertwiner tag** and coerces `j` to float / `n` to int (`_norm_label`, `:40-42`). — **UNENFORCED**.
+2. Uniqueness of that label in each basis is checked by `assert len(i1) == 1 and len(i2) == 1` (`:98`) — an in-function assertion, removed under `python -O`.
+3. Channel masks are computed from labels, not from route internals (`:70-73`), so the comparison is basis-order independent.
+4. **Implicit assumption, not validated:** a single propagator `U = expm(-1j*H*dt)` with `dt = times[1] - times[0]` is reused for every step (`:74-75,84`). Non-uniform `times` silently produce wrong results, and `times[0] != 0.0` makes the reported `t` label (`:80`) inconsistent with the actual elapsed evolution `i*dt`. — **UNENFORCED**.
+5. `series[i]` records the probabilities **before** applying the step at `:84`, so entry `i` is the state after exactly `i` propagator applications.
+
+**Side effects** Same lazy imports and route-2 global cache population as `spectra_comparison`. Dense `expm` on an `82×82` matrix per route. No file writes.
+**Empty/degenerate and errors** `len(times) < 2` raises `IndexError` at `:74`. Label absent or duplicated ⇒ `AssertionError` at `:98`. `jmax > 0.75` ⇒ `NotImplementedError` from route 2. `zip(s1, s2)` (`:102`) silently truncates to the shorter series if the two ever differed in length.
+**Enforcement** **UNENFORCED** (no supplied test imports `compare`).
+
+### su2qc.ham.limits.pure_electric_check
+
+**Signature** `pure_electric_check(g2_big=1e6)`
+**Source** `runs/section8_v0.5.0_20260907T0628Z/src/su2qc/ham/limits.py:28-43`
+**Inputs** `g2_big` — used both as the coupling and as the tolerance scale. `m` and `jmax` are **not** parameters: hardcoded `0.0` and `0.5` at `:32`.
+**Outputs** `dict` with `"degeneracies"` (`list[int]` of length 5, counts for `k = 0..4`), `"rel_dev"` (Python float), `"ok"` (Python `bool`).
+**Invariants**
+1. `unit = g2_big/2 * 0.75` and `k = rint(eval/unit)`; degeneracies are counted only for `k ∈ 0..4` (`:36-37`), so eigenvalues outside that band are silently excluded from `got` while still contributing to `rel`.
+2. `ok` requires **both** `got == [16,16,18,16,16]` and `rel <= 1e-8 * g2_big/1e6 * 100` (`:40`). At the default `g2_big=1e6` the effective relative tolerance is **1e-6**, not the `1e-8` the surrounding comments suggest; the tolerance scales **linearly with `g2_big`**, i.e. the check becomes looser at larger coupling. — **UNENFORCED**.
+3. `ok` is coerced to Python `bool` (`:43`); `rel_dev` to Python `float`.
+
+**Side effects** None inside the function. **Module import** has side effects: `sys.path` is mutated twice at `limits.py:20-25`, including a `parents[4].parent` walk to a presumed repo root — position-dependent on the file's location in the tree.
+**Empty/degenerate and errors** `g2_big = 0.0` ⇒ `ZeroDivisionError` in `route_spinnet` at `:515` before this function's arithmetic. Dense `eigh` on `82×82` (`:33`).
+**Enforcement** **UNENFORCED directly** — no supplied test imports `su2qc.ham.limits`. The near-identical copy `route_spinnet.pure_electric_check` (`:739-753`) *is* called directly by `test_route_spinnet.py::TestCorePhysics::test_pure_electric_check` (line 166, assert line 169). The degeneracy pattern itself is asserted independently at `test_route_spinnet.py:102` and `test_route_gausskernel.py:43`; those are assertions on separately recomputed values, not on this function's return.
+
+### su2qc.ham.limits.frozen_matter_check
+
+**Signature** `frozen_matter_check(tol=1e-9)`
+**Source** `runs/section8_v0.5.0_20260907T0628Z/src/su2qc/ham/limits.py:46-99`
+**Inputs** `tol` — **the argument has no effect**: it is unconditionally overwritten at `:69` with `tol = 1e-8`. The returned `"tol"` field is therefore always `1e-8` regardless of the caller. `g2 = 1.3` and `m_big = 1e7` are hardcoded (`:67-68`).
+**Outputs** `dict` with `"dev"` (float, max diagonal deviation), `"offdiag_times_g2"` (float, `Re(offd) * g2` — a **recorded** number, not a checked one), `"tol"` (always `1e-8`), `"ok"` (Python `bool`), `"note"` (fixed string).
+**Invariants**
+1. The 2×2 block is extracted by exact projection onto the two labels `((0,0,0,0),(0,2,0,2))` and `((.5,.5,.5,.5),(0,2,0,2))` (`:73-82`), then shifted so `block[0,0] = 0` (`:84`).
+2. Expected electric splitting is `diag(0, 1.5*g2)` (`:87`); `dev` compares only the **diagonal** (`:94`).
+3. `ok = (dev ≤ tol·max(1, 1.5g2)) and (|Im offd| ≤ 1e-12) and (Re offd < 0)` (`:96-97`). The off-diagonal **magnitude** is *not* compared to any monograph value — only reality and sign are checked; the normalisation ratio is deliberately recorded for the reconciliation document (`:89-93`, `:99`). Any claim that this function verifies the magnetic normalisation would overstate it. — **UNENFORCED**.
+4. The extraction relies on large `m` suppressing matter excitations; the residual `O(h²/m)` (~2.5e-9 at `m=1e7` per `:69-70`) is absorbed by the relaxed tolerance, not measured separately.
+
+**Side effects** None beyond the module-import `sys.path` mutation (`limits.py:20-25`). Dense `82×82` array (`:72`).
+**Empty/degenerate and errors** `AssertionError` at `:80` if either of the two labels is missing or duplicated (removed under `python -O`). Basis construction cost at `m=1e7` is the full route-1 build.
+**Enforcement** **UNENFORCED.** No supplied test imports `su2qc.ham.limits`.
+
+### su2qc.ham.limits.magnetic_off_check
+
+**Signature** `magnetic_off_check(tol=1e-10)`
+**Source** `runs/section8_v0.5.0_20260907T0628Z/src/su2qc/ham/limits.py:102-122`
+**Inputs** `tol` — here genuinely used (`:122`). `g2 = 1.1`, `m = 0.3`, `jmax = 0.5` hardcoded (`:105-106`).
+**Outputs** `dict` with `"dev"` (float), `"ok"` (bool), `"note"` (string naming which comparison source was used).
+**Invariants**
+1. `dev = max|e1 − e2| / max(1.0, max|e1|)` on sorted spectra (`:121`); `ok = dev <= tol` (`:122`).
+2. The `"note"` field distinguishes the two possible comparators: `"independent limits_1d chain"` (`:115`) versus `"cross-route B-off comparison (limits_1d unavailable)"` (`:120`). **In the fallback branch the check is *not* independent** — it compares route 1 against route 2, both of which import the same frozen conventions. The docstring's "independent periodic 1D 4-site SU(2) chain" (`:103`) describes only the first branch. — **UNENFORCED**.
+3. The `hasattr` guard at `:106-107` and the failure dict at `:109-110` are **unreachable for the current route 1**, which does define `build_hamiltonian_no_magnetic` (`route_spinnet.py:531`). — **UNENFORCED**.
+
+**Side effects** None beyond module-import `sys.path` mutation. In the fallback branch, populates route-2 module globals `_CACHE`/`_TERMS_CACHE`/`U_CONVENTION`.
+**Empty/degenerate and errors** Only `ImportError` is caught (`:116`); any other exception from `limits_1d.chain_spectrum` propagates. If `limits_1d` returns a spectrum of a different length, `e1 - e2` (`:121`) raises a numpy broadcast `ValueError` rather than reporting a mismatch.
+**Enforcement** **UNENFORCED.** No supplied test imports `su2qc.ham.limits`; nothing in this bundle exercises `limits_1d` either.
+
+### su2qc.ham.route_gausskernel.kernel_dimension
+
+**Signature** `kernel_dimension(jmax)`
+**Source** `runs/section8_v0.5.0_20260907T0628Z/src/su2qc/ham/route_gausskernel.py:165-166`
+**Inputs** `jmax` — coerced to `float` inside `_basis` (`:159`), so `kernel_dimension(1)` and `kernel_dimension(1.0)` hit the same cache entry.
+**Outputs** `int` — `len(labels)` for the Gauss-law kernel at that truncation.
+**Invariants**
+1. `kernel_dimension(0.5) == 82`, `kernel_dimension(1.0) == 152`, matching `conventions.EXPECTED_DIM` (`conventions.py:72`). — `1.0` case: **DIRECT**, `tests/test_route_gausskernel.py::test_kernel_dimensions_and_number_sectors` (line 12), assert line 22. The `0.5` case is asserted through `build_hamiltonian`'s labels (line 17), not through this function.
+2. **No validation of `jmax`.** `_spins` uses `int(2*jmax) + 1` (`:34`), so any `jmax ∈ [0.5, 1.0)` silently yields the `jmax=0.5` spin set and returns 82. — **UNENFORCED**.
+
+**Side effects** First call for a given `jmax` runs `_physical_basis` (`:104-152`) and stores `(labels, P)` in the module-global `_CACHE` (`:155-162`). This is expensive (per-vertex singlet diagonalisations over the full `itertools.product` of spins × occupations) and the result persists for the process lifetime.
+**Empty/degenerate and errors** Non-numeric `jmax` raises `TypeError` at `float(jmax)`.
+**Enforcement** Direct at `jmax=1.0` only (line 22). The same test also asserts `P1` orthonormality to `1e-12` (line 26) and `len(labels1) == 152` (line 25), but those go through `_basis`, a private helper, not through `kernel_dimension`.
+
+### su2qc.ham.route_gausskernel.gauss_commutator_norms
+
+**Signature** `gauss_commutator_norms(jmax)`
+**Source** `runs/section8_v0.5.0_20260907T0628Z/src/su2qc/ham/route_gausskernel.py:390-407`
+**Inputs** `jmax`, coerced to `float` (`:392`).
+**Outputs** `dict[str, float]` with exactly the keys `"electric"`, `"mass"`, `"hop_0"`, `"hop_1"`, `"hop_2"`, `"hop_3"`, `"magnetic"` (`:395-397`). Each value is the max over `a ∈ 0..2` and `v ∈ 0..3` of the maximum absolute stored entry of `[G^a_v, op]`; a commutator with no stored nonzeros contributes `0.0` (`:404-405`).
+**Invariants**
+1. `"magnetic"` is evaluated on the **Hermitised** plaquette operator `trU + trU†` (`:397`), whereas the convention-selection routine `_select_convention` tests only `hops[0]` and the bare `trU` (`:364`). The returned dictionary is thus a broader diagnostic than the selection criterion. — **UNENFORCED** as a distinction.
+2. The reported value is a max over **stored** entries (`c.data`), so exact numerical cancellation that leaves an explicit zero stored is counted as 0.0 — the metric is not an operator norm.
+3. All seven groups vanish to `1e-12` at `jmax=0.5`. — **DIRECT**: `tests/test_route_gausskernel.py::test_hermiticity_and_gauss_diagnostics` (line 29), assert line 36 (`max(norms.values()) <= 1e-12`). Note the assertion is on the **max over values only**; it does not pin the key set, and it covers `jmax=0.5` only.
+
+**Side effects** Calls `_terms(jmax)` (`:383-387`), which on a cache miss runs `_select_convention` — this populates the module globals `U_CONVENTION` and `_TERMS_CACHE` (`:378-379`) and contains its own `assert best is not None` (`:377`). Also rebuilds the full Gauss operators via `_gauss_ops(jmax)` on **every** call (`:394`) — no caching there. Memory is dominated by the redundant space (`dl⁴ × 256`).
+**Empty/degenerate and errors** `AssertionError` from `_select_convention` (`:377`) if no `(conjL, conjR)` variant commutes with `G`. At `jmax=1.0` the redundant space is ~9.8M-dimensional per the module docstring (`:14-17`) — no guard prevents the attempt.
+**Enforcement** Direct at `jmax=0.5` (line 36). `jmax=1.0` behaviour: **UNENFORCED**.
+
+### su2qc.ham.route_gausskernel.build_hamiltonian
+
+**Signature** `build_hamiltonian(g2, m, jmax)`
+**Source** `runs/section8_v0.5.0_20260907T0628Z/src/su2qc/ham/route_gausskernel.py:422-431` (redundant-space assembly `_h_red` `:412-419`)
+**Inputs** `g2` (electric and magnetic coupling), `m` (mass), `jmax` coerced to float (`:423`). No validation of `g2` or `m`.
+**Outputs** Three-tuple `(H, labels, P)`:
+* `H` — `scipy.sparse.csr_matrix`, complex, shape `(D, D)` with `D = len(labels)`, explicitly symmetrised as `(H + H†)/2` to remove ~1e-17 asymmetry (`:430`).
+* `labels` — the **cached list object** from `_CACHE` (`:428`, `:155-162`). It is **not copied**: callers mutating or sorting it corrupt the cache for every later call in the process. Order is the enumeration order of `_physical_basis` (`itertools.product` over spins, then over occupations, `:110-111`).
+* `P` — the cached CSC isometry from the redundant space, likewise **aliased, not copied**.
+
+Note the arity: route 1's `build_hamiltonian` returns a **2-tuple**, this one a **3-tuple**; callers in the bundle handle this with `out[0], out[1]` (`compare.py:93-94`) or `[:2]` slicing (`limits.py:32`).
+**Invariants**
+1. `D = 82` at `jmax=0.5`, with fermion-number sector counts `{0:2, 1:0, 2:20, 3:0, 4:38, 5:0, 6:20, 7:0, 8:2}` — **DIRECT**: `test_route_gausskernel.py::test_kernel_dimensions_and_number_sectors` (line 12), asserts lines 17-18.
+2. `P† P = I` to `1e-12` — **DIRECT**, same test, line 19.
+3. `H` Hermitian to `1e-13` at `(g2, m) = (0.73, 0.19)` — **DIRECT**: `test_hermiticity_and_gauss_diagnostics` (line 29), assert line 33. Note this is the *post*-symmetrisation matrix, so the assertion largely re-checks line `:430`.
+4. Pure-electric diagonal clusters `[16,16,18,16,16]` at `g2 = 1e6, m = 0` — **DIRECT**: `test_pure_electric_clusters_and_stretched_label` (line 39), assert line 43. This asserts on `H.diagonal()`, i.e. the diagonal only, not the eigenvalues.
+5. The stretched label `((0.0,0.5,0.5,0.5),(1,1,0,2),0)` appears exactly once in `labels` — **DIRECT**, same test, line 45.
+6. `jmax > 0.75` raises `NotImplementedError` with the message naming `kernel_dimension(1.0) (=152)` (`:424-427`). — **UNENFORCED** (no supplied test asserts the raise). Values in `(0.5, 0.75]` do **not** raise and silently reuse the `jmax=0.5` spin set (`:34`).
+7. `H` is the exact projection `P† H_red P` — no truncation or thresholding is applied beyond the symmetrisation.
+
+**Side effects** Populates/uses `_CACHE`, `_TERMS_CACHE`, `U_CONVENTION` (module globals). First call for a truncation performs the numerical `U`-convention selection (`:353-380`). No file writes, no printing.
+**Empty/degenerate and errors** `g2 = 0.0` ⇒ `ZeroDivisionError` via `coupling_magnetic` (`conventions.py:83`) at `:418`. `NotImplementedError` as in (6). Memory/time at `jmax=1.0` is the documented blocker (`:14-17`).
+**Enforcement** Items 1-5 direct as cited; items 6-7 **UNENFORCED**. `runs/campaign_v060/tests/gate_C0/test_jmax1_counts.py:35,39-40` exercises the `jmax=1` **kernel** via `route2._basis(1.0)`, not this function.
+
+### su2qc.ham.route_gausskernel.build_hamiltonian_no_magnetic
+
+**Signature** `build_hamiltonian_no_magnetic(g2, m, jmax)`
+**Source** `runs/section8_v0.5.0_20260907T0628Z/src/su2qc/ham/route_gausskernel.py:434-441`
+**Inputs** As `build_hamiltonian`.
+**Outputs** Same three-tuple shape `(H, labels, P)`, same cached-and-aliased `labels`/`P`, same `(H + H†)/2` symmetrisation (`:440`). `H` omits the magnetic term via `_h_red(..., magnetic=False)` (`:439`, `:417-418`).
+**Invariants**
+1. `H_no_mag = coupling_electric(g2)·electric + m·mass + Σ_l (1/2)·ETA[l]·hops[l]` exactly (`:414-416`) — i.e. `build_hamiltonian` minus `coupling_magnetic(g2)·(trU + trU†)`. — **UNENFORCED** (no supplied test compares the two).
+2. `jmax > 0.75` raises `NotImplementedError("see build_hamiltonian")` (`:436-437`). — **UNENFORCED**.
+3. Because the magnetic term is dropped, `g2 = 0.0` no longer divides by zero here — it yields a zero electric coefficient instead. This asymmetry with `build_hamiltonian` is unvalidated.
+
+**Side effects** Same module-global cache population as `build_hamiltonian`.
+**Empty/degenerate and errors** As above.
+**Enforcement** **UNENFORCED.** No supplied test calls it. Its only in-bundle consumer is the fallback branch of `limits.magnetic_off_check` (`limits.py:118`), which is itself untested.
+
+### su2qc.ham.route_gausskernel.get_state
+
+**Signature** `get_state(label, basis_labels)`
+**Source** `runs/section8_v0.5.0_20260907T0628Z/src/su2qc/ham/route_gausskernel.py:444-445`
+**Inputs** `label` — a full label tuple; `basis_labels` — the list returned by `build_hamiltonian`.
+**Outputs** `int` — the index of the **first** match, via `list.index`. Linear scan, `O(D)` per call.
+**Invariants**
+1. Matching is Python tuple equality, which uses `==` elementwise. Consequently an integer `0` compares equal to the stored float `0.0`, so mixed int/float `j` tuples **do** match; but an `int` vs `float` mismatch in the tag or a numpy scalar with different equality semantics is not specially handled. — **UNENFORCED**.
+2. Returns the first index only; duplicate labels would be silently masked. The uniqueness of the stretched label is asserted separately at `test_route_gausskernel.py:45`, not by this function.
+
+**Side effects** None.
+**Empty/degenerate and errors** `ValueError: tuple is not in list` when the label is absent — **no** custom message, and no `None` sentinel. Empty `basis_labels` always raises.
+**Enforcement** **Weak direct.** `tests/test_route_gausskernel.py::test_pure_electric_clusters_and_stretched_label` (line 39) asserts only `get_state(stretched, labels) >= 0` (line 46). Since `list.index` never returns a negative value, that assertion verifies only that no `ValueError` was raised; **it does not verify that the returned index addresses the correct row** of `H`. No supplied test checks the absent-label `ValueError`.
+
+### su2qc.ham.route_gausskernel.E2_link
+
+**Signature** `E2_link(l, basis_labels)`
+**Source** `runs/section8_v0.5.0_20260907T0628Z/src/su2qc/ham/route_gausskernel.py:466-467` (builder `_obs` `:450-463`)
+**Inputs** `l` — link index, **unvalidated**; `basis_labels` — label list.
+**Outputs** A **freshly constructed** `scipy.sparse` CSR matrix (`format="csr"` at `:452`), diagonal, shape `(D, D)`, with entries `casimir(float(j_l))` per label. Real (float64) dtype — **not** complex, unlike `H`. Each call returns a new object; there is **no caching** at this layer.
+**Invariants**
+1. `E2_link` is diagonal in the label basis and its row order matches `basis_labels` exactly — so it is only valid against an `H` built from the *same* label list.
+2. Entry values are `0.0` for `j=0`, `0.75` for `j=1/2`, `2.0` for `j=1` (`conventions.py:69`).
+3. `l` is not range-checked: negative `l` wraps to another link, `|l| ≥ 4` raises `IndexError` from the list index at `:467`.
+
+**Side effects** **Performance contract:** every call rebuilds *all six* observable groups — four `E`, four `n_v`, `N`, and three projectors (`_obs`, `:450-463`) — and discards five of them. Cost is `O(6·D)` construction per accessor call.
+**Empty/degenerate and errors** `basis_labels = []` yields a `(0,0)` matrix without error. Malformed labels raise `IndexError`/`TypeError` from `x[0][l]`.
+**Enforcement** **UNENFORCED.** No supplied test imports `E2_link`. The nearest coverage is `tests/test_dynamics.py::test_channel_masks_partition_N4_sector` (line 44) and `tests/test_l12.py::test_trotter_scaling` (line 100, via `_diagnostics`), which exercise a **different implementation** in `su2qc.dynamics.scan`.
+
+### su2qc.ham.route_gausskernel.n_op
+
+**Signature** `n_op(v, basis_labels)`
+**Source** `runs/section8_v0.5.0_20260907T0628Z/src/su2qc/ham/route_gausskernel.py:470-471` (`_obs` `:454`)
+**Inputs** `v` — vertex index, unvalidated; `basis_labels`.
+**Outputs** New CSR diagonal matrix, entries `x[1][v]` taken **as stored integers** (`:454`) — so the dtype is integer, not float or complex. Contrast `route_spinnet.number_op`, which casts to `float` (`route_spinnet.py:590`) and produces a complex matrix. Mixing the two in one arithmetic expression will upcast silently.
+**Invariants**
+1. Diagonal, aligned to `basis_labels` order.
+2. Values lie in `{0,1,2}` by construction of the basis (`conventions.py:51`), not by any check in this function.
+3. `v` unvalidated: negative wraps, `|v| ≥ 4` ⇒ `IndexError`.
+
+**Side effects** Rebuilds all six observable groups per call (see `E2_link`).
+**Empty/degenerate and errors** Empty label list ⇒ `(0,0)` matrix.
+**Enforcement** **UNENFORCED.**
+
+### su2qc.ham.route_gausskernel.N_total
+
+**Signature** `N_total(basis_labels)`
+**Source** `runs/section8_v0.5.0_20260907T0628Z/src/su2qc/ham/route_gausskernel.py:474-475` (`_obs` `:455`)
+**Inputs** `basis_labels`.
+**Outputs** New sparse diagonal matrix `Σ_v n_v`, formed as `sum(nv[1:], nv[0])` (`:455`) — an accumulation of four CSR matrices; integer dtype.
+**Invariants**
+1. Diagonal with values in `{0,2,4,6,8}` for the physical basis (odd sectors are empty per `conventions.EXPECTED_SECTOR_DIMS`, `conventions.py:74`). The emptiness of odd sectors is a property of the basis, not of this function.
+2. `[H, N] = 0`. — For route 2 this is **UNENFORCED**; the supplied commutator assertions are on route 1 with an inline-built `N` (`tests/test_route_spinnet.py::TestCommutator::test_H_commutes_with_N`, line 75, assert line 87), and `test_route_gausskernel.py:18` checks only the sector **counts**, not commutation.
+
+**Side effects** Rebuilds all six observable groups per call.
+**Empty/degenerate and errors** Empty label list ⇒ `(0,0)` matrix.
+**Enforcement** **UNENFORCED.**
+
+### su2qc.ham.route_gausskernel.P_surv
+
+**Signature** `P_surv(basis_labels)`
+**Source** `runs/section8_v0.5.0_20260907T0628Z/src/su2qc/ham/route_gausskernel.py:478-479` (`_obs` `:456-458`)
+**Inputs** `basis_labels`.
+**Outputs** New CSR diagonal indicator matrix; entry `1` iff `(q_1,q_2,q_3,q_4) == (1,−1,0,0)` with `q_v = n_v − N_VAC[v]` (`:456-458`); integer dtype.
+**Invariants**
+1. Projector: idempotent, Hermitian, 0/1 diagonal — by construction, **UNENFORCED**.
+2. **Rank is 2 at `jmax=1/2`, not 1.** `runs/campaign_v060/sessions/c060_p0_20260908_3/oracle-diagnostics.json` lists `survival_occupation_codes` = code **2058** (links `[0.5,0,0,0]`, occupations `[1,1,0,2]`) and code **3793** (links `[0,0.5,0.5,0.5]`, occupations `[1,1,0,2]`): **two distinct physical codewords sharing one occupation pattern**, differing only in link spins. The survival projector combines both. Do not describe it as rank-1 or as selecting a single codeword. This is a **measured finite-oracle** result over the 82-code set, not a general theorem.
+3. Charge selection depends only on occupations, so `P_surv` is blind to link content — that is exactly why (2) holds.
+
+**Side effects** Rebuilds all six observable groups per call.
+**Empty/degenerate and errors** Empty label list ⇒ `(0,0)` matrix (an all-zero projector on an empty space, no error).
+**Enforcement** **UNENFORCED directly.** `tests/test_dynamics.py::test_channel_masks_partition_N4_sector` (line 44) asserts `int(surv.sum()) == 2` (line 50) — but for `su2qc.dynamics.scan._classify`, a different implementation; it is **indirect** corroboration of the count only.
+
+### su2qc.ham.route_gausskernel.P_meson
+
+**Signature** `P_meson(basis_labels)`
+**Source** `runs/section8_v0.5.0_20260907T0628Z/src/su2qc/ham/route_gausskernel.py:482-483` (`_obs` `:459-460`)
+**Inputs** `basis_labels`.
+**Outputs** New CSR diagonal indicator; entry `1` iff `all_v |q_v| == 1` (`:459-460`); integer dtype.
+**Invariants**
+1. **R15 (structural, exact):** the predicate forces `n = (1,1,1,1)`, hence `N = 4` and `Σ_v q_v = 0`, for every selected state. Every meson-channel state lies in the `N=4` sector at any `jmax`. See Front matter A. — Structurally exact from `conventions.py:51,53,57`; **no supplied test asserts it**.
+2. **Measured (82-code oracle only):** `oracle-diagnostics.json` reports `non_N4_meson_codes: []` and `singleton_closure_failures: []` over the 82 physical codes. Finite inspection; explicitly not a channel amendment or sign-off.
+3. Disjoint from `P_BBbar` (`all |q|=1` excludes `any |q|=2`) and from `P_surv` (which needs `q_3 = q_4 = 0`). Not exhaustive — see Front matter B.
+
+**Side effects** Rebuilds all six observable groups per call.
+**Empty/degenerate and errors** Empty label list ⇒ `(0,0)` matrix.
+**Enforcement** **UNENFORCED directly.** Indirect count corroboration only: `test_dynamics.py:50` asserts `int(mes.sum()) == 2` for `scan._classify`.
+
+### su2qc.ham.route_gausskernel.P_BBbar
+
+**Signature** `P_BBbar(basis_labels)`
+**Source** `runs/section8_v0.5.0_20260907T0628Z/src/su2qc/ham/route_gausskernel.py:486-487` (`_obs` `:461-462`)
+**Inputs** `basis_labels`.
+**Outputs** New CSR diagonal indicator; entry `1` iff `any_v |q_v| == 2` (`:461-462`); integer dtype.
+**Invariants**
+1. Given `n_v ∈ {0,1,2}` and `N_VAC = (0,2,0,2)`, `|q_v| = 2` means `n_v = 2` at `v1`/`v3` or `n_v = 0` at `v2`/`v4`. — Structural; **UNENFORCED**.
+2. **No precedence logic is implemented.** The three indicators are independent diagonal matrices computed in one pass (`:457-462`); the "takes precedence" wording appears only in route 1's docstring (`route_spinnet.py:668`). Any precedence must be imposed by the caller. — **UNENFORCED**.
+
+**Side effects** Rebuilds all six observable groups per call.
+**Empty/degenerate and errors** Empty label list ⇒ `(0,0)` matrix.
+**Enforcement** **UNENFORCED.**
+
+### su2qc.ham.route_spinnet.enumerate_basis
+
+**Signature** `enumerate_basis(jmax: float) -> list[tuple]`
+**Source** `runs/section8_v0.5.0_20260907T0628Z/src/su2qc/ham/route_spinnet.py:234-312` (gauge predicate `_check_vertex_gauge_invariant` `:173-231`)
+**Inputs** `jmax` compared by **exact equality** to `0.5` then `1.0` (`:240,242`). `jmax = 1` (int) is accepted because `1 == 1.0`; anything else raises `ValueError` (`:245`).
+**Outputs** A **new** `list` of labels `((j1,j2,j3,j4), (n1,n2,n3,n4), 0)` with `j` as Python floats and `n` as Python ints; tag always `0` (`:310`). Order is deterministic: `j1` outermost through `j4`, then `n1..n4`, each ascending (`:248-306`).
+**Invariants**
+1. Per-vertex gauge rule (`:9-12`, `:254-301`): `j_a == j_b ⇒ n_v ∈ {0,2}`; `|j_a − j_b| = 1/2 ⇒ n_v = 1`; `|j_a − j_b| = 1 ⇒ vertex forbidden` (only reachable at `jmax=1`). Vertex-to-link incidence is `v1:(l4,l1)`, `v2:(l1,l2)`, `v3:(l2,l3)`, `v4:(l3,l4)`.
+2. `len(enumerate_basis(0.5)) == 82` and `len(enumerate_basis(1.0)) == 152` — **DIRECT**: `tests/test_route_spinnet.py::TestBasisDimensions::test_basis_dimension` (line 28), assert line 30, parametrised over both.
+3. Sector dims at `jmax=0.5`: `{0:2, 2:20, 4:38, 6:20, 8:2}` — **DIRECT**: `TestBasisDimensions::test_sector_decomposition` (line 33), asserts lines 44-46.
+4. Sector dims at `jmax=1.0`: `{0:3, 2:36, 4:74, 6:36, 8:3}` and agreement with route 2's label count — **DIRECT**: `runs/campaign_v060/tests/gate_C0/test_jmax1_counts.py::test_jmax1_sector_counts_match_independent_transfer_polynomial` (line 30), asserts lines 37-39; line 33 additionally checks those counts against an independently coded transfer polynomial (lines 15-27). Note line 40 asserts route-2 `P` orthonormality, not route-1 content.
+5. The `_check_vertex_gauge_invariant` call at `:308` is **redundant**: the per-vertex option lists at `:254-301` already encode the same rules, so the filter can never reject. — **UNENFORCED**.
+6. `ValueError` for unsupported `jmax` (`:245`). — **UNENFORCED** (no supplied test asserts the raise).
+
+**Side effects** None. **No caching**: every call re-enumerates. All six projector functions and both Hamiltonian builders in this module call it afresh, so a projector plus a Hamiltonian costs two full enumerations.
+**Empty/degenerate and errors** `ValueError` as in (6). A `jmax` that is a numpy float equal to 0.5 passes the `==` test.
+**Enforcement** Items 2-4 direct as cited; items 1, 5, 6 **UNENFORCED** as standalone statements (item 1 is exercised only through the dimension counts).
+
+### su2qc.ham.route_spinnet.build_hamiltonian
+
+**Signature** `build_hamiltonian(g2: float, m: float, jmax: float) -> tuple[csr_matrix, list]`
+**Source** `runs/section8_v0.5.0_20260907T0628Z/src/su2qc/ham/route_spinnet.py:433-528` (terms: `_electric_diag` `:317-319`, `_mass_diag` `:322-324`, `_hopping_matrix_element` `:329-367`, `_magnetic_matrix_element` `:390-430`)
+**Inputs** `g2`, `m` unvalidated; `jmax` forwarded to `enumerate_basis`.
+**Outputs** **Two**-tuple `(H, basis)` — note the arity difference from route 2's three-tuple. `H` is `csr_matrix`, complex, shape `(D, D)`. `basis` is a fresh list (not cached, not aliased), in the same order as the matrix rows/columns.
+**Invariants**
+1. `H = H_elec + H_mass + H_hop + H_mag` with `H_elec = (g2/2)Σ_l j_l(j_l+1)` (`:319`, hardcoded rather than via `coupling_electric`), `H_mass = m Σ_v PARITY[v] n_v` (`:324`), `H_hop = (1/2) Σ_l (η_l ψ†_s U_l ψ_t + h.c.)` (`:366`), `H_mag = −(1/(2g2)) Tr(U_box + U_box†)` (`:515`, hardcoded rather than via `coupling_magnetic`).
+2. **Hermiticity is enforced by construction**, not merely checked: each hopping element writes both `H[j,i] += me` and `H[i,j] += conj(me)` (`:483-484`), and each magnetic pair writes both orientations under the `j_idx > i` guard that visits every unordered pair once (`:513-520`). The comment at `:525-527` states this. — **DIRECT** check at four `(g2, m)` points, tolerance `1e-13`: `tests/test_route_spinnet.py::TestHermiticity::test_H_hermitian` (line 59, parameters lines 53-58), assert line 63. Because Hermiticity is imposed structurally, this assertion has little power to detect a wrong matrix element.
+3. `[H, N] = 0` at three parameter points, tolerance `1e-13` — **DIRECT**: `TestCommutator::test_H_commutes_with_N` (line 75, parameters lines 70-74), assert line 87, using an **inline** number operator (lines 80-83) rather than `total_number()`.
+4. Only the forward hopping direction (`n_s+1`, `n_t−1`) is computed; the conjugate is written into the transposed entry (`:340`, `:468-484`). Occupations are clamped to `0 ≤ n ≤ 2` (`:472`) and link spins to `[−1e-12, jmax+1e-12]` (`:476`).
+5. Magnetic term flips **all four** links simultaneously by `±1/2` over the 16 enumerated sign patterns (`:494-497`) and is diagonal in `n` (`:510`); no same-state magnetic diagonal contribution is possible.
+6. Pure-electric degeneracies `[16,16,18,16,16]` at `g2 = 1e6, m = 0` with `rel ≤ 1e-8` — **DIRECT**: `TestPureElectricDegeneracy::test_electric_degeneracies` (line 94), asserts lines 102 and 106. At `g2 = 1e6` the `O(1)` hopping and magnetic terms are ~1e-12 relative, so this test is **insensitive to the off-diagonal blocks**.
+7. Shape `(152,152)` at `jmax = 1.0` — **DIRECT** but shape-only: `runs/campaign_v060/tests/gate_C0/test_jmax1_counts.py:34,36`. No spectral property is asserted at `jmax=1`.
+8. **No supplied test pins the numerical value of any hopping or magnetic matrix element.** Hermiticity (2) is structural, `[H,N]=0` (3) is insensitive to link-sector content, and (6) is insensitive to `O(1)` terms. The cross-route spectral comparison that would constrain them lives in `ham/compare.py`, which no supplied test imports. — **UNENFORCED**.
+
+**Side effects** None external. Builds a dense-indexed `lil_matrix` and converts to CSR at `:523`; cost is dominated by the per-basis-state loops over links and 16 flip patterns.
+**Empty/degenerate and errors** `g2 = 0.0` ⇒ `ZeroDivisionError` at `:515`. `jmax ∉ {0.5, 1.0}` ⇒ `ValueError` from `enumerate_basis` (`:245`). Complex `m` would be silently accepted by the complex `lil_matrix` and would break Hermiticity without any check.
+**Enforcement** As annotated per invariant above.
+
+### su2qc.ham.route_spinnet.build_hamiltonian_no_magnetic
+
+**Signature** `build_hamiltonian_no_magnetic(g2: float, m: float, jmax: float) -> tuple[csr_matrix, list]`
+**Source** `runs/section8_v0.5.0_20260907T0628Z/src/su2qc/ham/route_spinnet.py:531-577`
+**Inputs** As `build_hamiltonian`.
+**Outputs** `(H, basis)`, same ordering guarantee as `build_hamiltonian` (docstring `:534`), `H` complex CSR.
+**Invariants**
+1. Contains electric (`:547`), mass (`:551`), and hopping (`:554-574`) terms only; the hopping block is textually duplicated from `build_hamiltonian` rather than shared. — **UNENFORCED** that the two hopping blocks stay in sync.
+2. Same basis ordering as `build_hamiltonian` — both call `enumerate_basis(jmax)`, which is deterministic. — **UNENFORCED** as an explicit comparison.
+3. Shape is `(82,82)` at `jmax=0.5` — **DIRECT**: `tests/test_route_spinnet.py::TestNoMagnetic::test_no_magnetic_shape` (line 118), assert line 121, at three `(g2,m)` points, all with `jmax=0.5`. The `152` branch of the test's own expectation (line 120) is never exercised.
+4. Hermitian to `1e-13` at `(1.0, 0.0, 0.5)` — **DIRECT**: `test_no_mag_hermitian` (line 126), assert line 130. Structural, as for `build_hamiltonian`.
+5. `[H,N] = 0` to `1e-13` at `(1.0, 0.0, 0.5)` — **DIRECT**: `test_no_mag_commuting_N` (line 135), assert line 143, with an inline `N`.
+6. `H_no_mag == H − H_mag` — **UNENFORCED**; no supplied test compares the two builders.
+7. `g2 = 0.0` does **not** raise here (no magnetic division), unlike `build_hamiltonian`. — **UNENFORCED**.
+
+**Side effects** None external. Lines `:540-541` allocate `j_labels`/`n_labels` object arrays that are never used — dead allocations proportional to `D`.
+**Empty/degenerate and errors** `ValueError` from `enumerate_basis` for unsupported `jmax`.
+**Enforcement** Items 3-5 direct as cited; 1, 2, 6, 7 **UNENFORCED**.
+
+### su2qc.ham.route_spinnet.number_op
+
+**Signature** `number_op(v: int)`
+**Source** `runs/section8_v0.5.0_20260907T0628Z/src/su2qc/ham/route_spinnet.py:582-592`
+**Inputs** `v` — captured by closure and **not validated at call time of `number_op`**; misuse surfaces only when the returned function runs.
+**Outputs** A **function** `_no(dim_, basis_)`, not a matrix. `_no` returns a complex CSR diagonal matrix of shape `(dim_, dim_)` with entries `float(n_tuple[v])` (`:590-591`).
+**Invariants**
+1. Two-stage API: `number_op(v)(dim, basis)`. Callers must supply `dim` and `basis` **separately and consistently** — there is **no check that `dim_ == len(basis_)`**. `dim_ < len(basis_)` raises `IndexError` when assigning `H[i,i]`; `dim_ > len(basis_)` silently yields trailing all-zero rows and columns. — **UNENFORCED**.
+2. Diagonal, aligned to the caller's `basis_` order; values `float(n_v) ∈ {0.0,1.0,2.0}` stored in a complex matrix (contrast the integer dtype of `route_gausskernel.n_op`).
+3. `|v| ≥ 4` ⇒ `IndexError` inside `_no`; negative `v` wraps silently.
+
+**Side effects** None. A fresh matrix per `_no` call; no caching.
+**Empty/degenerate and errors** `dim_ = 0` with empty `basis_` gives a `(0,0)` matrix.
+**Enforcement** **UNENFORCED.** No supplied test calls `number_op`; `test_route_spinnet.py:80-83` and `:139-140` construct the number operator inline with `numpy` instead.
+
+### su2qc.ham.route_spinnet.total_number
+
+**Signature** `total_number()`
+**Source** `runs/section8_v0.5.0_20260907T0628Z/src/su2qc/ham/route_spinnet.py:595-602`
+**Inputs** None.
+**Outputs** A **function** `_no(dim_, basis_)` returning a complex CSR diagonal matrix with entries `float(sum(n_tuple))` (`:600-601`).
+**Invariants**
+1. Same two-stage API and same unchecked `dim_`/`basis_` consistency hazard as `number_op` (1). — **UNENFORCED**.
+2. Diagonal values in `{0.0, 2.0, 4.0, 6.0, 8.0}` for the physical basis — a property of the basis, not checked here.
+3. `[H, N] = 0` for the `H` from this module — asserted only against an **inline-built** `N` (`test_route_spinnet.py:80-87`), never against this function's output. — **UNENFORCED for this function**.
+
+**Side effects** None; fresh matrix per call.
+**Empty/degenerate and errors** As `number_op`.
+**Enforcement** **UNENFORCED.**
+
+### su2qc.ham.route_spinnet.casimir_link
+
+**Signature** `casimir_link(l: int)`
+**Source** `runs/section8_v0.5.0_20260907T0628Z/src/su2qc/ham/route_spinnet.py:605-612`
+**Inputs** `l` — unvalidated, captured by closure.
+**Outputs** A **function** `_no(dim_, basis_)` returning a complex CSR diagonal matrix with entries `cv.casimir(j_tuple[l])` (`:610-611`).
+**Invariants**
+1. Same two-stage API and unchecked `dim_`/`basis_` hazard as `number_op`. — **UNENFORCED**.
+2. Values `{0.0, 0.75, 2.0}` for `j ∈ {0, 1/2, 1}` via `conventions.casimir` (`conventions.py:69`).
+3. This is the per-link electric energy **without** the `g²/2` coefficient; the coefficient is applied only inside the Hamiltonian builders (`:319`). Consumers computing `⟨E²⟩` must not double-count it. — **UNENFORCED**.
+4. `|l| ≥ 4` ⇒ `IndexError` inside `_no`.
+
+**Side effects** None; fresh matrix per call.
+**Empty/degenerate and errors** As `number_op`.
+**Enforcement** **UNENFORCED.**
+
+### su2qc.ham.route_spinnet.P_stretched
+
+**Signature** `P_stretched(g2: float, m: float, jmax: float) -> csr_matrix`
+**Source** `runs/section8_v0.5.0_20260907T0628Z/src/su2qc/ham/route_spinnet.py:634-638` (`_charge_projector` `:617-631`)
+**Inputs** `g2` and `m` are accepted and **never used** — they appear nowhere in the body (`:636-638`). Only `jmax` has any effect. Callers must not infer any coupling dependence.
+**Outputs** Complex CSR diagonal indicator of shape `(D, D)` with `D = len(enumerate_basis(jmax))`; entry `1.0` iff `q == (1, −1, 0, 0)` (`:628-630`).
+**Invariants**
+1. `q_v = int(n_v − N_VAC[v])` computed inline at `:628` (duplicating `conventions.charge`).
+2. Idempotent 0/1 Hermitian projector by construction. — **UNENFORCED**.
+3. **Rank 2 at `jmax=1/2`**, per the two survival codewords 2058 and 3793 recorded in `runs/campaign_v060/sessions/c060_p0_20260908_3/oracle-diagnostics.json` (`survival_occupation_codes`) — both with occupations `[1,1,0,2]`, differing in link spins. Not rank-1.
+4. Identical in output to `P_short` and `P_surv` in this module — see those entries.
+
+**Side effects** Re-runs `enumerate_basis(jmax)` on every call (`:636`); no caching.
+**Empty/degenerate and errors** `ValueError` from `enumerate_basis` for unsupported `jmax`. No error path for the ignored `g2`/`m`.
+**Enforcement** **UNENFORCED.** Indirect count-only corroboration: `tests/test_dynamics.py::test_channel_masks_partition_N4_sector` (line 44) asserts `int(surv.sum()) == 2` (line 50) for `su2qc.dynamics.scan._classify`, a different implementation.
+
+### su2qc.ham.route_spinnet.P_short
+
+**Signature** `P_short(g2: float, m: float, jmax: float) -> csr_matrix`
+**Source** `runs/section8_v0.5.0_20260907T0628Z/src/su2qc/ham/route_spinnet.py:641-645`
+**Inputs** `g2`, `m` ignored; `jmax` as above.
+**Outputs** Complex CSR diagonal indicator for `q == (1, −1, 0, 0)` — **the same charge tuple as `P_stretched`** (`:645`).
+**Invariants**
+1. **Semantic collision:** despite the docstring "the short sector" (`:642`), `P_short` is **bit-for-bit identical** to `P_stretched` and `P_surv` in this module. At the route-1 level there is no distinct "short" channel. Any analysis that treats route-1 `P_short` and `P_stretched` as independent channels is unsupported by the source. — **UNENFORCED** (nothing tests the intended distinction).
+2. Contrast with the twin layer: `runs/campaign_v060/tests/gate_C0/test_estimator.py::test_v11_synthetic_channels_support_signed_weights_and_exact_closure` (line 7) asserts `P_stretched ≈ 0.7` (line 15), `P_short ≈ 0.2` (line 16) and `P_surv ≈ 0.9` (line 17) with `P_surv >= P_stretched + P_short` (line 22) for `su2qc.twin.twin.channel_weights`. That is a **different implementation with finer channels**, whose source is not in this bundle; the route-1 projectors here do not implement it and are not covered by that test.
+3. Rank 2 at `jmax=1/2`, as for `P_stretched`.
+
+**Side effects** Re-runs `enumerate_basis(jmax)` per call.
+**Empty/degenerate and errors** As `P_stretched`.
+**Enforcement** **UNENFORCED.**
+
+### su2qc.ham.route_spinnet.P_surv
+
+**Signature** `P_surv(g2: float, m: float, jmax: float) -> csr_matrix`
+**Source** `runs/section8_v0.5.0_20260907T0628Z/src/su2qc/ham/route_spinnet.py:648-652`
+**Inputs** `g2`, `m` ignored; `jmax` as above.
+**Outputs** Complex CSR diagonal indicator for `q == (1, −1, 0, 0)` (`:652`) — identical to `P_stretched` and `P_short`.
+**Invariants**
+1. Route 1's `P_surv(g2, m, jmax)` takes **three** arguments (two ignored) whereas route 2's `P_surv(basis_labels)` takes a label list and returns an **integer**-dtype matrix (`route_gausskernel.py:478-479`). The two are not drop-in substitutes: differing signature, differing dtype, and differing basis provenance. — **UNENFORCED**.
+2. Same selection predicate as route 2's `P_surv`, so the two agree entrywise **provided** the two label lists are in the same order — an alignment that no supplied test verifies. — **UNENFORCED**.
+3. Rank 2 at `jmax=1/2` (codes 2058 and 3793, `oracle-diagnostics.json`); **not rank-1**.
+
+**Side effects** Re-runs `enumerate_basis(jmax)` per call.
+**Empty/degenerate and errors** As `P_stretched`.
+**Enforcement** **UNENFORCED**; indirect count-only corroboration at `test_dynamics.py:50`.
+
+### su2qc.ham.route_spinnet.P_meson
+
+**Signature** `P_meson(g2: float, m: float, jmax: float) -> csr_matrix`
+**Source** `runs/section8_v0.5.0_20260907T0628Z/src/su2qc/ham/route_spinnet.py:655-664`
+**Inputs** `g2`, `m` ignored (never referenced in `:657-664`); `jmax` selects the basis.
+**Outputs** Complex CSR diagonal indicator built inline (not via `_charge_projector`); entry `1.0` iff `all(abs(q) == 1 for q in q)` (`:662-663`).
+**Invariants**
+1. **R15 (structural, exact):** selection forces `n = (1,1,1,1)`, therefore `N = 4` and `Σ_v q_v = 0`, at any `jmax`. The prompt's non-`N=4` meson hazard and its `jmax=1` recurrence are false under `n ∈ {0,1,2}` with `N_VAC = (0,2,0,2)` and are superseded (Front matter A). — **UNENFORCED** by any test; the argument is structural.
+2. **Measured (82 codes only):** `oracle-diagnostics.json` `non_N4_meson_codes: []`. Finite inspection of the `jmax=1/2` code set; no statement about `jmax=1`.
+3. At `jmax=1/2` the additional route-1 vertex rule (`n_v = 1` requires `|j_a − j_b| = 1/2` at every vertex, `:257,269,281,293`) restricts the link spins to alternate around the four-link cycle. — **UNENFORCED** as an explicit assertion.
+4. Disjoint from `P_BBbar` and from `P_surv`; the three do not close (Front matter B). — **UNENFORCED**.
+
+**Side effects** Re-runs `enumerate_basis(jmax)` per call.
+**Empty/degenerate and errors** `ValueError` for unsupported `jmax`.
+**Enforcement** **UNENFORCED directly.** Indirect count-only: `test_dynamics.py:50` asserts `int(mes.sum()) == 2` for `scan._classify`; `test_dynamics.py:49` asserts that four masks from that other module partition the `N=4` sector (38 states, line 48).
+
+### su2qc.ham.route_spinnet.P_BBbar
+
+**Signature** `P_BBbar(g2: float, m: float, jmax: float) -> csr_matrix`
+**Source** `runs/section8_v0.5.0_20260907T0628Z/src/su2qc/ham/route_spinnet.py:667-676`
+**Inputs** `g2`, `m` ignored; `jmax` selects the basis.
+**Outputs** Complex CSR diagonal indicator; entry `1.0` iff `any(abs(q) == 2)` (`:674-675`).
+**Invariants**
+1. `|q_v| = 2` ⇔ `n_v = 2` at `v1`/`v3` or `n_v = 0` at `v2`/`v4`, given the occupation domain. — **UNENFORCED**.
+2. The docstring's "(takes precedence)" (`:668`) corresponds to **no code**: there is no ordering, no exclusion, and no interaction with the other projectors. Precedence is a caller responsibility. — **UNENFORCED**.
+3. The `N=0` and `N=8` states (2 each at `jmax=1/2`, `conventions.py:74`) satisfy this predicate at multiple vertices simultaneously; the indicator is 1 regardless of how many vertices qualify.
+
+**Side effects** Re-runs `enumerate_basis(jmax)` per call.
+**Empty/degenerate and errors** `ValueError` for unsupported `jmax`.
+**Enforcement** **UNENFORCED.**
+
+### su2qc.ham.route_spinnet.charge
+
+**Signature** `charge(v: int, n: int) -> int`
+**Source** `runs/section8_v0.5.0_20260907T0628Z/src/su2qc/ham/route_spinnet.py:680-682`
+**Inputs** `v`, `n` — neither validated. `N_VAC` here is the module-level alias imported from `conventions` (`route_spinnet.py:43`), so the value is the frozen `(0,2,0,2)`.
+**Outputs** `n - N_VAC[v]`, behaviourally identical to `conventions.charge` (`conventions.py:55-57`).
+**Invariants**
+1. Duplicate definition of `conventions.charge`; if the frozen `N_VAC` ever changed, both would follow (shared constant), but the duplication itself means two public entry points expose the same contract. — **UNENFORCED**.
+2. The projectors in this module do **not** call it — they inline `int(n_tuple[v] - N_VAC[v])` at `:628`, `:661`, `:673`. So this function is unused within its own module.
+
+**Side effects** None.
+**Empty/degenerate and errors** `|v| ≥ 4` ⇒ `IndexError`; negative `v` wraps; out-of-domain `n` accepted silently.
+**Enforcement** **UNENFORCED.**
+
+### su2qc.ham.route_spinnet.validate_dimensions
+
+**Signature** `validate_dimensions(jmax: float = 0.5) -> dict`
+**Source** `runs/section8_v0.5.0_20260907T0628Z/src/su2qc/ham/route_spinnet.py:687-714`
+**Inputs** `jmax`, forwarded to `enumerate_basis`, then used as a dict key twice (`:699-700`).
+**Outputs** `dict` with keys `"jmax"`, `"dim"`, `"expected_dim"`, `"dim_match"` (bool), `"sector_dims"` (dict over `{0,2,4,6,8}`), `"expected_sectors"`. **Conditionally**, when `expected_sectors` is truthy (i.e. `jmax=0.5` only), five further keys `"sector_N0_match"` … `"sector_N8_match"` are added (`:710-712`).
+**Invariants**
+1. **Key set depends on `jmax`.** At `jmax=1.0`, `expected_sectors` is `None` (`:700`) and the `sector_N*_match` keys are **absent**; a caller indexing them gets `KeyError`. — **UNENFORCED**.
+2. `sector_dims` is pre-seeded with only the even keys `{0,2,4,6,8}` and increments only if `N in sector_dims` (`:693-697`); any odd-`N` state would be **silently discarded** rather than reported. — **UNENFORCED**.
+3. `"dim_match"` is `True` iff `dim == expected_dim` (`:706`), with `expected_dim ∈ {82, 152}` (`:699`) — consistent with `conventions.EXPECTED_DIM` (`conventions.py:72`) but hardcoded here rather than imported.
+4. This function **returns** a report and raises nothing on failure; it is not an assertion. — **UNENFORCED**.
+5. `dim_match` at both `jmax=0.5` and `jmax=1.0` — **DIRECT**: `tests/test_route_spinnet.py::TestCorePhysics::test_basis_dimensions_match` (line 150), asserts lines 153 and 155.
+6. All five `sector_N*_match` flags at `jmax=0.5` — **DIRECT**: `TestCorePhysics::test_sector_dims` (line 157), asserts lines 160-164. The test asserts the **booleans**, not the underlying `sector_dims` values.
+
+**Side effects** None; one full `enumerate_basis` per call.
+**Empty/degenerate and errors** `jmax ∉ {0.5, 1.0}` ⇒ `ValueError` from `enumerate_basis` (`:245`) before the dict lookups at `:699-700` can raise `KeyError`.
+**Enforcement** Items 5-6 direct; items 1-4 **UNENFORCED**.
+
+### su2qc.ham.route_spinnet.validate_hermiticity
+
+**Signature** `validate_hermiticity(H: csr_matrix, atol: float = 1e-13) -> dict`
+**Source** `runs/section8_v0.5.0_20260907T0628Z/src/su2qc/ham/route_spinnet.py:717-724`
+**Inputs** `H` — any object supporting `.toarray()`; **no** check that it is square or sparse. `atol` — default `1e-13`.
+**Outputs** `dict` with `"hermitian"` — the result of `diff <= atol`, which is a **`numpy.bool_`, not a Python `bool`** (`:722`) — and `"max_diff"`, a Python `float` (`:723`).
+**Invariants**
+1. `max_diff = max |H − H†|` over the **dense** array (`:719-720`), using conjugate transpose, so it is correct for complex `H`.
+2. `H` is densified: memory `O(D²)`. For `D = 82` this is negligible; the contract still forbids passing a large sparse operator casually. — **UNENFORCED**.
+3. Returns a report; raises nothing on failure. — **UNENFORCED**.
+4. `"hermitian"` is truthy for `build_hamiltonian(1.0, 0.0, 0.5)` at the default `atol` — **DIRECT**: `tests/test_route_spinnet.py::TestCorePhysics::test_hermiticity_via_validator` (line 171), assert line 175. **One parameter point only**, and `atol` is never varied by a supplied test.
+
+**Side effects** None.
+**Empty/degenerate and errors** A `0×0` matrix makes `np.max` raise `ValueError: zero-size array to reduction operation`. A non-square `H` makes `H_arr - H_arr.T.conj()` raise a broadcast `ValueError`. Neither is guarded.
+**Enforcement** Item 4 direct; items 1-3 **UNENFORCED**.
+
+### su2qc.ham.route_spinnet.validate_commutator
+
+**Signature** `validate_commutator(H: csr_matrix, N_op: csr_matrix, atol: float = 1e-13) -> dict`
+**Source** `runs/section8_v0.5.0_20260907T0628Z/src/su2qc/ham/route_spinnet.py:727-736`
+**Inputs** `H`, `N_op` — both densified via `.toarray()` (`:729-730`); **no** shape or type compatibility check, and **no** check that `N_op` is a number operator (any matrix is accepted).
+**Outputs** `dict` with key `"[H,N]"` (note the literal bracket key) holding a `numpy.bool_`, and `"max_comm"`, a Python `float` (`:734-735`).
+**Invariants**
+1. `max_comm = max |HN − NH|` on dense arrays (`:731-732`).
+2. Returns a report; raises nothing on failure. — **UNENFORCED**.
+3. The result is meaningful only if `N_op` shares `H`'s basis ordering — unchecked. — **UNENFORCED**.
+
+**Side effects** None; two dense `O(D²)` arrays plus two `O(D³)` matrix products.
+**Empty/degenerate and errors** Shape mismatch ⇒ `ValueError` from `@`. `0×0` inputs ⇒ `ValueError` from `np.max`.
+**Enforcement** **UNENFORCED.** No supplied test calls it: `tests/test_route_spinnet.py::TestCommutator::test_H_commutes_with_N` (line 75) and `TestNoMagnetic::test_no_mag_commuting_N` (line 135) both compute the commutator inline (lines 84-87 and 141-143) rather than through this validator.
+
+### su2qc.ham.route_spinnet.pure_electric_check
+
+**Signature** `pure_electric_check(g2_big: float = 1e6) -> dict`
+**Source** `runs/section8_v0.5.0_20260907T0628Z/src/su2qc/ham/route_spinnet.py:739-753`
+**Inputs** `g2_big`. `m = 0.0` and `jmax = 0.5` are hardcoded (`:746`).
+**Outputs** `dict` with `"degeneracies"` (`list[int]`, length 5), `"rel_dev"` (float), `"ok"` (Python `bool`) — the same shape as `limits.pure_electric_check`.
+**Invariants**
+1. `ok = (got == [16,16,18,16,16]) and (rel <= 1e-8 * g2_big/1e6 * 100)` (`:752`). The effective relative tolerance is **1e-6 at the default `g2_big`** and **scales linearly with `g2_big`** — larger coupling gives a *looser* acceptance. — **UNENFORCED** (no supplied test varies `g2_big`).
+2. Degeneracies are tallied only for `k ∈ 0..4` (`:750`); eigenvalues rounding outside that range are excluded from `got` while still entering `rel`.
+3. `ok` is truthy at the default — **DIRECT**: `tests/test_route_spinnet.py::TestCorePhysics::test_pure_electric_check` (line 166), assert line 169 (`assert pe["ok"]`). This asserts the composite flag only; it does not separately expose `degeneracies` or `rel_dev`.
+4. Near-duplicate of `limits.pure_electric_check` (`limits.py:28-43`) with the same tolerance expression; the two are independent copies, and nothing enforces that they stay in sync. — **UNENFORCED**.
+5. The `su2qc.conventions` import at `:744` is unused; the build is imported by absolute module path at `:745`, re-entering this same module.
+
+**Side effects** None external. Full route-1 build at `g2 = 1e6` plus a dense `82×82` `eigh` (`:746-747`).
+**Empty/degenerate and errors** `g2_big = 0.0` ⇒ `ZeroDivisionError` at `route_spinnet.py:515` (magnetic term), before `unit` is formed.
+**Enforcement** Item 3 direct; items 1, 2, 4, 5 **UNENFORCED**.
+
+### su2qc.replicate.sha256_file
+
+**Signature** `sha256_file(path: str | Path) -> str`
+**Source** `runs/section8_v0.5.0_20260907T0628Z/src/su2qc/replicate.py:13-14`
+**Inputs** `path` — `str` or `Path`; no existence, type, or size check.
+**Outputs** Lowercase hex SHA-256 digest string (64 characters) of the file's **bytes**.
+**Invariants**
+1. Content is read with `Path(path).read_bytes()` — the **entire file is loaded into memory**; there is no streaming or chunking. Large inputs are a memory hazard. — **UNENFORCED**.
+2. Hashing is over raw bytes, so line endings and trailing whitespace are significant; no text normalisation and no encoding assumption.
+3. Symlinks are **followed** (`read_bytes` opens the target); the digest describes the target's content, not the link. — **UNENFORCED**.
+
+**Side effects** Reads the filesystem. No writes.
+**Empty/degenerate and errors** An empty file returns the well-defined SHA-256 of the empty byte string, not an error. `FileNotFoundError`, `IsADirectoryError`, and `PermissionError` propagate unchanged and uncaught.
+**Enforcement** **UNENFORCED.** No supplied test imports `su2qc.replicate`.
+
+### su2qc.replicate.manifest
+
+**Signature** `manifest(paths: list[str | Path]) -> dict[str, str]`
+**Source** `runs/section8_v0.5.0_20260907T0628Z/src/su2qc/replicate.py:17-18`
+**Inputs** `paths` — any iterable of `str`/`Path` (the annotation says `list`; the body only iterates).
+**Outputs** `dict` mapping `str(Path(path))` to the SHA-256 hex digest.
+**Invariants**
+1. Insertion order follows `sorted(paths, key=str)` (`:18`). Since Python 3.7 dicts preserve insertion order, the mapping is deterministically ordered — but sorting is on the **original string form**, while keys are the **`Path`-normalised** form, so the key order is not guaranteed to be sorted by key.
+2. Keys are normalised by `Path` construction: `"./a"` → `"a"`, `"a//b"` → `"a/b"`, a trailing slash is stripped. **Distinct input strings can therefore collide onto one key**, silently keeping the last computed value. — **UNENFORCED**.
+3. No `.resolve()` is applied: relative paths stay relative, so the manifest is **CWD-dependent** and not portable between working directories. — **UNENFORCED**.
+4. Duplicated paths are hashed once per occurrence (no dedup before hashing), costing repeated I/O.
+
+**Side effects** Reads every listed file. No writes.
+**Empty/degenerate and errors** `paths = []` returns `{}` — a vacuous manifest, with no error and no warning. Any unreadable path aborts the whole call with the underlying `OSError` subclass; there is no partial result and no per-path error capture.
+**Enforcement** **UNENFORCED.**
+
+### su2qc.replicate.compare_manifests
+
+**Signature** `compare_manifests(expected: dict[str, str], actual: dict[str, str]) -> dict[str, object]`
+**Source** `runs/section8_v0.5.0_20260907T0628Z/src/su2qc/replicate.py:21-24`
+**Inputs** Two mappings. No check that they are non-empty or that their key spaces overlap.
+**Outputs** `dict` with `"pass"` (Python `bool`, `not mismatches`), `"mismatches"` (sorted `list[str]` of keys), `"count"` (`int`).
+**Invariants**
+1. Comparison is over the **union** of keys (`:22`) using `.get()`, so a key present in only one mapping compares `hash` vs `None` and is reported as a mismatch — missing and extra files are both caught, but the report does not distinguish *missing*, *extra*, and *changed*. — **UNENFORCED**.
+2. `"count"` is the size of the **union**, not the number of files compared on both sides nor the number of matches. Reporting it as "files verified" would overstate it. — **UNENFORCED**.
+3. `"mismatches"` is in sorted key order (inherited from `sorted(...)` at `:22`).
+4. **Vacuous pass:** two empty dicts yield `{"pass": True, "mismatches": [], "count": 0}`. A caller that forgets to populate `expected` gets a green result. — **UNENFORCED**.
+5. Digest comparison is exact string equality — case-sensitive, so a manifest produced with uppercase hex would mismatch. `sha256_file` always emits lowercase.
+
+**Side effects** None; no filesystem access.
+**Empty/degenerate and errors** No error paths; non-hashable or non-mapping arguments raise from `set()`/`.get()`.
+**Enforcement** **UNENFORCED.**
+
+### su2qc.replicate.write_manifest
+
+**Signature** `write_manifest(paths: list[str | Path], output: str | Path) -> dict[str, str]`
+**Source** `runs/section8_v0.5.0_20260907T0628Z/src/su2qc/replicate.py:27-30`
+**Inputs** `paths` as for `manifest`; `output` — destination file path, unvalidated.
+**Outputs** Returns the manifest `dict` (the same object it wrote), so the caller need not re-read the file.
+**File writes — exact behaviour** `Path(output).write_text(json.dumps(values, indent=2, sort_keys=True) + "\n")` (`:29`). Concretely:
+1. JSON object, keys **sorted** (`sort_keys=True`) — note this differs from `manifest`'s insertion order, so the on-disk order is sorted by normalised key while the returned dict's order is not.
+2. Two-space indentation, and exactly **one trailing newline** appended after the JSON text.
+3. **Overwrites unconditionally.** No existence check, no backup, no confirmation, no `exist_ok` guard.
+4. **Not atomic.** No temp-file-plus-rename; an interrupted write leaves a truncated file.
+5. Encoding is `Path.write_text`'s default, i.e. `locale.getpreferredencoding(False)` — **not pinned to UTF-8**. Non-ASCII path components can therefore produce different bytes on different systems; `json.dumps` defaults to `ensure_ascii=True`, which escapes non-ASCII in the JSON body and limits but does not eliminate this exposure.
+6. Parent directories are **not** created: a missing parent raises `FileNotFoundError`.
+
+**Invariants**
+1. The returned dict equals the file's decoded content. — **UNENFORCED**.
+2. All items 1-6 above. — **UNENFORCED**.
+
+**Side effects** Reads every input file; writes exactly one output file. No stdout, no logging, no network.
+**Empty/degenerate and errors** `paths = []` writes the literal `{}` plus a newline and returns `{}` — a valid, empty, passing manifest. `PermissionError`/`IsADirectoryError` on `output` propagate; any read error aborts before the write, leaving the previous file intact.
+**Enforcement** **UNENFORCED.** No supplied test imports `su2qc.replicate`, so none of the write semantics above is covered.
+
+---
+
+## Appendix — CLI / `__main__` blocks among the listed functions
+
+Recorded for accuracy; none of these is a listed entry, and **none writes a file**.
+
+* `ham/compare.py:109-114` — calls `spectra_comparison()` with all defaults, prints each row dict on its own line, then calls `time_series_comparison()` and prints `"time_series_max_abs_dev"` followed by `dev`. No arguments are parsed, no thresholds applied, no exit code set on deviation, no file written.
+* `ham/limits.py:125-128` — prints the return dicts of `pure_electric_check()`, `frozen_matter_check()`, and `magnetic_off_check()`, all with defaults. No argument parsing, no non-zero exit on `ok == False`, no file written.
+* `ham/route_spinnet.py:756-775` — prints `validate_dimensions(0.5)` results including per-sector OK/FAIL lines (`:761-762`), then `validate_dimensions(1.0)` dimension only (note the per-sector keys are absent at `jmax=1.0`, so only `dim_match` is printed, `:766`), then `validate_hermiticity` on `build_hamiltonian(1.0, 0.0, 0.5)` (`:769-771`), then `pure_electric_check()` (`:774-775`). The "FAIL" strings are printed, not raised; the block always exits 0. No file written.
+* `ham/route_gausskernel.py`, `conventions.py`, `replicate.py` — no `__main__` block.
+
+The only listed function that writes to disk is `su2qc.replicate.write_manifest` (`replicate.py:29`), documented above. Separately, and outside the listed functions, `runs/campaign_v060/tests/gate_C0/test_twin_variance.py:27-29` writes `runs/campaign_v060/sessions/c060_p0_20260908_2/twin_variance.json` from within a test, using a CWD-relative path.
+
+## Appendix — evidence index
+
+* `runs/campaign_v060/sessions/c060_p0_20260908_3/seed-diagnosis.json` — EMULATED; status partial (exit 124 at the 2400-second cap during r1; no completed r1 counts). Cited for: `shift_equal: true`, `shift_matches: 1023` of 1024 shots on both production and compact paths, `same_index_matches` 424 / 414.
+* `runs/campaign_v060/sessions/c060_p0_20260908_3/equal-seed-control.json` — EMULATED; `simulator_seed_option_before: 101` → `after: 500`, five runtime seeds of 500, `distinct: 1`. Scope: independent pre-fix r0 control, **not** the post-fix R8 r0/r1 controls.
+* `runs/campaign_v060/sessions/c060_p0_20260908_3/oracle-diagnostics.json` — finite 82-code inspection; cited for `non_N4_meson_codes: []`, `vacuum_occupations: [0,2,0,2]`, `survival_occupation_codes` (2058, 3793), `invalid_input` (residual 0.0 on an undecodable code), `empty_physical_yield` (`ZeroDivisionError`), `empty_postselect` (`[{}, 0.0]`). Self-described as `"Finite code inspection only; no channel-definition amendment or gate sign-off."`

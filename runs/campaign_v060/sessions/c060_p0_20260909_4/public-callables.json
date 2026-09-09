@@ -1,0 +1,1383 @@
+{
+  "modules": [
+    {
+      "path": "runs/section8_v0.5.0_20260907T0628Z/src/su2qc/__init__.py",
+      "docstring": null,
+      "classes": []
+    },
+    {
+      "path": "runs/section8_v0.5.0_20260907T0628Z/src/su2qc/circuits/__init__.py",
+      "docstring": "Circuit constructors for the L12 encoding.",
+      "classes": []
+    },
+    {
+      "path": "runs/section8_v0.5.0_20260907T0628Z/src/su2qc/circuits/export_l12.py",
+      "docstring": "Write circuits/resources_logical.md and export L12 circuits (QPY + QASM3).",
+      "classes": []
+    },
+    {
+      "path": "runs/section8_v0.5.0_20260907T0628Z/src/su2qc/circuits/strang_l12.py",
+      "docstring": "Exact gauge-invariant block unitaries and Strang circuits for L12 (G3).\n\nMethod (structure, not generic 12-qubit synthesis):\n  * Each Hamiltonian group T in {D, h0..h3, B} is an 82x82 matrix from the\n    verified route-1 Hamiltonian (term split checked exact by the dynamics\n    lane).  Lifted to the 4096-dim code space it is E T E^dag: zero on every\n    unphysical code, so exp(-i theta E T E^dag) is the identity on the\n    complement -> gauge invariance by construction, zero leakage.\n  * D is diagonal: a 12-qubit Diagonal gate (phases on the 82 codes, 1 else).\n  * Each h_l and B act non-trivially on a SUPPORT of s < 12 qubits (found\n    numerically as the qubits whose bits ever change or on which the matrix\n    element depends); the lifted operator factorizes as U_s (x) I on the rest\n    when all elements depend only on the support bits.  For links whose\n    Jordan-Wigner string crosses other vertices, the sign depends on the\n    parity (a XOR b) of those vertices; the support then includes those\n    (a,b) pairs.  U_s = expm(-i theta M_s) on 2^s dims (s <= 10), built as a\n    UnitaryGate.  Exactness is verified by tests to 1e-12.\n  * Strang step: D/2 . [h0,h2]/2 . [h1,h3]/2 . B . [h1,h3]/2 . [h0,h2]/2 . D/2\n    (l0=(v0,v1), l2=(v3,v2) disjoint; l1=(v1,v2), l3=(v0,v3) disjoint).\n\nVerification helpers avoid dense 4096x4096 operators: the circuit is applied\nto statevectors on the 82 codes with Aer/Statevector, and compared with the\nexact 82-dim propagator.",
+      "classes": []
+    },
+    {
+      "path": "runs/section8_v0.5.0_20260907T0628Z/src/su2qc/circuits/synth_l12.py",
+      "docstring": "Structured synthesis of the L12 block unitaries.\n\nThe implementation deliberately keeps the code-space structure visible: the\nsmall connected components of each local matrix are synthesized independently\nand the diagonal term is a degree-three phase polynomial.",
+      "classes": []
+    },
+    {
+      "path": "runs/section8_v0.5.0_20260907T0628Z/src/su2qc/compile/__init__.py",
+      "docstring": null,
+      "classes": []
+    },
+    {
+      "path": "runs/section8_v0.5.0_20260907T0628Z/src/su2qc/compile/route.py",
+      "docstring": "Phase 4: route logical L12 circuits to a Heron-class target and verify.\n\nroute(circ, backend, opt=3, seed=7) -> (isa_circ, layout_info)\nrouted_equivalence(logical, isa) -> 1 - |<psi_routed|psi_logical>| including\n      the final layout permutation (statevector on the 12 logical qubits).\nrouted_resources(isa) -> dict(n_2q, depth_2q, depth)\npyzx_tp(circ) -> circuit after the monograph's topology-preserving PyZX pass\n      (reused from the repo's src/su2zx/compiler_study.py if importable).",
+      "classes": []
+    },
+    {
+      "path": "runs/section8_v0.5.0_20260907T0628Z/src/su2qc/compile/run_g4.py",
+      "docstring": "Phase 4 production: compile, route, PyZX comparison, twin run, decision inputs.\n\nWrites compile/resources_routed.{md,json}, compile/layout.json,\ncompile/twin_check.json, analysis/tables/twin_timeseries.csv.",
+      "classes": []
+    },
+    {
+      "path": "runs/section8_v0.5.0_20260907T0628Z/src/su2qc/conventions.py",
+      "docstring": "FROZEN conventions for the SU(2) single-plaquette patch with dynamical matter.\n\nFrozen at G0 of run section8_v0.5.0_20260907T0628Z. DO NOT EDIT.\nBoth Hamiltonian routes, all encodings, circuits, and analysis import from here\nand ONLY from here. Any objection goes to physics/conventions_objection_*.md.\n\nModel (Section 5.1 of the v0.5.0 prompt):\n  Lattice units a = 1. One square plaquette, open boundaries.\n  H = (g^2/2) sum_l E_l^2\n    + m sum_v (-1)^{x_v+y_v} psi\\dagger_v psi_v\n    + (1/2) sum_l ( eta_l psi\\dagger_{s(l)} U_l psi_{t(l)} + h.c. )\n    - (1/(2 g^2)) Tr( U_box + U_box\\dagger )\n  U_box = U_l1 U_l2 U_l3\\dagger U_l4\\dagger   (counter-clockwise v1->v2->v3->v4->v1)\n  E^2 = j(j+1) per link. Truncation j in {0, 1/2} (hardcore gluon); j_max = 1\n  is built too for the truncation-error statement.",
+      "classes": []
+    },
+    {
+      "path": "runs/section8_v0.5.0_20260907T0628Z/src/su2qc/dynamics/__init__.py",
+      "docstring": null,
+      "classes": []
+    },
+    {
+      "path": "runs/section8_v0.5.0_20260907T0628Z/src/su2qc/dynamics/engine.py",
+      "docstring": "Exact-dynamics engine for the 82-state (jmax=0.5) / 152-state (jmax=1) SU(2) plaquette.\n\nevolve(H, psi0, times) -> array of states (dense expm on 82-dim; use scipy.linalg.expm\nof -iH dt step matrix, cumulative).\nself_check(g2, m, jmax, t_max) -> dict with expm_krylov_dev, energy_drift, N_drift.",
+      "classes": []
+    },
+    {
+      "path": "runs/section8_v0.5.0_20260907T0628Z/src/su2qc/dynamics/run_g2.py",
+      "docstring": "Run the full G2 production sequence and print a summary (OPS lane).\n\nOperating point: g2 = 4.0, m = 3 g2/16 = 0.75 (tree-level resonance).\nRationale (physics/DISCREPANCIES.md): the W_bar-argmax estimator is\ndominated by the BB-bar channel at small m and does not localize the\ntree-level resonance; the breaking-time estimator argmin t_b does, at g2 >= 4\nwhere the electric scale dominates hopping and the resonance is sharp.",
+      "classes": []
+    },
+    {
+      "path": "runs/section8_v0.5.0_20260907T0628Z/src/su2qc/dynamics/scan.py",
+      "docstring": "Mass scan / resonance finder, truncation comparison, Trotter-window selector.\n\nRewritten by the OPS lane after the delegated builder timed out (partial file);\nclassification bugs fixed: P_surv is the EXACT charge pattern (+1,-1,0,0), not\na sorted-|q| match.",
+      "classes": []
+    },
+    {
+      "path": "runs/section8_v0.5.0_20260907T0628Z/src/su2qc/encodings/__init__.py",
+      "docstring": "Encodings used by the compact SU(2) circuit experiments.",
+      "classes": []
+    },
+    {
+      "path": "runs/section8_v0.5.0_20260907T0628Z/src/su2qc/encodings/l12.py",
+      "docstring": "The 12-qubit, three-bits-per-vertex L12 encoding.\n\nQubit ``3*v,3*v+1,3*v+2`` is respectively (first link, second link,\nmatter).  Integers use q0 as the least significant bit; displayed Qiskit\nstrings consequently read q11 ... q0.",
+      "classes": []
+    },
+    {
+      "path": "runs/section8_v0.5.0_20260907T0628Z/src/su2qc/ham/__init__.py",
+      "docstring": null,
+      "classes": []
+    },
+    {
+      "path": "runs/section8_v0.5.0_20260907T0628Z/src/su2qc/ham/compare.py",
+      "docstring": "Verifier-owned comparison of the two independent Hamiltonian routes (G1).\n\nBasis-independent checks:\n  * sorted spectra at >= 5 coupling points (incl. m = 0),\n  * observable time series from the stretched string on t in [0, 10].\nOwned by the VERIFY lane; neither route builder edits this file.",
+      "classes": []
+    },
+    {
+      "path": "runs/section8_v0.5.0_20260907T0628Z/src/su2qc/ham/limits.py",
+      "docstring": "Verifier-owned limit tests for gate G1.\n\n* pure_electric_check: g2 -> infinity degeneracy pattern 16,16,18,16,16.\n* frozen_matter_check: m -> infinity 2x2 block equals the monograph's\n  one-plaquette H~1 after a documented normalization reconciliation.\n* magnetic_off_check: B = 0 spectrum equals an independently constructed\n  4-site periodic 1+1D SU(2) chain (built in limits_1d.py by a separate\n  builder; falls back to a cross-route B-off comparison if absent, and\n  reports which was used).",
+      "classes": []
+    },
+    {
+      "path": "runs/section8_v0.5.0_20260907T0628Z/src/su2qc/ham/route_gausskernel.py",
+      "docstring": "Route 2: redundant Kogut-Susskind space followed by Gauss-law projection.\n\nConstruction:\n  * Each link is a truncated rigid rotor |j, mL, mR> (dim 5 at jmax=1/2).\n  * Matter: 8 Jordan-Wigner fermionic modes in the frozen order (v-major).\n  * The physical basis is built from vertex-local Gauss singlets (codex-built,\n    verified: dims 82/152, sector dims 2,20,38,20,2, electric clusters).\n  * H is built on the FULL redundant space (electric, mass, 4 hoppings with JW\n    strings, plaquette trace) and projected: H_phys = P^dag H_red P.\n  * The U matrix-element convention (which color index is conjugated) is\n    selected NUMERICALLY as the unique variant that makes [G^a_v, H_hop] = 0;\n    the choice is recorded in U_CONVENTION after first build.\n\nLimitation (recorded in run/DECISIONS.md): at jmax=1 only the kernel dimension\n(152) is computed by this route; the projected H_1 matrix is route-1-only\n(redundant dim 14^4*256 ~ 9.8M exceeds the night's memory/time budget).\nRoute agreement is gated at jmax=1/2 per the run prompt (G1 criterion 3).",
+      "classes": []
+    },
+    {
+      "path": "runs/section8_v0.5.0_20260907T0628Z/src/su2qc/ham/route_spinnet.py",
+      "docstring": "Route 1: analytic spin-network / dressed-site Hamiltonian for SU(2) single plaquette\nwith dynamical two-color staggered fermions.\n\nBasis: ((j1,j2,j3,j4), (n1,n2,n3,n4), tag) where:\n  j_l in {0, 1/2} (jmax=0.5) or {0, 1/2, 1} (jmax=1) as floats\n  n_v in {0,1,2} with gauge-invariant constraints per vertex\n  tag = 0 (always for 2-valent vertices)\n\nGauge invariance at each 2-valent vertex with incident link spins (j_a, j_b) and matter n_v:\n  - if j_a == j_b:     n_v in {0, 2}  (vacuum or baryon)\n  - if |j_a - j_b| == 1/2: n_v = 1  (doublet)\n  - if |j_a - j_b| == 1:     NOT allowed (projected out, only jmax=1)\n\nHamiltonian: H = H_elec + H_mass + H_hop + H_mag\n\neta = (+1, -1, +1, +1) per link l1..l4.\nStaggered vacuum: n_vac = (0,2,0,2).  Vertices v1..v4 at (0,0),(1,0),(1,1),(0,1).\nLinks: l1:v1->v2, l2:v2->v3, l3:v4->v3, l4:v1->v4.\nPlaquette: U_box = U_l1 U_l2 U_l3^dag U_l4^dag (counter-clockwise v1->v2->v3->v4->v1).",
+      "classes": []
+    },
+    {
+      "path": "runs/section8_v0.5.0_20260907T0628Z/src/su2qc/replicate.py",
+      "docstring": "Minimal replication manifest helper for the campaign.\n\nPhase 8 will extend this module to rebuild all tables and figures. Phase 0 only\nprovides deterministic file hashing and committed-vs-rerun comparison.",
+      "classes": []
+    },
+    {
+      "path": "runs/section8_v0.5.0_20260907T0628Z/src/su2qc/twin/__init__.py",
+      "docstring": null,
+      "classes": []
+    },
+    {
+      "path": "runs/section8_v0.5.0_20260907T0628Z/src/su2qc/twin/twin.py",
+      "docstring": "Noise-model twin: FakeTorino (or a real backend's properties) via\nAerSimulator.from_backend, with leakage post-selection and observables.\n\n  twin_backend(seed)              -> AerSimulator noise twin\n  run_counts(isa_circs, shots, seed, backend) -> list of counts dicts (physical\n        bit order already mapped back to LOGICAL q11..q0 strings via the\n        circuit's final layout, so l12.decode applies directly)\n  postselect(counts)              -> (kept_counts, yield_fraction)\n  observables(kept_counts)        -> dict of P_surv, P_meson, P_BBbar, P_other,\n        E2_l (4), n_v (4), from decoded labels (all Z-basis, diagonal)\n  bootstrap(counts_list, fn, n_boot, seed) -> mean, 2sigma per observable",
+      "classes": []
+    }
+  ],
+  "functions": [
+    {
+      "path": "runs/section8_v0.5.0_20260907T0628Z/src/su2qc/circuits/strang_l12.py",
+      "module": "circuits/strang_l12.py",
+      "name": "params",
+      "signature": "params(g2=None, m=None)",
+      "line": 46,
+      "end_line": 56,
+      "docstring": null,
+      "returns": [
+        "vals"
+      ],
+      "raises": []
+    },
+    {
+      "path": "runs/section8_v0.5.0_20260907T0628Z/src/su2qc/circuits/strang_l12.py",
+      "module": "circuits/strang_l12.py",
+      "name": "terms",
+      "signature": "terms(g2, m)",
+      "line": 60,
+      "end_line": 65,
+      "docstring": "(basis, {group: 82x82 ndarray}) from the dynamics-lane exact split.",
+      "returns": [
+        "(basis, {'D': D, 'h0': hs[0], 'h1': hs[1], 'h2': hs[2], 'h3': hs[3], 'B': B, 'H': Hd})"
+      ],
+      "raises": []
+    },
+    {
+      "path": "runs/section8_v0.5.0_20260907T0628Z/src/su2qc/circuits/strang_l12.py",
+      "module": "circuits/strang_l12.py",
+      "name": "code_index",
+      "signature": "code_index()",
+      "line": 69,
+      "end_line": 71,
+      "docstring": null,
+      "returns": [
+        "(codes, {c: i for i, c in enumerate(codes)})"
+      ],
+      "raises": []
+    },
+    {
+      "path": "runs/section8_v0.5.0_20260907T0628Z/src/su2qc/circuits/strang_l12.py",
+      "module": "circuits/strang_l12.py",
+      "name": "basis_to_code",
+      "signature": "basis_to_code(basis)",
+      "line": 74,
+      "end_line": 75,
+      "docstring": null,
+      "returns": [
+        "np.array([encode(lab) for lab in basis])"
+      ],
+      "raises": []
+    },
+    {
+      "path": "runs/section8_v0.5.0_20260907T0628Z/src/su2qc/circuits/strang_l12.py",
+      "module": "circuits/strang_l12.py",
+      "name": "local_matrix",
+      "signature": "local_matrix(M, codes_of_basis, S)",
+      "line": 126,
+      "end_line": 135,
+      "docstring": "2^|S| x 2^|S| Hermitian matrix acting on support S (sorted).",
+      "returns": [
+        "L"
+      ],
+      "raises": []
+    },
+    {
+      "path": "runs/section8_v0.5.0_20260907T0628Z/src/su2qc/circuits/strang_l12.py",
+      "module": "circuits/strang_l12.py",
+      "name": "supports",
+      "signature": "supports(g2, m)",
+      "line": 139,
+      "end_line": 142,
+      "docstring": null,
+      "returns": [
+        "{g: _support(T[g], cb) for g in ('h0', 'h1', 'h2', 'h3', 'B')}"
+      ],
+      "raises": []
+    },
+    {
+      "path": "runs/section8_v0.5.0_20260907T0628Z/src/su2qc/circuits/strang_l12.py",
+      "module": "circuits/strang_l12.py",
+      "name": "unitary",
+      "signature": "unitary(group, theta, g2, m)",
+      "line": 148,
+      "end_line": 162,
+      "docstring": "12-qubit circuit for exp(-i theta E T_group E^dag).",
+      "returns": [
+        "qc",
+        "qc"
+      ],
+      "raises": []
+    },
+    {
+      "path": "runs/section8_v0.5.0_20260907T0628Z/src/su2qc/circuits/strang_l12.py",
+      "module": "circuits/strang_l12.py",
+      "name": "strang_step",
+      "signature": "strang_step(dt, g2, m)",
+      "line": 165,
+      "end_line": 172,
+      "docstring": null,
+      "returns": [
+        "qc"
+      ],
+      "raises": []
+    },
+    {
+      "path": "runs/section8_v0.5.0_20260907T0628Z/src/su2qc/circuits/strang_l12.py",
+      "module": "circuits/strang_l12.py",
+      "name": "prep_stretched",
+      "signature": "prep_stretched(qc=None)",
+      "line": 175,
+      "end_line": 181,
+      "docstring": null,
+      "returns": [
+        "qc"
+      ],
+      "raises": []
+    },
+    {
+      "path": "runs/section8_v0.5.0_20260907T0628Z/src/su2qc/circuits/strang_l12.py",
+      "module": "circuits/strang_l12.py",
+      "name": "full_circuit",
+      "signature": "full_circuit(r, dt=None, g2=None, m=None, merge_D=True)",
+      "line": 184,
+      "end_line": 204,
+      "docstring": null,
+      "returns": [
+        "qc",
+        "qc",
+        "qc"
+      ],
+      "raises": []
+    },
+    {
+      "path": "runs/section8_v0.5.0_20260907T0628Z/src/su2qc/circuits/strang_l12.py",
+      "module": "circuits/strang_l12.py",
+      "name": "exact_strang_matrix",
+      "signature": "exact_strang_matrix(dt, g2, m)",
+      "line": 209,
+      "end_line": 222,
+      "docstring": "Exact matrix of ONE Strang step in the circuit's group ordering:\nD/2 . h0/2 . h2/2 . h1/2 . h3/2 . B . h3/2 . h1/2 . h2/2 . h0/2 . D/2\n(h0,h2 commute; h1,h3 commute).",
+      "returns": [
+        "U"
+      ],
+      "raises": []
+    },
+    {
+      "path": "runs/section8_v0.5.0_20260907T0628Z/src/su2qc/circuits/strang_l12.py",
+      "module": "circuits/strang_l12.py",
+      "name": "circuit_state",
+      "signature": "circuit_state(qc)",
+      "line": 225,
+      "end_line": 227,
+      "docstring": "Statevector (4096) of a circuit from |0...0>.",
+      "returns": [
+        "Statevector(qc).data"
+      ],
+      "raises": []
+    },
+    {
+      "path": "runs/section8_v0.5.0_20260907T0628Z/src/su2qc/circuits/strang_l12.py",
+      "module": "circuits/strang_l12.py",
+      "name": "to_basis",
+      "signature": "to_basis(vec4096, basis)",
+      "line": 230,
+      "end_line": 232,
+      "docstring": null,
+      "returns": [
+        "vec4096[cb]"
+      ],
+      "raises": []
+    },
+    {
+      "path": "runs/section8_v0.5.0_20260907T0628Z/src/su2qc/circuits/strang_l12.py",
+      "module": "circuits/strang_l12.py",
+      "name": "leakage_prob",
+      "signature": "leakage_prob(vec4096)",
+      "line": 235,
+      "end_line": 239,
+      "docstring": null,
+      "returns": [
+        "float(np.sum(np.abs(vec4096[mask]) ** 2))"
+      ],
+      "raises": []
+    },
+    {
+      "path": "runs/section8_v0.5.0_20260907T0628Z/src/su2qc/circuits/strang_l12.py",
+      "module": "circuits/strang_l12.py",
+      "name": "resources",
+      "signature": "resources(circ)",
+      "line": 244,
+      "end_line": 250,
+      "docstring": null,
+      "returns": [
+        "{'n_2q': int(n2), 'depth_2q': int(t.depth(lambda x: x.operation.num_qubits == 2)), 'depth': int(t.depth())}"
+      ],
+      "raises": []
+    },
+    {
+      "path": "runs/section8_v0.5.0_20260907T0628Z/src/su2qc/circuits/synth_l12.py",
+      "module": "circuits/synth_l12.py",
+      "name": "synth_unitary",
+      "signature": "synth_unitary(group, theta, g2, m)",
+      "line": 249,
+      "end_line": 259,
+      "docstring": "Synthesize one exact L12 block using only one-qubit and controlled gates.",
+      "returns": [
+        "qc"
+      ],
+      "raises": [
+        "ValueError(group)"
+      ]
+    },
+    {
+      "path": "runs/section8_v0.5.0_20260907T0628Z/src/su2qc/circuits/synth_l12.py",
+      "module": "circuits/synth_l12.py",
+      "name": "synth_strang_step",
+      "signature": "synth_strang_step(dt, g2, m)",
+      "line": 262,
+      "end_line": 268,
+      "docstring": null,
+      "returns": [
+        "qc"
+      ],
+      "raises": []
+    },
+    {
+      "path": "runs/section8_v0.5.0_20260907T0628Z/src/su2qc/circuits/synth_l12.py",
+      "module": "circuits/synth_l12.py",
+      "name": "synth_full_circuit",
+      "signature": "synth_full_circuit(r, dt=None, g2=None, m=None, merge_D=True)",
+      "line": 271,
+      "end_line": 287,
+      "docstring": null,
+      "returns": [
+        "qc",
+        "qc",
+        "qc"
+      ],
+      "raises": []
+    },
+    {
+      "path": "runs/section8_v0.5.0_20260907T0628Z/src/su2qc/circuits/synth_l12.py",
+      "module": "circuits/synth_l12.py",
+      "name": "write_resources",
+      "signature": "write_resources(path='circuits/resources_synth.md')",
+      "line": 296,
+      "end_line": 307,
+      "docstring": null,
+      "returns": [
+        "rows"
+      ],
+      "raises": []
+    },
+    {
+      "path": "runs/section8_v0.5.0_20260907T0628Z/src/su2qc/compile/route.py",
+      "module": "compile/route.py",
+      "name": "fake_heron",
+      "signature": "fake_heron()",
+      "line": 30,
+      "end_line": 32,
+      "docstring": null,
+      "returns": [
+        "FakeTorino()"
+      ],
+      "raises": []
+    },
+    {
+      "path": "runs/section8_v0.5.0_20260907T0628Z/src/su2qc/compile/route.py",
+      "module": "compile/route.py",
+      "name": "route",
+      "signature": "route(circ, backend=None, opt=3, seed=7, initial_layout=None)",
+      "line": 35,
+      "end_line": 47,
+      "docstring": null,
+      "returns": [
+        "(isa, {'initial_physical': [int(x) for x in init], 'final_index_layout': [int(x) for x in isa.layout.final_index_layout()] if lay else list(range(12))})"
+      ],
+      "raises": []
+    },
+    {
+      "path": "runs/section8_v0.5.0_20260907T0628Z/src/su2qc/compile/route.py",
+      "module": "compile/route.py",
+      "name": "routed_resources",
+      "signature": "routed_resources(isa)",
+      "line": 50,
+      "end_line": 55,
+      "docstring": null,
+      "returns": [
+        "{'n_2q': int(n2), 'depth_2q': int(isa.depth(lambda x: x.operation.num_qubits == 2)), 'depth': int(isa.depth())}"
+      ],
+      "raises": []
+    },
+    {
+      "path": "runs/section8_v0.5.0_20260907T0628Z/src/su2qc/compile/route.py",
+      "module": "compile/route.py",
+      "name": "routed_equivalence",
+      "signature": "routed_equivalence(logical, isa)",
+      "line": 58,
+      "end_line": 85,
+      "docstring": "1 - |<routed|logical>| with the routed state pulled back through\nfinal_index_layout to the logical qubit order (statevector, no measure).",
+      "returns": [
+        "float(1.0 - abs(np.vdot(vec, psi_l)))"
+      ],
+      "raises": []
+    },
+    {
+      "path": "runs/section8_v0.5.0_20260907T0628Z/src/su2qc/compile/route.py",
+      "module": "compile/route.py",
+      "name": "pyzx_pass",
+      "signature": "pyzx_pass(circ, strategy='basic')",
+      "line": 88,
+      "end_line": 110,
+      "docstring": "The monograph's PyZX pipeline (repo src/su2zx/core.py) with its dense\n12-qubit Operator equivalence check replaced by a statevector check on\nthe 82 physical codes (done by the caller via routed_equivalence-style\ncomparison). strategy: 'basic' (topology-preserving), 'full_reduce'.",
+      "returns": [
+        "qasm2.loads(cand.to_qasm())"
+      ],
+      "raises": [
+        "ValueError(strategy)"
+      ]
+    },
+    {
+      "path": "runs/section8_v0.5.0_20260907T0628Z/src/su2qc/compile/route.py",
+      "module": "compile/route.py",
+      "name": "state_equivalence",
+      "signature": "state_equivalence(a, b)",
+      "line": 113,
+      "end_line": 116,
+      "docstring": "1 - |<a|b>| for two same-width circuits from |0>.",
+      "returns": [
+        "float(1.0 - abs(np.vdot(va, vb)))"
+      ],
+      "raises": []
+    },
+    {
+      "path": "runs/section8_v0.5.0_20260907T0628Z/src/su2qc/compile/run_g4.py",
+      "module": "compile/run_g4.py",
+      "name": "n2",
+      "signature": "n2(c)",
+      "line": 29,
+      "end_line": 30,
+      "docstring": null,
+      "returns": [
+        "sum((1 for i in c.data if i.operation.num_qubits == 2 and i.operation.name != 'barrier'))"
+      ],
+      "raises": []
+    },
+    {
+      "path": "runs/section8_v0.5.0_20260907T0628Z/src/su2qc/compile/run_g4.py",
+      "module": "compile/run_g4.py",
+      "name": "d2",
+      "signature": "d2(c)",
+      "line": 33,
+      "end_line": 34,
+      "docstring": null,
+      "returns": [
+        "int(c.depth(lambda x: x.operation.num_qubits == 2))"
+      ],
+      "raises": []
+    },
+    {
+      "path": "runs/section8_v0.5.0_20260907T0628Z/src/su2qc/conventions.py",
+      "module": "conventions.py",
+      "name": "parity",
+      "signature": "parity(v: int)",
+      "line": 23,
+      "end_line": 26,
+      "docstring": "(-1)^{x+y} for vertex index v in 0..3.  v1,v3 even (+1); v2,v4 odd (-1).",
+      "returns": [
+        "1 if (x + y) % 2 == 0 else -1"
+      ],
+      "raises": []
+    },
+    {
+      "path": "runs/section8_v0.5.0_20260907T0628Z/src/su2qc/conventions.py",
+      "module": "conventions.py",
+      "name": "eta",
+      "signature": "eta(l: int)",
+      "line": 37,
+      "end_line": 42,
+      "docstring": "Staggered phase of link l: eta_x = 1, eta_y = (-1)^x  (x of the source).",
+      "returns": [
+        "1 if VERTICES[s][0] % 2 == 0 else -1",
+        "1"
+      ],
+      "raises": []
+    },
+    {
+      "path": "runs/section8_v0.5.0_20260907T0628Z/src/su2qc/conventions.py",
+      "module": "conventions.py",
+      "name": "charge",
+      "signature": "charge(v: int, n: int)",
+      "line": 55,
+      "end_line": 57,
+      "docstring": "Local charge relative to the staggered vacuum: q_v = n_v - n_vac(v).",
+      "returns": [
+        "n - N_VAC[v]"
+      ],
+      "raises": []
+    },
+    {
+      "path": "runs/section8_v0.5.0_20260907T0628Z/src/su2qc/conventions.py",
+      "module": "conventions.py",
+      "name": "casimir",
+      "signature": "casimir(j: float)",
+      "line": 67,
+      "end_line": 69,
+      "docstring": "SU(2) quadratic Casimir j(j+1).",
+      "returns": [
+        "j * (j + 1.0)"
+      ],
+      "raises": []
+    },
+    {
+      "path": "runs/section8_v0.5.0_20260907T0628Z/src/su2qc/conventions.py",
+      "module": "conventions.py",
+      "name": "coupling_electric",
+      "signature": "coupling_electric(g2: float)",
+      "line": 77,
+      "end_line": 79,
+      "docstring": "Coefficient of sum_l E_l^2.",
+      "returns": [
+        "g2 / 2.0"
+      ],
+      "raises": []
+    },
+    {
+      "path": "runs/section8_v0.5.0_20260907T0628Z/src/su2qc/conventions.py",
+      "module": "conventions.py",
+      "name": "coupling_magnetic",
+      "signature": "coupling_magnetic(g2: float)",
+      "line": 81,
+      "end_line": 83,
+      "docstring": "Coefficient of -Tr(U_box + U_box^dag) (i.e. H_B = -c * Tr(...)).",
+      "returns": [
+        "1.0 / (2.0 * g2)"
+      ],
+      "raises": []
+    },
+    {
+      "path": "runs/section8_v0.5.0_20260907T0628Z/src/su2qc/conventions.py",
+      "module": "conventions.py",
+      "name": "tree_level_resonance",
+      "signature": "tree_level_resonance(g2: float)",
+      "line": 89,
+      "end_line": 90,
+      "docstring": null,
+      "returns": [
+        "3.0 * g2 / 16.0"
+      ],
+      "raises": []
+    },
+    {
+      "path": "runs/section8_v0.5.0_20260907T0628Z/src/su2qc/dynamics/engine.py",
+      "module": "dynamics/engine.py",
+      "name": "evolve",
+      "signature": "evolve(H, psi0, times)",
+      "line": 15,
+      "end_line": 32,
+      "docstring": "Evolve psi0 under sparse H at times t (array).\n\nReturns array of shape (len(times), dim) with state vectors at each time.\nUses dense expm of -i*H*dt per step (cumulative), since the Hilbert space\nis small (82 or 152 dims).",
+      "returns": [
+        "phases * c0[None, :] @ V.T"
+      ],
+      "raises": []
+    },
+    {
+      "path": "runs/section8_v0.5.0_20260907T0628Z/src/su2qc/dynamics/engine.py",
+      "module": "dynamics/engine.py",
+      "name": "self_check",
+      "signature": "self_check(g2: float, m: float, jmax: float, t_max: float)",
+      "line": 35,
+      "end_line": 130,
+      "docstring": "Verify expm vs Krylov conservation.\n\nReturns dict with:\n  expm_krylov_dev: max ||psi_dense(t) - psi_krylov(t)||_inf over ~21 times on [0, t_max]\n  energy_drift: max |<H>(t) - <H>(0)|\n  N_drift: max |<N>(t) - <N>(0)|\nTargets: <=1e-9, <=1e-10, <=1e-10.",
+      "returns": [
+        "{'expm_krylov_dev': expm_krylov_dev, 'energy_drift': energy_drift, 'N_drift': N_drift}"
+      ],
+      "raises": []
+    },
+    {
+      "path": "runs/section8_v0.5.0_20260907T0628Z/src/su2qc/dynamics/scan.py",
+      "module": "dynamics/scan.py",
+      "name": "channel_probs",
+      "signature": "channel_probs(basis, states)",
+      "line": 59,
+      "end_line": 62,
+      "docstring": null,
+      "returns": [
+        "(p @ surv, p @ meson, p @ bbbar, p @ other)"
+      ],
+      "raises": []
+    },
+    {
+      "path": "runs/section8_v0.5.0_20260907T0628Z/src/su2qc/dynamics/scan.py",
+      "module": "dynamics/scan.py",
+      "name": "mass_scan",
+      "signature": "mass_scan(g2_values=(1.0, 2.0, 4.0, 8.0), n_m=25, t_window=(0.0, 40.0), jmax=0.5)",
+      "line": 67,
+      "end_line": 108,
+      "docstring": "Scan m in [0, g2/2] for each g2. Two resonance estimators are recorded:\nargmax of W_bar (prompt criterion 2) and argmin of t_b (breaking time);\nsee physics/DISCREPANCIES.md for why they differ at strong coupling.",
+      "returns": [
+        "out"
+      ],
+      "raises": []
+    },
+    {
+      "path": "runs/section8_v0.5.0_20260907T0628Z/src/su2qc/dynamics/scan.py",
+      "module": "dynamics/scan.py",
+      "name": "timeseries_at",
+      "signature": "timeseries_at(g2, m, jmax=0.5, times=None, tag='exact_timeseries')",
+      "line": 113,
+      "end_line": 141,
+      "docstring": null,
+      "returns": [
+        "{'t': times, 'P_surv': ps, 'P_meson': pm, 'P_BBbar': pb, 'P_other': po, 'E2': e2, 'n': nv, 'energy': en, 'P_stretched': p_st, 'P_short': p_sh}"
+      ],
+      "raises": []
+    },
+    {
+      "path": "runs/section8_v0.5.0_20260907T0628Z/src/su2qc/dynamics/scan.py",
+      "module": "dynamics/scan.py",
+      "name": "truncation",
+      "signature": "truncation(g2, m)",
+      "line": 177,
+      "end_line": 203,
+      "docstring": "Max channel-probability shift jmax=1 vs jmax=1/2 over t in [0,12].",
+      "returns": [
+        "res"
+      ],
+      "raises": []
+    },
+    {
+      "path": "runs/section8_v0.5.0_20260907T0628Z/src/su2qc/dynamics/scan.py",
+      "module": "dynamics/scan.py",
+      "name": "strang_step_matrix",
+      "signature": "strang_step_matrix(D, hs, B, dt)",
+      "line": 236,
+      "end_line": 247,
+      "docstring": "One Strang step in the CIRCUIT layer ordering (prompt \u00a75.5):\nD/2 \u00b7 [h0,h2]/2 \u00b7 [h1,h3]/2 \u00b7 B \u00b7 [h1,h3]/2 \u00b7 [h0,h2]/2 \u00b7 D/2.",
+      "returns": [
+        "U"
+      ],
+      "raises": []
+    },
+    {
+      "path": "runs/section8_v0.5.0_20260907T0628Z/src/su2qc/dynamics/scan.py",
+      "module": "dynamics/scan.py",
+      "name": "strang_error",
+      "signature": "strang_error(g2, m, dt, r, jmax=0.5)",
+      "line": 250,
+      "end_line": 266,
+      "docstring": "Observable error of r Strang steps vs exact at t = r dt.",
+      "returns": [
+        "max(devs)"
+      ],
+      "raises": []
+    },
+    {
+      "path": "runs/section8_v0.5.0_20260907T0628Z/src/su2qc/dynamics/scan.py",
+      "module": "dynamics/scan.py",
+      "name": "select_window",
+      "signature": "select_window(g2=1.0, m=None, jmax=0.5)",
+      "line": 269,
+      "end_line": 303,
+      "docstring": "Choose (g2, m, dt, r_max) per prompt Phase-2 criterion 5.",
+      "returns": [
+        "best",
+        "cand"
+      ],
+      "raises": []
+    },
+    {
+      "path": "runs/section8_v0.5.0_20260907T0628Z/src/su2qc/dynamics/scan.py",
+      "module": "dynamics/scan.py",
+      "name": "verify_window",
+      "signature": "verify_window(w)",
+      "line": 306,
+      "end_line": 316,
+      "docstring": "Recompute the window criteria (gate G2 calls this).",
+      "returns": [
+        "{'psurv_drop': float(ps[0] - ps[1]), 'pair_weight': float(pm[1] + pb[1]), 'strang_err': float(strang_error(g2, m, dt, r))}"
+      ],
+      "raises": []
+    },
+    {
+      "path": "runs/section8_v0.5.0_20260907T0628Z/src/su2qc/encodings/l12.py",
+      "module": "encodings/l12.py",
+      "name": "encode",
+      "signature": "encode(label)",
+      "line": 33,
+      "end_line": 38,
+      "docstring": "Encode a canonical route-spinnet basis label as a 12-bit integer.",
+      "returns": [
+        "code"
+      ],
+      "raises": [
+        "ValueError(f'not a physical L12 label: {label!r}')"
+      ]
+    },
+    {
+      "path": "runs/section8_v0.5.0_20260907T0628Z/src/su2qc/encodings/l12.py",
+      "module": "encodings/l12.py",
+      "name": "decode",
+      "signature": "decode(bits)",
+      "line": 40,
+      "end_line": 48,
+      "docstring": "Decode an integer (or a q11...q0 bit string) or return ``None``.",
+      "returns": [
+        "_maps().get(bits)",
+        "None",
+        "None"
+      ],
+      "raises": []
+    },
+    {
+      "path": "runs/section8_v0.5.0_20260907T0628Z/src/su2qc/encodings/l12.py",
+      "module": "encodings/l12.py",
+      "name": "physical_codes",
+      "signature": "physical_codes()",
+      "line": 50,
+      "end_line": 51,
+      "docstring": null,
+      "returns": [
+        "sorted(_maps())"
+      ],
+      "raises": []
+    },
+    {
+      "path": "runs/section8_v0.5.0_20260907T0628Z/src/su2qc/encodings/l12.py",
+      "module": "encodings/l12.py",
+      "name": "leakage_flags",
+      "signature": "leakage_flags(bits)",
+      "line": 53,
+      "end_line": 65,
+      "docstring": "Return vertex leakage and four endpoint-consistency flags.",
+      "returns": [
+        "{'vertex': vertex, 'link': tuple(link)}",
+        "{'vertex': (True,) * 4, 'link': (True,) * 4}"
+      ],
+      "raises": []
+    },
+    {
+      "path": "runs/section8_v0.5.0_20260907T0628Z/src/su2qc/encodings/l12.py",
+      "module": "encodings/l12.py",
+      "name": "is_physical",
+      "signature": "is_physical(bits)",
+      "line": 67,
+      "end_line": 69,
+      "docstring": null,
+      "returns": [
+        "not any(f['vertex']) and (not any(f['link']))"
+      ],
+      "raises": []
+    },
+    {
+      "path": "runs/section8_v0.5.0_20260907T0628Z/src/su2qc/ham/compare.py",
+      "module": "ham/compare.py",
+      "name": "spectra_comparison",
+      "signature": "spectra_comparison(jmax=0.5, points=COUPLING_POINTS)",
+      "line": 45,
+      "end_line": 60,
+      "docstring": "Max relative deviation of sorted spectra between routes per point.",
+      "returns": [
+        "rows"
+      ],
+      "raises": []
+    },
+    {
+      "path": "runs/section8_v0.5.0_20260907T0628Z/src/su2qc/ham/compare.py",
+      "module": "ham/compare.py",
+      "name": "time_series_comparison",
+      "signature": "time_series_comparison(g2=1.0, m=0.1875, jmax=0.5, times=TIMES)",
+      "line": 88,
+      "end_line": 106,
+      "docstring": "Max abs deviation of stretched-string observables between routes.",
+      "returns": [
+        "(dev, s1)"
+      ],
+      "raises": []
+    },
+    {
+      "path": "runs/section8_v0.5.0_20260907T0628Z/src/su2qc/ham/limits.py",
+      "module": "ham/limits.py",
+      "name": "pure_electric_check",
+      "signature": "pure_electric_check(g2_big=1000000.0)",
+      "line": 28,
+      "end_line": 43,
+      "docstring": "Spectrum at g2 -> inf, m = 0: electric levels with k-degeneracies.",
+      "returns": [
+        "{'degeneracies': got, 'rel_dev': float(rel), 'ok': bool(ok)}"
+      ],
+      "raises": []
+    },
+    {
+      "path": "runs/section8_v0.5.0_20260907T0628Z/src/su2qc/ham/limits.py",
+      "module": "ham/limits.py",
+      "name": "frozen_matter_check",
+      "signature": "frozen_matter_check(tol=1e-09)",
+      "line": 46,
+      "end_line": 99,
+      "docstring": "m -> inf: the 2-state block (links all-0 / all-1/2, matter at vacuum)\nequals the monograph's one-plaquette H~1 after reconciliation.\n\nMonograph (repo core.py, n=1): H~1 = 1.5 I - 1.5 Z - 2x X, x = 2/g^4,\nH~ = 2H/g^2  =>  H1 = (g2/2)(1.5 I - 1.5 Z) - (2/g2) X  acting on\n(|0000>, |hhhh>) with Z|0000> = +|0000>.\nPatch H on the same 2 states: diag(0, 4*(g2/2)*(3/4)) = diag(0, 1.5 g2)\nfrom the electric term, mass term = m*const (equal on both, shift),\nmagnetic term couples them with element -(1/(2g2)) * w where w is the\nplaquette vertex-factor product; expected |w| = 2 (Tr over the two color\npaths), giving off-diagonal -1/g2... The reconciliation (documented in\nphysics/conventions_reconciliation.md) fixes the mapping:\n  H_patch|_2x2 = a I + b (H1_monograph) with b = 1 expected up to the\n  magnetic normalization ratio r = offdiag_patch / (-2/g2).\nThis check extracts the effective 2x2 block at large m numerically via\n2nd-order perturbation (large-m suppresses matter excitations) by exact\nprojection: keep the two basis states, project H (matter untouched by B,\nhopping leaves the block at O(1/m)).",
+      "returns": [
+        "{'dev': dev_diag, 'offdiag_times_g2': c, 'tol': tol, 'ok': bool(ok), 'note': 'off-diagonal coefficient recorded for reconciliation doc'}"
+      ],
+      "raises": []
+    },
+    {
+      "path": "runs/section8_v0.5.0_20260907T0628Z/src/su2qc/ham/limits.py",
+      "module": "ham/limits.py",
+      "name": "magnetic_off_check",
+      "signature": "magnetic_off_check(tol=1e-10)",
+      "line": 102,
+      "end_line": 122,
+      "docstring": "B = 0 spectrum vs an independent periodic 1D 4-site SU(2) chain.",
+      "returns": [
+        "{'dev': dev, 'ok': dev <= tol, 'note': src}",
+        "{'dev': float('nan'), 'ok': False, 'note': 'route1 lacks build_hamiltonian_no_magnetic'}"
+      ],
+      "raises": []
+    },
+    {
+      "path": "runs/section8_v0.5.0_20260907T0628Z/src/su2qc/ham/route_gausskernel.py",
+      "module": "ham/route_gausskernel.py",
+      "name": "kernel_dimension",
+      "signature": "kernel_dimension(jmax)",
+      "line": 165,
+      "end_line": 166,
+      "docstring": null,
+      "returns": [
+        "len(_basis(jmax)[0])"
+      ],
+      "raises": []
+    },
+    {
+      "path": "runs/section8_v0.5.0_20260907T0628Z/src/su2qc/ham/route_gausskernel.py",
+      "module": "ham/route_gausskernel.py",
+      "name": "gauss_commutator_norms",
+      "signature": "gauss_commutator_norms(jmax)",
+      "line": 390,
+      "end_line": 407,
+      "docstring": "Max over v, a of max-abs entry of [G^a_v, H_term], per term group.",
+      "returns": [
+        "out"
+      ],
+      "raises": []
+    },
+    {
+      "path": "runs/section8_v0.5.0_20260907T0628Z/src/su2qc/ham/route_gausskernel.py",
+      "module": "ham/route_gausskernel.py",
+      "name": "build_hamiltonian",
+      "signature": "build_hamiltonian(g2, m, jmax)",
+      "line": 422,
+      "end_line": 431,
+      "docstring": null,
+      "returns": [
+        "(H, labels, P)"
+      ],
+      "raises": [
+        "NotImplementedError('route 2 builds the projected H only at jmax=1/2 tonight; at jmax=1 use kernel_dimension(1.0) (=152). See module docstring / DECISIONS.')"
+      ]
+    },
+    {
+      "path": "runs/section8_v0.5.0_20260907T0628Z/src/su2qc/ham/route_gausskernel.py",
+      "module": "ham/route_gausskernel.py",
+      "name": "build_hamiltonian_no_magnetic",
+      "signature": "build_hamiltonian_no_magnetic(g2, m, jmax)",
+      "line": 434,
+      "end_line": 441,
+      "docstring": null,
+      "returns": [
+        "(H, labels, P)"
+      ],
+      "raises": [
+        "NotImplementedError('see build_hamiltonian')"
+      ]
+    },
+    {
+      "path": "runs/section8_v0.5.0_20260907T0628Z/src/su2qc/ham/route_gausskernel.py",
+      "module": "ham/route_gausskernel.py",
+      "name": "get_state",
+      "signature": "get_state(label, basis_labels)",
+      "line": 444,
+      "end_line": 445,
+      "docstring": null,
+      "returns": [
+        "basis_labels.index(label)"
+      ],
+      "raises": []
+    },
+    {
+      "path": "runs/section8_v0.5.0_20260907T0628Z/src/su2qc/ham/route_gausskernel.py",
+      "module": "ham/route_gausskernel.py",
+      "name": "E2_link",
+      "signature": "E2_link(l, basis_labels)",
+      "line": 466,
+      "end_line": 467,
+      "docstring": null,
+      "returns": [
+        "_obs(basis_labels)[0][l]"
+      ],
+      "raises": []
+    },
+    {
+      "path": "runs/section8_v0.5.0_20260907T0628Z/src/su2qc/ham/route_gausskernel.py",
+      "module": "ham/route_gausskernel.py",
+      "name": "n_op",
+      "signature": "n_op(v, basis_labels)",
+      "line": 470,
+      "end_line": 471,
+      "docstring": null,
+      "returns": [
+        "_obs(basis_labels)[1][v]"
+      ],
+      "raises": []
+    },
+    {
+      "path": "runs/section8_v0.5.0_20260907T0628Z/src/su2qc/ham/route_gausskernel.py",
+      "module": "ham/route_gausskernel.py",
+      "name": "N_total",
+      "signature": "N_total(basis_labels)",
+      "line": 474,
+      "end_line": 475,
+      "docstring": null,
+      "returns": [
+        "_obs(basis_labels)[2]"
+      ],
+      "raises": []
+    },
+    {
+      "path": "runs/section8_v0.5.0_20260907T0628Z/src/su2qc/ham/route_gausskernel.py",
+      "module": "ham/route_gausskernel.py",
+      "name": "P_surv",
+      "signature": "P_surv(basis_labels)",
+      "line": 478,
+      "end_line": 479,
+      "docstring": null,
+      "returns": [
+        "_obs(basis_labels)[3]"
+      ],
+      "raises": []
+    },
+    {
+      "path": "runs/section8_v0.5.0_20260907T0628Z/src/su2qc/ham/route_gausskernel.py",
+      "module": "ham/route_gausskernel.py",
+      "name": "P_meson",
+      "signature": "P_meson(basis_labels)",
+      "line": 482,
+      "end_line": 483,
+      "docstring": null,
+      "returns": [
+        "_obs(basis_labels)[4]"
+      ],
+      "raises": []
+    },
+    {
+      "path": "runs/section8_v0.5.0_20260907T0628Z/src/su2qc/ham/route_gausskernel.py",
+      "module": "ham/route_gausskernel.py",
+      "name": "P_BBbar",
+      "signature": "P_BBbar(basis_labels)",
+      "line": 486,
+      "end_line": 487,
+      "docstring": null,
+      "returns": [
+        "_obs(basis_labels)[5]"
+      ],
+      "raises": []
+    },
+    {
+      "path": "runs/section8_v0.5.0_20260907T0628Z/src/su2qc/ham/route_spinnet.py",
+      "module": "ham/route_spinnet.py",
+      "name": "enumerate_basis",
+      "signature": "enumerate_basis(jmax: float)",
+      "line": 234,
+      "end_line": 312,
+      "docstring": "Return list of basis labels ((j1,j2,j3,j4), (n1,n2,n3,n4), 0) for the given jmax.\n\nThe basis is constructed by iterating all allowed link spins and then, for each,\nall matter assignments that satisfy the 4 vertex constraints.",
+      "returns": [
+        "basis"
+      ],
+      "raises": [
+        "ValueError(f'Unsupported jmax={jmax}; use 0.5 or 1.0')"
+      ]
+    },
+    {
+      "path": "runs/section8_v0.5.0_20260907T0628Z/src/su2qc/ham/route_spinnet.py",
+      "module": "ham/route_spinnet.py",
+      "name": "build_hamiltonian",
+      "signature": "build_hamiltonian(g2: float, m: float, jmax: float)",
+      "line": 433,
+      "end_line": 528,
+      "docstring": "Build the full route-1 Hamiltonian for the single plaquette.\n\nReturns (H_sparse, basis) where basis is the list of labels in the same order\nas the matrix rows/cols.\n\nPhysics:\n  H = H_elec + H_mass + H_hop + H_mag\n  H_elec = (g2/2) sum_l j_l(j_l+1)                     (diagonal)\n  H_mass = m sum_v parity_v n_v                          (diagonal, parity=+ - + -)\n  H_hop  = (1/2) sum_l ( eta_l psi^dag_{s(l)} U_l psi_{t(l)} + h.c. )  (off-diagonal)\n  H_mag  = -(1/(2g2)) Tr(U_box + U_box^dag)            (off-diagonal)",
+      "returns": [
+        "(H, basis)"
+      ],
+      "raises": []
+    },
+    {
+      "path": "runs/section8_v0.5.0_20260907T0628Z/src/su2qc/ham/route_spinnet.py",
+      "module": "ham/route_spinnet.py",
+      "name": "build_hamiltonian_no_magnetic",
+      "signature": "build_hamiltonian_no_magnetic(g2: float, m: float, jmax: float)",
+      "line": 531,
+      "end_line": 577,
+      "docstring": "Build the Hamiltonian without the magnetic term (electric + mass + hopping only).\n\nSame basis ordering as build_hamiltonian, useful for limit checks.",
+      "returns": [
+        "(H, basis)"
+      ],
+      "raises": []
+    },
+    {
+      "path": "runs/section8_v0.5.0_20260907T0628Z/src/su2qc/ham/route_spinnet.py",
+      "module": "ham/route_spinnet.py",
+      "name": "number_op",
+      "signature": "number_op(v: int)",
+      "line": 582,
+      "end_line": 592,
+      "docstring": "Return the number operator n_v for vertex v (diagonal in the basis).\n\nThe returned function takes (dim, basis) and returns a CSR matrix.",
+      "returns": [
+        "_no",
+        "H.tocsr()"
+      ],
+      "raises": []
+    },
+    {
+      "path": "runs/section8_v0.5.0_20260907T0628Z/src/su2qc/ham/route_spinnet.py",
+      "module": "ham/route_spinnet.py",
+      "name": "total_number",
+      "signature": "total_number()",
+      "line": 595,
+      "end_line": 602,
+      "docstring": "Return the total fermion number sum_v n_v (diagonal in the basis).",
+      "returns": [
+        "_no",
+        "H.tocsr()"
+      ],
+      "raises": []
+    },
+    {
+      "path": "runs/section8_v0.5.0_20260907T0628Z/src/su2qc/ham/route_spinnet.py",
+      "module": "ham/route_spinnet.py",
+      "name": "casimir_link",
+      "signature": "casimir_link(l: int)",
+      "line": 605,
+      "end_line": 612,
+      "docstring": "Return the electric casimir operator j_l(j_l+1) for link l (diagonal in the basis).",
+      "returns": [
+        "_no",
+        "H.tocsr()"
+      ],
+      "raises": []
+    },
+    {
+      "path": "runs/section8_v0.5.0_20260907T0628Z/src/su2qc/ham/route_spinnet.py",
+      "module": "ham/route_spinnet.py",
+      "name": "P_stretched",
+      "signature": "P_stretched(g2: float, m: float, jmax: float)",
+      "line": 634,
+      "end_line": 638,
+      "docstring": "Projector onto states with q = (+1, -1, 0, 0).",
+      "returns": [
+        "_charge_projector((1, -1, 0, 0), basis, dim)"
+      ],
+      "raises": []
+    },
+    {
+      "path": "runs/section8_v0.5.0_20260907T0628Z/src/su2qc/ham/route_spinnet.py",
+      "module": "ham/route_spinnet.py",
+      "name": "P_short",
+      "signature": "P_short(g2: float, m: float, jmax: float)",
+      "line": 641,
+      "end_line": 645,
+      "docstring": "Projector onto states with q = (+1, -1, 0, 0) \u2014 the short sector.",
+      "returns": [
+        "_charge_projector((1, -1, 0, 0), basis, dim)"
+      ],
+      "raises": []
+    },
+    {
+      "path": "runs/section8_v0.5.0_20260907T0628Z/src/su2qc/ham/route_spinnet.py",
+      "module": "ham/route_spinnet.py",
+      "name": "P_surv",
+      "signature": "P_surv(g2: float, m: float, jmax: float)",
+      "line": 648,
+      "end_line": 652,
+      "docstring": "Projector onto states with q = (+1, -1, 0, 0) (surviving stretched string).",
+      "returns": [
+        "_charge_projector((1, -1, 0, 0), basis, dim)"
+      ],
+      "raises": []
+    },
+    {
+      "path": "runs/section8_v0.5.0_20260907T0628Z/src/su2qc/ham/route_spinnet.py",
+      "module": "ham/route_spinnet.py",
+      "name": "P_meson",
+      "signature": "P_meson(g2: float, m: float, jmax: float)",
+      "line": 655,
+      "end_line": 664,
+      "docstring": "Projector onto states with |q_v| = 1 for all v.",
+      "returns": [
+        "H.tocsr()"
+      ],
+      "raises": []
+    },
+    {
+      "path": "runs/section8_v0.5.0_20260907T0628Z/src/su2qc/ham/route_spinnet.py",
+      "module": "ham/route_spinnet.py",
+      "name": "P_BBbar",
+      "signature": "P_BBbar(g2: float, m: float, jmax: float)",
+      "line": 667,
+      "end_line": 676,
+      "docstring": "Projector onto any state with |q_v| = 2 for some v (takes precedence).",
+      "returns": [
+        "H.tocsr()"
+      ],
+      "raises": []
+    },
+    {
+      "path": "runs/section8_v0.5.0_20260907T0628Z/src/su2qc/ham/route_spinnet.py",
+      "module": "ham/route_spinnet.py",
+      "name": "charge",
+      "signature": "charge(v: int, n: int)",
+      "line": 680,
+      "end_line": 682,
+      "docstring": "Local charge relative to the staggered vacuum: q_v = n_v - n_vac(v).",
+      "returns": [
+        "n - N_VAC[v]"
+      ],
+      "raises": []
+    },
+    {
+      "path": "runs/section8_v0.5.0_20260907T0628Z/src/su2qc/ham/route_spinnet.py",
+      "module": "ham/route_spinnet.py",
+      "name": "validate_dimensions",
+      "signature": "validate_dimensions(jmax: float=0.5)",
+      "line": 687,
+      "end_line": 714,
+      "docstring": "Validate that the basis dimension and sector counts match expectations.",
+      "returns": [
+        "result"
+      ],
+      "raises": []
+    },
+    {
+      "path": "runs/section8_v0.5.0_20260907T0628Z/src/su2qc/ham/route_spinnet.py",
+      "module": "ham/route_spinnet.py",
+      "name": "validate_hermiticity",
+      "signature": "validate_hermiticity(H: csr_matrix, atol: float=1e-13)",
+      "line": 717,
+      "end_line": 724,
+      "docstring": "Check that H is Hermitian within tolerance.",
+      "returns": [
+        "{'hermitian': diff <= atol, 'max_diff': float(diff)}"
+      ],
+      "raises": []
+    },
+    {
+      "path": "runs/section8_v0.5.0_20260907T0628Z/src/su2qc/ham/route_spinnet.py",
+      "module": "ham/route_spinnet.py",
+      "name": "validate_commutator",
+      "signature": "validate_commutator(H: csr_matrix, N_op: csr_matrix, atol: float=1e-13)",
+      "line": 727,
+      "end_line": 736,
+      "docstring": "Check [H, N] = 0 within tolerance.",
+      "returns": [
+        "{'[H,N]': max_comm <= atol, 'max_comm': float(max_comm)}"
+      ],
+      "raises": []
+    },
+    {
+      "path": "runs/section8_v0.5.0_20260907T0628Z/src/su2qc/ham/route_spinnet.py",
+      "module": "ham/route_spinnet.py",
+      "name": "pure_electric_check",
+      "signature": "pure_electric_check(g2_big: float=1000000.0)",
+      "line": 739,
+      "end_line": 753,
+      "docstring": "Spectrum at g2 -> inf, m = 0: electric levels with k-degeneracies.\n\nFrom limits.py pure_electric_check.",
+      "returns": [
+        "{'degeneracies': got, 'rel_dev': float(rel), 'ok': bool(ok)}"
+      ],
+      "raises": []
+    },
+    {
+      "path": "runs/section8_v0.5.0_20260907T0628Z/src/su2qc/replicate.py",
+      "module": "replicate.py",
+      "name": "sha256_file",
+      "signature": "sha256_file(path: str | Path)",
+      "line": 13,
+      "end_line": 14,
+      "docstring": null,
+      "returns": [
+        "hashlib.sha256(Path(path).read_bytes()).hexdigest()"
+      ],
+      "raises": []
+    },
+    {
+      "path": "runs/section8_v0.5.0_20260907T0628Z/src/su2qc/replicate.py",
+      "module": "replicate.py",
+      "name": "manifest",
+      "signature": "manifest(paths: list[str | Path])",
+      "line": 17,
+      "end_line": 18,
+      "docstring": null,
+      "returns": [
+        "{str(Path(path)): sha256_file(path) for path in sorted(paths, key=str)}"
+      ],
+      "raises": []
+    },
+    {
+      "path": "runs/section8_v0.5.0_20260907T0628Z/src/su2qc/replicate.py",
+      "module": "replicate.py",
+      "name": "compare_manifests",
+      "signature": "compare_manifests(expected: dict[str, str], actual: dict[str, str])",
+      "line": 21,
+      "end_line": 24,
+      "docstring": null,
+      "returns": [
+        "{'pass': not mismatches, 'mismatches': mismatches, 'count': len(keys)}"
+      ],
+      "raises": []
+    },
+    {
+      "path": "runs/section8_v0.5.0_20260907T0628Z/src/su2qc/replicate.py",
+      "module": "replicate.py",
+      "name": "write_manifest",
+      "signature": "write_manifest(paths: list[str | Path], output: str | Path)",
+      "line": 27,
+      "end_line": 30,
+      "docstring": null,
+      "returns": [
+        "values"
+      ],
+      "raises": []
+    },
+    {
+      "path": "runs/section8_v0.5.0_20260907T0628Z/src/su2qc/twin/twin.py",
+      "module": "twin/twin.py",
+      "name": "twin_backend",
+      "signature": "twin_backend(seed=1234, backend=None, compact=False)",
+      "line": 28,
+      "end_line": 37,
+      "docstring": null,
+      "returns": [
+        "AerSimulator.from_backend(backend, seed_simulator=seed)",
+        "AerSimulator(noise_model=noise)"
+      ],
+      "raises": []
+    },
+    {
+      "path": "runs/section8_v0.5.0_20260907T0628Z/src/su2qc/twin/twin.py",
+      "module": "twin/twin.py",
+      "name": "add_measurements",
+      "signature": "add_measurements(isa)",
+      "line": 40,
+      "end_line": 51,
+      "docstring": "Measure the 12 logical qubits (at their final physical positions) into\nclassical bits c[i] = logical i, so the count strings read q11..q0.",
+      "returns": [
+        "qc"
+      ],
+      "raises": []
+    },
+    {
+      "path": "runs/section8_v0.5.0_20260907T0628Z/src/su2qc/twin/twin.py",
+      "module": "twin/twin.py",
+      "name": "run_counts",
+      "signature": "run_counts(isa_meas_list, shots, seed, sim)",
+      "line": 54,
+      "end_line": 63,
+      "docstring": null,
+      "returns": [
+        "out"
+      ],
+      "raises": []
+    },
+    {
+      "path": "runs/section8_v0.5.0_20260907T0628Z/src/su2qc/twin/twin.py",
+      "module": "twin/twin.py",
+      "name": "postselect",
+      "signature": "postselect(counts)",
+      "line": 66,
+      "end_line": 69,
+      "docstring": null,
+      "returns": [
+        "(kept, sum(kept.values()) / tot if tot else 0.0)"
+      ],
+      "raises": []
+    },
+    {
+      "path": "runs/section8_v0.5.0_20260907T0628Z/src/su2qc/twin/twin.py",
+      "module": "twin/twin.py",
+      "name": "observables",
+      "signature": "observables(kept)",
+      "line": 72,
+      "end_line": 102,
+      "docstring": null,
+      "returns": [
+        "acc"
+      ],
+      "raises": []
+    },
+    {
+      "path": "runs/section8_v0.5.0_20260907T0628Z/src/su2qc/twin/twin.py",
+      "module": "twin/twin.py",
+      "name": "channel_weights",
+      "signature": "channel_weights(kept)",
+      "line": 105,
+      "end_line": 127,
+      "docstring": "Return signed-weight channel totals without renormalizing the input.",
+      "returns": [
+        "out"
+      ],
+      "raises": []
+    },
+    {
+      "path": "runs/section8_v0.5.0_20260907T0628Z/src/su2qc/twin/twin.py",
+      "module": "twin/twin.py",
+      "name": "channel_closure_residual",
+      "signature": "channel_closure_residual(kept)",
+      "line": 130,
+      "end_line": 143,
+      "docstring": "Check the corrected V11 closure identity on signed quasi-weights.",
+      "returns": [
+        "float(lhs - rhs)"
+      ],
+      "raises": []
+    },
+    {
+      "path": "runs/section8_v0.5.0_20260907T0628Z/src/su2qc/twin/twin.py",
+      "module": "twin/twin.py",
+      "name": "matched_subtraction",
+      "signature": "matched_subtraction(observed, control)",
+      "line": 146,
+      "end_line": 149,
+      "docstring": "Compute O(t)-O(0) over the union of observable keys.",
+      "returns": [
+        "{key: float(observed.get(key, 0.0) - control.get(key, 0.0)) for key in set(observed) | set(control)}"
+      ],
+      "raises": []
+    },
+    {
+      "path": "runs/section8_v0.5.0_20260907T0628Z/src/su2qc/twin/twin.py",
+      "module": "twin/twin.py",
+      "name": "physical_yield",
+      "signature": "physical_yield(counts, physical_keys)",
+      "line": 152,
+      "end_line": 155,
+      "docstring": "Return the fraction of counts in the supplied physical-key set.",
+      "returns": [
+        "float(sum((value for key, value in counts.items() if key in physical_keys)) / total)"
+      ],
+      "raises": []
+    },
+    {
+      "path": "runs/section8_v0.5.0_20260907T0628Z/src/su2qc/twin/twin.py",
+      "module": "twin/twin.py",
+      "name": "bootstrap",
+      "signature": "bootstrap(counts_list, n_boot=400, seed=0)",
+      "line": 158,
+      "end_line": 175,
+      "docstring": "Bootstrap over repeats (each element of counts_list is one repeat).\nReturns (mean dict, two_sigma dict, yield mean).",
+      "returns": [
+        "(dict(zip(keys, mean.tolist())), dict(zip(keys, two_sigma.tolist())), float(np.mean(ys)))"
+      ],
+      "raises": []
+    }
+  ]
+}

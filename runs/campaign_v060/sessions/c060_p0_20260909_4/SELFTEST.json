@@ -1,0 +1,37 @@
+{
+  "check1_manifest": {
+    "pass": true,
+    "payload_files": 157,
+    "present_files": 160,
+    "hashes_checked": 157,
+    "controls": [
+      "MANIFEST.json",
+      "MANIFEST.sha256",
+      "SELFTEST.json"
+    ],
+    "errors": []
+  },
+  "check2_links": {
+    "pass": true,
+    "documents_checked": 15,
+    "references_checked": 111,
+    "errors": []
+  },
+  "check3_source_fidelity": {
+    "pass": true,
+    "src_checked": 68,
+    "legacy_checked": 200,
+    "errors": []
+  },
+  "check4_sizes": {
+    "total_bytes": 5460766,
+    "largest_file": "graph/graph.json",
+    "largest_bytes": 2680358,
+    "file_count": 160
+  },
+  "check5_compileall": {
+    "pass": true,
+    "errors": []
+  },
+  "overall_pass": true
+}

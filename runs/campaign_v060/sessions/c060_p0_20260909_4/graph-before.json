@@ -1,0 +1,12 @@
+{
+  "counts": {
+    "nodes": 2075,
+    "edges": 2788,
+    "communities": 206
+  },
+  "out_of_corpus": {
+    "docs/REFERENCES.md": 11
+  },
+  "su2qc_nodes": 283,
+  "current_ast_files": 264
+}

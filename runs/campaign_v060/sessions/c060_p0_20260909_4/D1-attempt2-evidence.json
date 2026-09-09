@@ -1,0 +1,8 @@
+{
+  "command": "PYTHONDONTWRITEBYTECODE=1 .mamba/envs/su2zx/bin/python runs/campaign_v060/sessions/c060_p0_20260909_4/tools/test_inventory.py -v",
+  "exit_code": 0,
+  "tests": 8,
+  "legacy_diff_exit": 0,
+  "source_sha256": "75dbf4715ace4b79df1ee5451925dbe306ec186aa72922094bdf70a917e40674",
+  "tests_sha256": "b202bd921e9722664aeeb96da0dd6a166f76db566633bc60ff4f1f4e1eb3f981"
+}

@@ -1,0 +1,13 @@
+F
+======================================================================
+FAIL: test_manifest_requires_exact_payload_and_matching_hashes (__main__.BundleTests.test_manifest_requires_exact_payload_and_matching_hashes)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/digimonk/Projects/SU2ZX_Foundation_Code_Package/SU2ZX/runs/campaign_v060/sessions/c060_p0_20260909_4/tools/test_bundle.py", line 16, in test_manifest_requires_exact_payload_and_matching_hashes
+    self.assertTrue(TOOL.is_file(), "bundle verification tool has not been implemented")
+AssertionError: False is not true : bundle verification tool has not been implemented
+
+----------------------------------------------------------------------
+Ran 1 test in 0.001s
+
+FAILED (failures=1)

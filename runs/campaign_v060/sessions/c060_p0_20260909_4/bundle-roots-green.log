@@ -1,0 +1,8 @@
+test_backticked_navigation_paths_resolve_against_the_archive_root (__main__.BundleTests.test_backticked_navigation_paths_resolve_against_the_archive_root) ... ok
+test_links_reject_dangling_and_escaping_targets (__main__.BundleTests.test_links_reject_dangling_and_escaping_targets) ... ok
+test_manifest_requires_exact_payload_and_matching_hashes (__main__.BundleTests.test_manifest_requires_exact_payload_and_matching_hashes) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.020s
+
+OK

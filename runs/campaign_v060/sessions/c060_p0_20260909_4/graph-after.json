@@ -1,0 +1,14 @@
+{
+  "before": {
+    "nodes": 2075,
+    "edges": 2788,
+    "communities": 206
+  },
+  "after": {
+    "nodes": 2482,
+    "edges": 3182,
+    "communities": 243
+  },
+  "out_of_corpus_nodes_remaining": 0,
+  "su2qc_nodes": 283
+}

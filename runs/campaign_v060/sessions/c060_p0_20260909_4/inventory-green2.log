@@ -1,0 +1,13 @@
+test_custom_roots_cannot_overwrite_reserved_legacy_output (__main__.InventoryTests.test_custom_roots_cannot_overwrite_reserved_legacy_output) ... ok
+test_default_output_is_byte_identical_to_committed_inventory (__main__.InventoryTests.test_default_output_is_byte_identical_to_committed_inventory) ... ok
+test_directory_symlinks_are_rejected (__main__.InventoryTests.test_directory_symlinks_are_rejected) ... ok
+test_explicit_roots_emit_separate_ast_only_inventory (__main__.InventoryTests.test_explicit_roots_emit_separate_ast_only_inventory) ... ok
+test_gate_roots_extract_assertions_and_duplicate_roots_are_deduplicated (__main__.InventoryTests.test_gate_roots_extract_assertions_and_duplicate_roots_are_deduplicated) ... ok
+test_output_cannot_escape_invocation_root (__main__.InventoryTests.test_output_cannot_escape_invocation_root) ... ok
+test_source_roots_cannot_escape_selected_base (__main__.InventoryTests.test_source_roots_cannot_escape_selected_base) ... ok
+test_source_symlinks_are_rejected_before_parsing (__main__.InventoryTests.test_source_symlinks_are_rejected_before_parsing) ... ok
+
+----------------------------------------------------------------------
+Ran 8 tests in 0.707s
+
+OK
