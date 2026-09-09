@@ -2,6 +2,7 @@ zip_results/
 artifacts/figures/
 artifacts/environment-pip-freeze.txt
 artifacts/data/v040/*.qpy
+docs/REFERENCES.md
 runs/*/graphify-out/
 runs/*/logs/agents/*.out.md
 runs/*/circuits/*.qpy
