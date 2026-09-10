@@ -1,0 +1,341 @@
+{
+  "0": {
+    "r": 0,
+    "shots": 4000,
+    "repeats": 5,
+    "backend_path": "twin.twin_backend(seed=101) = AerSimulator.from_backend(FakeTorino) (production)",
+    "construction_seed_simulator": 101,
+    "base_seed": 500,
+    "runtime_seeds": [
+      2142847655,
+      1321403091,
+      469350634,
+      512696676,
+      752330546
+    ],
+    "seed_derivation": "numpy.random.SeedSequence(seed).spawn(n), 31-bit",
+    "distinct_dictionaries": 5,
+    "key_counts": [
+      84,
+      81,
+      83,
+      78,
+      80
+    ],
+    "kept_per_repeat": [
+      2550,
+      2544,
+      2618,
+      2567,
+      2488
+    ],
+    "N_kept_mean": 2553.4,
+    "yield_mean": 0.63835,
+    "bootstrap": {
+      "n_boot": 2000,
+      "seed": 77,
+      "deficit_factor": 0.894
+    },
+    "acceptance_band": [
+      0.5,
+      2.0
+    ],
+    "observables": {
+      "E2_l1": {
+        "mean": 0.0005896037497433824,
+        "two_sigma": 0.00023908952258746741,
+        "Var_s": 0.00044024391868209957,
+        "predicted_se": 0.0001660121111183561,
+        "ratio": 0.7200966272183954
+      },
+      "E2_l2": {
+        "mean": 0.7490568303579501,
+        "two_sigma": 0.0002669454545206205,
+        "Var_s": 0.0007040589740050507,
+        "predicted_se": 0.00020994116788419033,
+        "ratio": 0.6357625262613462
+      },
+      "E2_l3": {
+        "mean": 0.7499410377358491,
+        "two_sigma": 0.00010468783142531133,
+        "Var_s": 4.405545085739426e-05,
+        "predicted_se": 5.251615417711343e-05,
+        "ratio": 0.9967202765100261
+      },
+      "E2_l4": {
+        "mean": 0.7499411764705882,
+        "two_sigma": 0.00010422800353578406,
+        "Var_s": 4.405545085739426e-05,
+        "predicted_se": 5.251615417711343e-05,
+        "ratio": 0.9923423103705362
+      },
+      "P_BBbar": {
+        "mean": 0.026776816270260094,
+        "two_sigma": 0.003078691056618753,
+        "Var_s": 0.026070225439304328,
+        "predicted_se": 0.0012775134551620128,
+        "ratio": 1.2049544543655382
+      },
+      "P_meson": {
+        "mean": 7.861635220125787e-05,
+        "two_sigma": 0.00013958377523368915,
+        "Var_s": 7.832080152450587e-05,
+        "predicted_se": 7.002153890292939e-05,
+        "ratio": 0.996720276508016
+      },
+      "P_other": {
+        "mean": 0.0,
+        "two_sigma": 0.0,
+        "Var_s": 0.0,
+        "predicted_se": 0.0,
+        "ratio": null,
+        "structurally_empty": true
+      },
+      "P_short": {
+        "mean": 0.0,
+        "two_sigma": 0.0,
+        "Var_s": 0.0,
+        "predicted_se": 0.0,
+        "ratio": null,
+        "structurally_empty": true
+      },
+      "P_stretched": {
+        "mean": 0.9730661360049897,
+        "two_sigma": 0.0030152781389672758,
+        "Var_s": 0.02621846194302002,
+        "predicted_se": 0.0012811403070586965,
+        "ratio": 1.1767946579910114
+      },
+      "P_surv": {
+        "mean": 0.9730661360049897,
+        "two_sigma": 0.0030152781389672758,
+        "Var_s": 0.02621846194302002,
+        "predicted_se": 0.0012811403070586965,
+        "ratio": 1.1767946579910114
+      },
+      "dC": {
+        "mean": -0.0004713516858691591,
+        "two_sigma": 0.00013234464077133983,
+        "Var_s": 0.0012334283880536692,
+        "predicted_se": 0.0002778753735124876,
+        "ratio": 0.2381366853392503
+      },
+      "n_v1": {
+        "mean": 0.9991354302944597,
+        "two_sigma": 0.00027081687435243605,
+        "Var_s": 0.0008608539547793059,
+        "predicted_se": 0.00023214419549224917,
+        "ratio": 0.58329452041259
+      },
+      "n_v2": {
+        "mean": 0.9979563021442758,
+        "two_sigma": 0.0006220942520528681,
+        "Var_s": 0.002032353018785682,
+        "predicted_se": 0.0003566914202417562,
+        "ratio": 0.8720342244722745
+      },
+      "n_v3": {
+        "mean": 0.03483532437539137,
+        "two_sigma": 0.0045020557990528105,
+        "Var_s": 0.06716451072085453,
+        "predicted_se": 0.0020505153148308044,
+        "ratio": 1.0977864360462706
+      },
+      "n_v4": {
+        "mean": 1.9835578595380525,
+        "two_sigma": 0.002433706504624691,
+        "Var_s": 0.032470101205800184,
+        "predicted_se": 0.001425722195613399,
+        "ratio": 0.853499549951812
+      }
+    },
+    "structurally_empty": [
+      "P_other",
+      "P_short"
+    ]
+  },
+  "1": {
+    "r": 1,
+    "shots": 128,
+    "repeats": 5,
+    "backend_path": "twin.twin_backend(seed=101) = AerSimulator.from_backend(FakeTorino) (production)",
+    "construction_seed_simulator": 101,
+    "base_seed": 510,
+    "runtime_seeds": [
+      1006018469,
+      62393738,
+      794117780,
+      708276999,
+      580686603
+    ],
+    "seed_derivation": "numpy.random.SeedSequence(seed).spawn(n), 31-bit",
+    "distinct_dictionaries": 5,
+    "key_counts": [
+      127,
+      127,
+      122,
+      127,
+      126
+    ],
+    "kept_per_repeat": [
+      4,
+      0,
+      4,
+      1,
+      4
+    ],
+    "N_kept_mean": 2.6,
+    "yield_mean": 0.0203125,
+    "bootstrap": {
+      "n_boot": 2000,
+      "seed": 77,
+      "deficit_factor": 0.894
+    },
+    "acceptance_band": [
+      0.5,
+      2.0
+    ],
+    "observables": {
+      "E2_l1": {
+        "mean": 0.3375,
+        "two_sigma": 0.2619497708244224,
+        "Var_s": 0.11982248520710059,
+        "predicted_se": 0.08582918805438834,
+        "ratio": 1.5259946922626704
+      },
+      "E2_l2": {
+        "mean": 0.2625,
+        "two_sigma": 0.19663069867032448,
+        "Var_s": 0.13979289940828402,
+        "predicted_se": 0.09270611868922937,
+        "ratio": 1.0605055062733908
+      },
+      "E2_l3": {
+        "mean": 0.3,
+        "two_sigma": 0.2664232406746552,
+        "Var_s": 0.13313609467455617,
+        "predicted_se": 0.09047190799159431,
+        "ratio": 1.4724086547362771
+      },
+      "E2_l4": {
+        "mean": 0.1875,
+        "two_sigma": 0.14620094802138225,
+        "Var_s": 0.1331360946745562,
+        "predicted_se": 0.09047190799159431,
+        "ratio": 0.8079908518949644
+      },
+      "P_BBbar": {
+        "mean": 0.75,
+        "two_sigma": 0.3439395945836451,
+        "Var_s": 0.07100591715976345,
+        "predicted_se": 0.06607133977003755,
+        "ratio": 2.602789619377576
+      },
+      "P_meson": {
+        "mean": 0.0,
+        "two_sigma": 0.0,
+        "Var_s": 0.0,
+        "predicted_se": 0.0,
+        "ratio": null,
+        "structurally_empty": true
+      },
+      "P_other": {
+        "mean": 0.05,
+        "two_sigma": 0.08859380300543238,
+        "Var_s": 0.07100591715976332,
+        "predicted_se": 0.06607133977003748,
+        "ratio": 0.6704404913975163
+      },
+      "P_short": {
+        "mean": 0.0,
+        "two_sigma": 0.0,
+        "Var_s": 0.0,
+        "predicted_se": 0.0,
+        "ratio": null,
+        "structurally_empty": true
+      },
+      "P_stretched": {
+        "mean": 0.0,
+        "two_sigma": 0.0,
+        "Var_s": 0.0,
+        "predicted_se": 0.0,
+        "ratio": null,
+        "structurally_empty": true
+      },
+      "P_surv": {
+        "mean": 0.0,
+        "two_sigma": 0.0,
+        "Var_s": 0.0,
+        "predicted_se": 0.0,
+        "ratio": null,
+        "structurally_empty": true
+      },
+      "dC": {
+        "mean": -1.1625,
+        "two_sigma": 0.8562733065917357,
+        "Var_s": 1.3979289940828405,
+        "predicted_se": 0.29316248809186835,
+        "ratio": 1.4604073532139714
+      },
+      "n_v1": {
+        "mean": 0.8,
+        "two_sigma": 0.6376788197349599,
+        "Var_s": 0.6390532544378695,
+        "predicted_se": 0.19821401931011243,
+        "ratio": 1.6085613468573334
+      },
+      "n_v2": {
+        "mean": 0.6,
+        "two_sigma": 0.5750865606812022,
+        "Var_s": 0.8402366863905324,
+        "predicted_se": 0.22728284788985925,
+        "ratio": 1.26513409617229
+      },
+      "n_v3": {
+        "mean": 1.15,
+        "two_sigma": 0.5754543173316773,
+        "Var_s": 0.6745562130177514,
+        "predicted_se": 0.20364554603667007,
+        "ratio": 1.4128821585620546
+      },
+      "n_v4": {
+        "mean": 0.45,
+        "two_sigma": 0.35297318954315365,
+        "Var_s": 0.6745562130177513,
+        "predicted_se": 0.20364554603667007,
+        "ratio": 0.8666361636988477
+      }
+    },
+    "structurally_empty": [
+      "P_meson",
+      "P_short",
+      "P_stretched",
+      "P_surv"
+    ]
+  },
+  "negative_control": {
+    "r": 0,
+    "shots": 4000,
+    "repeats": 5,
+    "mechanism": "all five run-time seed_simulator values forced equal; a real run of twin.run_counts on the production twin",
+    "runtime_seeds": [
+      2142847655,
+      2142847655,
+      2142847655,
+      2142847655,
+      2142847655
+    ],
+    "distinct_dictionaries": 1,
+    "key_counts": [
+      84,
+      84,
+      84,
+      84,
+      84
+    ]
+  },
+  "D_C0_case": "A",
+  "D_C0_mechanism": "five distinct dictionaries at r = 0 and r = 1 with bootstrap two_sigma/2 inside the factor-2 band of the multinomial expectation on every Var_s > 0 observable; the observables with two_sigma = 0 are exactly the structurally empty ones (Var_s = 0, predictions_C0.md \u00a72.5), so the r = 1 escalation clause of D-C0 does not fire.  Mechanism: the run-time seed_simulator overrides the construction-time seed 101, and the per-repeat seeds spawned by numpy SeedSequence (ruling R7) are independent rather than shifted replays of one another.  Recorded verdict: override harmless (predictions_C0.md \u00a73.4 row 2).",
+  "ruling": "R8 (prompt v0.6.2 \u00a71); predictions_C0.md \u00a7\u00a72.2, 2.5, 3.4",
+  "session": "c060_p0_20260909_5"
+}

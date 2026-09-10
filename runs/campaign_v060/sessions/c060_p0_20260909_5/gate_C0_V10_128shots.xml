@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="2" skipped="0" tests="9" time="5260.106" timestamp="2026-09-09T17:27:43.814045-06:00" hostname="pichkaCommander"><testcase classname="runs.campaign_v060.tests.gate_C0.test_twin_variance" name="test_r0_five_distinct" time="5258.831" /><testcase classname="runs.campaign_v060.tests.gate_C0.test_twin_variance" name="test_r1_five_distinct" time="0.001" /><testcase classname="runs.campaign_v060.tests.gate_C0.test_twin_variance" name="test_r0_variance_matches_multinomial" time="0.001"><failure message="AssertionError: r=0: 1 of 13 Var_s &gt; 0 observables outside the factor-2 band (N_kept_mean=2553.4, yield=0.6383): dC: two_sigma/2=6.61723e-05 predicted_se=0.000277875 ratio=0.2381 Var_s=0.00123343&#10;assert not ['dC: two_sigma/2=6.61723e-05 predicted_se=0.000277875 ratio=0.2381 Var_s=0.00123343']">#x1B[0m#x1B[94mdef#x1B[39;49;00m#x1B[90m #x1B[39;49;00m#x1B[92mtest_r0_variance_matches_multinomial#x1B[39;49;00m():#x1B[90m#x1B[39;49;00m
+    #x1B[90m    #x1B[39;49;00m#x1B[33m"""R8(b)/(c) at r = 0."""#x1B[39;49;00m#x1B[90m#x1B[39;49;00m
+&gt;       _assert_variance(#x1B[94m0#x1B[39;49;00m)#x1B[90m#x1B[39;49;00m
+
+#x1B[1m#x1B[31mruns/campaign_v060/tests/gate_C0/test_twin_variance.py#x1B[0m:300: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+r = 0
+
+    #x1B[0m#x1B[94mdef#x1B[39;49;00m#x1B[90m #x1B[39;49;00m#x1B[92m_assert_variance#x1B[39;49;00m(r):#x1B[90m#x1B[39;49;00m
+        row = _evidence()[#x1B[96mstr#x1B[39;49;00m(r)]#x1B[90m#x1B[39;49;00m
+        lo, hi = RATIO_BAND#x1B[90m#x1B[39;49;00m
+        bad = []#x1B[90m#x1B[39;49;00m
+        checked = #x1B[94m0#x1B[39;49;00m#x1B[90m#x1B[39;49;00m
+        #x1B[94mfor#x1B[39;49;00m key, obs #x1B[95min#x1B[39;49;00m row[#x1B[33m"#x1B[39;49;00m#x1B[33mobservables#x1B[39;49;00m#x1B[33m"#x1B[39;49;00m].items():#x1B[90m#x1B[39;49;00m
+            #x1B[94mif#x1B[39;49;00m obs[#x1B[33m"#x1B[39;49;00m#x1B[33mVar_s#x1B[39;49;00m#x1B[33m"#x1B[39;49;00m] &lt;= #x1B[94m0.0#x1B[39;49;00m:#x1B[90m#x1B[39;49;00m
+                #x1B[94mcontinue#x1B[39;49;00m          #x1B[90m# R8(c): structurally empty, never a failure#x1B[39;49;00m#x1B[90m#x1B[39;49;00m
+            checked += #x1B[94m1#x1B[39;49;00m#x1B[90m#x1B[39;49;00m
+            #x1B[94mif#x1B[39;49;00m #x1B[95mnot#x1B[39;49;00m lo &lt;= obs[#x1B[33m"#x1B[39;49;00m#x1B[33mratio#x1B[39;49;00m#x1B[33m"#x1B[39;49;00m] &lt;= hi:#x1B[90m#x1B[39;49;00m
+                bad.append(#x1B[90m#x1B[39;49;00m
+                    #x1B[33mf#x1B[39;49;00m#x1B[33m"#x1B[39;49;00m#x1B[33m{#x1B[39;49;00mkey#x1B[33m}#x1B[39;49;00m#x1B[33m: two_sigma/2=#x1B[39;49;00m#x1B[33m{#x1B[39;49;00mobs[#x1B[33m'#x1B[39;49;00m#x1B[33mtwo_sigma#x1B[39;49;00m#x1B[33m'#x1B[39;49;00m]#x1B[90m #x1B[39;49;00m/#x1B[90m #x1B[39;49;00m#x1B[94m2.0#x1B[39;49;00m#x1B[33m:#x1B[39;49;00m#x1B[33m.6g#x1B[39;49;00m#x1B[33m}#x1B[39;49;00m#x1B[33m #x1B[39;49;00m#x1B[33m"#x1B[39;49;00m#x1B[90m#x1B[39;49;00m
+                    #x1B[33mf#x1B[39;49;00m#x1B[33m"#x1B[39;49;00m#x1B[33mpredicted_se=#x1B[39;49;00m#x1B[33m{#x1B[39;49;00mobs[#x1B[33m'#x1B[39;49;00m#x1B[33mpredicted_se#x1B[39;49;00m#x1B[33m'#x1B[39;49;00m]#x1B[33m:#x1B[39;49;00m#x1B[33m.6g#x1B[39;49;00m#x1B[33m}#x1B[39;49;00m#x1B[33m #x1B[39;49;00m#x1B[33m"#x1B[39;49;00m#x1B[90m#x1B[39;49;00m
+                    #x1B[33mf#x1B[39;49;00m#x1B[33m"#x1B[39;49;00m#x1B[33mratio=#x1B[39;49;00m#x1B[33m{#x1B[39;49;00mobs[#x1B[33m'#x1B[39;49;00m#x1B[33mratio#x1B[39;49;00m#x1B[33m'#x1B[39;49;00m]#x1B[33m:#x1B[39;49;00m#x1B[33m.4g#x1B[39;49;00m#x1B[33m}#x1B[39;49;00m#x1B[33m Var_s=#x1B[39;49;00m#x1B[33m{#x1B[39;49;00mobs[#x1B[33m'#x1B[39;49;00m#x1B[33mVar_s#x1B[39;49;00m#x1B[33m'#x1B[39;49;00m]#x1B[33m:#x1B[39;49;00m#x1B[33m.6g#x1B[39;49;00m#x1B[33m}#x1B[39;49;00m#x1B[33m"#x1B[39;49;00m)#x1B[90m#x1B[39;49;00m
+        #x1B[94massert#x1B[39;49;00m checked &gt; #x1B[94m0#x1B[39;49;00m, (#x1B[90m#x1B[39;49;00m
+            #x1B[33mf#x1B[39;49;00m#x1B[33m"#x1B[39;49;00m#x1B[33mr=#x1B[39;49;00m#x1B[33m{#x1B[39;49;00mr#x1B[33m}#x1B[39;49;00m#x1B[33m: no observable had Var_s &gt; 0; the multinomial prediction is #x1B[39;49;00m#x1B[33m"#x1B[39;49;00m#x1B[90m#x1B[39;49;00m
+            #x1B[33mf#x1B[39;49;00m#x1B[33m"#x1B[39;49;00m#x1B[33mdegenerate everywhere, so V10 cannot be evaluated. #x1B[39;49;00m#x1B[33m"#x1B[39;49;00m#x1B[90m#x1B[39;49;00m
+            #x1B[33mf#x1B[39;49;00m#x1B[33m"#x1B[39;49;00m#x1B[33mstructurally empty: #x1B[39;49;00m#x1B[33m{#x1B[39;49;00mrow[#x1B[33m'#x1B[39;49;00m#x1B[33mstructurally_empty#x1B[39;49;00m#x1B[33m'#x1B[39;49;00m]#x1B[33m}#x1B[39;49;00m#x1B[33m"#x1B[39;49;00m)#x1B[90m#x1B[39;49;00m
+&gt;       #x1B[94massert#x1B[39;49;00m #x1B[95mnot#x1B[39;49;00m bad, (#x1B[90m#x1B[39;49;00m
+            #x1B[33mf#x1B[39;49;00m#x1B[33m"#x1B[39;49;00m#x1B[33mr=#x1B[39;49;00m#x1B[33m{#x1B[39;49;00mr#x1B[33m}#x1B[39;49;00m#x1B[33m: #x1B[39;49;00m#x1B[33m{#x1B[39;49;00m#x1B[96mlen#x1B[39;49;00m(bad)#x1B[33m}#x1B[39;49;00m#x1B[33m of #x1B[39;49;00m#x1B[33m{#x1B[39;49;00mchecked#x1B[33m}#x1B[39;49;00m#x1B[33m Var_s &gt; 0 observables outside the #x1B[39;49;00m#x1B[33m"#x1B[39;49;00m#x1B[90m#x1B[39;49;00m
+            #x1B[33mf#x1B[39;49;00m#x1B[33m"#x1B[39;49;00m#x1B[33mfactor-2 band (N_kept_mean=#x1B[39;49;00m#x1B[33m{#x1B[39;49;00mrow[#x1B[33m'#x1B[39;49;00m#x1B[33mN_kept_mean#x1B[39;49;00m#x1B[33m'#x1B[39;49;00m]#x1B[33m}#x1B[39;49;00m#x1B[33m, #x1B[39;49;00m#x1B[33m"#x1B[39;49;00m#x1B[90m#x1B[39;49;00m
+            #x1B[33mf#x1B[39;49;00m#x1B[33m"#x1B[39;49;00m#x1B[33myield=#x1B[39;49;00m#x1B[33m{#x1B[39;49;00mrow[#x1B[33m'#x1B[39;49;00m#x1B[33myield_mean#x1B[39;49;00m#x1B[33m'#x1B[39;49;00m]#x1B[33m:#x1B[39;49;00m#x1B[33m.4f#x1B[39;49;00m#x1B[33m}#x1B[39;49;00m#x1B[33m): #x1B[39;49;00m#x1B[33m"#x1B[39;49;00m + #x1B[33m"#x1B[39;49;00m#x1B[33m; #x1B[39;49;00m#x1B[33m"#x1B[39;49;00m.join(bad))#x1B[90m#x1B[39;49;00m
+#x1B[1m#x1B[31mE       AssertionError: r=0: 1 of 13 Var_s &gt; 0 observables outside the factor-2 band (N_kept_mean=2553.4, yield=0.6383): dC: two_sigma/2=6.61723e-05 predicted_se=0.000277875 ratio=0.2381 Var_s=0.00123343#x1B[0m
+#x1B[1m#x1B[31mE       assert not ['dC: two_sigma/2=6.61723e-05 predicted_se=0.000277875 ratio=0.2381 Var_s=0.00123343']#x1B[0m
+
+#x1B[1m#x1B[31mruns/campaign_v060/tests/gate_C0/test_twin_variance.py#x1B[0m:275: AssertionError</failure></testcase><testcase classname="runs.campaign_v060.tests.gate_C0.test_twin_variance" name="test_r1_variance_matches_multinomial" time="0.001"><failure message="AssertionError: r=1: 1 of 11 Var_s &gt; 0 observables outside the factor-2 band (N_kept_mean=2.6, yield=0.0203): P_BBbar: two_sigma/2=0.17197 predicted_se=0.0660713 ratio=2.603 Var_s=0.0710059&#10;assert not ['P_BBbar: two_sigma/2=0.17197 predicted_se=0.0660713 ratio=2.603 Var_s=0.0710059']">#x1B[0m#x1B[94mdef#x1B[39;49;00m#x1B[90m #x1B[39;49;00m#x1B[92mtest_r1_variance_matches_multinomial#x1B[39;49;00m():#x1B[90m#x1B[39;49;00m
+    #x1B[90m    #x1B[39;49;00m#x1B[33m"""R8(b)/(c) at r = 1."""#x1B[39;49;00m#x1B[90m#x1B[39;49;00m
+&gt;       _assert_variance(#x1B[94m1#x1B[39;49;00m)#x1B[90m#x1B[39;49;00m
+
+#x1B[1m#x1B[31mruns/campaign_v060/tests/gate_C0/test_twin_variance.py#x1B[0m:305: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+r = 1
+
+    #x1B[0m#x1B[94mdef#x1B[39;49;00m#x1B[90m #x1B[39;49;00m#x1B[92m_assert_variance#x1B[39;49;00m(r):#x1B[90m#x1B[39;49;00m
+        row = _evidence()[#x1B[96mstr#x1B[39;49;00m(r)]#x1B[90m#x1B[39;49;00m
+        lo, hi = RATIO_BAND#x1B[90m#x1B[39;49;00m
+        bad = []#x1B[90m#x1B[39;49;00m
+        checked = #x1B[94m0#x1B[39;49;00m#x1B[90m#x1B[39;49;00m
+        #x1B[94mfor#x1B[39;49;00m key, obs #x1B[95min#x1B[39;49;00m row[#x1B[33m"#x1B[39;49;00m#x1B[33mobservables#x1B[39;49;00m#x1B[33m"#x1B[39;49;00m].items():#x1B[90m#x1B[39;49;00m
+            #x1B[94mif#x1B[39;49;00m obs[#x1B[33m"#x1B[39;49;00m#x1B[33mVar_s#x1B[39;49;00m#x1B[33m"#x1B[39;49;00m] &lt;= #x1B[94m0.0#x1B[39;49;00m:#x1B[90m#x1B[39;49;00m
+                #x1B[94mcontinue#x1B[39;49;00m          #x1B[90m# R8(c): structurally empty, never a failure#x1B[39;49;00m#x1B[90m#x1B[39;49;00m
+            checked += #x1B[94m1#x1B[39;49;00m#x1B[90m#x1B[39;49;00m
+            #x1B[94mif#x1B[39;49;00m #x1B[95mnot#x1B[39;49;00m lo &lt;= obs[#x1B[33m"#x1B[39;49;00m#x1B[33mratio#x1B[39;49;00m#x1B[33m"#x1B[39;49;00m] &lt;= hi:#x1B[90m#x1B[39;49;00m
+                bad.append(#x1B[90m#x1B[39;49;00m
+                    #x1B[33mf#x1B[39;49;00m#x1B[33m"#x1B[39;49;00m#x1B[33m{#x1B[39;49;00mkey#x1B[33m}#x1B[39;49;00m#x1B[33m: two_sigma/2=#x1B[39;49;00m#x1B[33m{#x1B[39;49;00mobs[#x1B[33m'#x1B[39;49;00m#x1B[33mtwo_sigma#x1B[39;49;00m#x1B[33m'#x1B[39;49;00m]#x1B[90m #x1B[39;49;00m/#x1B[90m #x1B[39;49;00m#x1B[94m2.0#x1B[39;49;00m#x1B[33m:#x1B[39;49;00m#x1B[33m.6g#x1B[39;49;00m#x1B[33m}#x1B[39;49;00m#x1B[33m #x1B[39;49;00m#x1B[33m"#x1B[39;49;00m#x1B[90m#x1B[39;49;00m
+                    #x1B[33mf#x1B[39;49;00m#x1B[33m"#x1B[39;49;00m#x1B[33mpredicted_se=#x1B[39;49;00m#x1B[33m{#x1B[39;49;00mobs[#x1B[33m'#x1B[39;49;00m#x1B[33mpredicted_se#x1B[39;49;00m#x1B[33m'#x1B[39;49;00m]#x1B[33m:#x1B[39;49;00m#x1B[33m.6g#x1B[39;49;00m#x1B[33m}#x1B[39;49;00m#x1B[33m #x1B[39;49;00m#x1B[33m"#x1B[39;49;00m#x1B[90m#x1B[39;49;00m
+                    #x1B[33mf#x1B[39;49;00m#x1B[33m"#x1B[39;49;00m#x1B[33mratio=#x1B[39;49;00m#x1B[33m{#x1B[39;49;00mobs[#x1B[33m'#x1B[39;49;00m#x1B[33mratio#x1B[39;49;00m#x1B[33m'#x1B[39;49;00m]#x1B[33m:#x1B[39;49;00m#x1B[33m.4g#x1B[39;49;00m#x1B[33m}#x1B[39;49;00m#x1B[33m Var_s=#x1B[39;49;00m#x1B[33m{#x1B[39;49;00mobs[#x1B[33m'#x1B[39;49;00m#x1B[33mVar_s#x1B[39;49;00m#x1B[33m'#x1B[39;49;00m]#x1B[33m:#x1B[39;49;00m#x1B[33m.6g#x1B[39;49;00m#x1B[33m}#x1B[39;49;00m#x1B[33m"#x1B[39;49;00m)#x1B[90m#x1B[39;49;00m
+        #x1B[94massert#x1B[39;49;00m checked &gt; #x1B[94m0#x1B[39;49;00m, (#x1B[90m#x1B[39;49;00m
+            #x1B[33mf#x1B[39;49;00m#x1B[33m"#x1B[39;49;00m#x1B[33mr=#x1B[39;49;00m#x1B[33m{#x1B[39;49;00mr#x1B[33m}#x1B[39;49;00m#x1B[33m: no observable had Var_s &gt; 0; the multinomial prediction is #x1B[39;49;00m#x1B[33m"#x1B[39;49;00m#x1B[90m#x1B[39;49;00m
+            #x1B[33mf#x1B[39;49;00m#x1B[33m"#x1B[39;49;00m#x1B[33mdegenerate everywhere, so V10 cannot be evaluated. #x1B[39;49;00m#x1B[33m"#x1B[39;49;00m#x1B[90m#x1B[39;49;00m
+            #x1B[33mf#x1B[39;49;00m#x1B[33m"#x1B[39;49;00m#x1B[33mstructurally empty: #x1B[39;49;00m#x1B[33m{#x1B[39;49;00mrow[#x1B[33m'#x1B[39;49;00m#x1B[33mstructurally_empty#x1B[39;49;00m#x1B[33m'#x1B[39;49;00m]#x1B[33m}#x1B[39;49;00m#x1B[33m"#x1B[39;49;00m)#x1B[90m#x1B[39;49;00m
+&gt;       #x1B[94massert#x1B[39;49;00m #x1B[95mnot#x1B[39;49;00m bad, (#x1B[90m#x1B[39;49;00m
+            #x1B[33mf#x1B[39;49;00m#x1B[33m"#x1B[39;49;00m#x1B[33mr=#x1B[39;49;00m#x1B[33m{#x1B[39;49;00mr#x1B[33m}#x1B[39;49;00m#x1B[33m: #x1B[39;49;00m#x1B[33m{#x1B[39;49;00m#x1B[96mlen#x1B[39;49;00m(bad)#x1B[33m}#x1B[39;49;00m#x1B[33m of #x1B[39;49;00m#x1B[33m{#x1B[39;49;00mchecked#x1B[33m}#x1B[39;49;00m#x1B[33m Var_s &gt; 0 observables outside the #x1B[39;49;00m#x1B[33m"#x1B[39;49;00m#x1B[90m#x1B[39;49;00m
+            #x1B[33mf#x1B[39;49;00m#x1B[33m"#x1B[39;49;00m#x1B[33mfactor-2 band (N_kept_mean=#x1B[39;49;00m#x1B[33m{#x1B[39;49;00mrow[#x1B[33m'#x1B[39;49;00m#x1B[33mN_kept_mean#x1B[39;49;00m#x1B[33m'#x1B[39;49;00m]#x1B[33m}#x1B[39;49;00m#x1B[33m, #x1B[39;49;00m#x1B[33m"#x1B[39;49;00m#x1B[90m#x1B[39;49;00m
+            #x1B[33mf#x1B[39;49;00m#x1B[33m"#x1B[39;49;00m#x1B[33myield=#x1B[39;49;00m#x1B[33m{#x1B[39;49;00mrow[#x1B[33m'#x1B[39;49;00m#x1B[33myield_mean#x1B[39;49;00m#x1B[33m'#x1B[39;49;00m]#x1B[33m:#x1B[39;49;00m#x1B[33m.4f#x1B[39;49;00m#x1B[33m}#x1B[39;49;00m#x1B[33m): #x1B[39;49;00m#x1B[33m"#x1B[39;49;00m + #x1B[33m"#x1B[39;49;00m#x1B[33m; #x1B[39;49;00m#x1B[33m"#x1B[39;49;00m.join(bad))#x1B[90m#x1B[39;49;00m
+#x1B[1m#x1B[31mE       AssertionError: r=1: 1 of 11 Var_s &gt; 0 observables outside the factor-2 band (N_kept_mean=2.6, yield=0.0203): P_BBbar: two_sigma/2=0.17197 predicted_se=0.0660713 ratio=2.603 Var_s=0.0710059#x1B[0m
+#x1B[1m#x1B[31mE       assert not ['P_BBbar: two_sigma/2=0.17197 predicted_se=0.0660713 ratio=2.603 Var_s=0.0710059']#x1B[0m
+
+#x1B[1m#x1B[31mruns/campaign_v060/tests/gate_C0/test_twin_variance.py#x1B[0m:275: AssertionError</failure></testcase><testcase classname="runs.campaign_v060.tests.gate_C0.test_twin_variance" name="test_structurally_empty_observables_are_listed" time="0.001" /><testcase classname="runs.campaign_v060.tests.gate_C0.test_twin_variance" name="test_runtime_seeds_are_independent_and_recorded" time="0.001" /><testcase classname="runs.campaign_v060.tests.gate_C0.test_twin_variance" name="test_negative_control_equal_seeds_is_one_dictionary" time="0.001" /><testcase classname="runs.campaign_v060.tests.gate_C0.test_twin_variance" name="test_dc0_case_recorded" time="0.001" /><testcase classname="runs.campaign_v060.tests.gate_C0.test_twin_variance" name="test_evidence_written_to_this_session" time="0.001" /></testsuite></testsuites>

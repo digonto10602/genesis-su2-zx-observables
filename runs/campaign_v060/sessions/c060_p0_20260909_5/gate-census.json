@@ -1,0 +1,76 @@
+{
+  "note": "Gate census measured 2026-09-10. The totals were quoted in the final report; this file persists the per-gate breakdown the report flagged as unpersisted.",
+  "exact_block_unitary_path": {
+    "0": {
+      "t": 0.0,
+      "logical": {
+        "qubits": 12,
+        "depth": 1,
+        "ops": {
+          "x": 7
+        }
+      },
+      "routed_to_backend": {
+        "qubits": 133,
+        "depth": 1,
+        "ops": {
+          "x": 7
+        },
+        "two_q": 0,
+        "two_q_depth": 0
+      },
+      "seconds_to_build": 7.7
+    },
+    "1": {
+      "t": 0.8333333333333334,
+      "logical": {
+        "qubits": 12,
+        "depth": 12,
+        "ops": {
+          "unitary": 9,
+          "x": 7,
+          "Diagonal": 2
+        }
+      },
+      "routed_to_backend": {
+        "qubits": 133,
+        "depth": 506888,
+        "ops": {
+          "sx": 352800,
+          "rz": 326584,
+          "cz": 141929,
+          "x": 7
+        },
+        "two_q": 141929,
+        "two_q_depth": 124842
+      },
+      "seconds_to_build": 19.3
+    }
+  },
+  "structured_synthesis_path_r1": {
+    "total_ops": 39996,
+    "ops": {
+      "sx": 17246,
+      "rz": 14576,
+      "cz": 7823,
+      "x": 351
+    },
+    "depth": 23442
+  },
+  "comparison_r1": {
+    "exact_total_ops": {
+      "sx": 352800,
+      "rz": 326584,
+      "cz": 141929,
+      "x": 7
+    },
+    "exact_ops_sum": 821320,
+    "exact_depth": 506888,
+    "synth_ops_sum": 39996,
+    "synth_depth": 23442,
+    "ops_ratio": 20.54,
+    "measured_seconds_per_shot_exact": 15.6,
+    "projected_seconds_per_shot_synth": 0.76,
+    "caveat": "The synthesised circuit is NOT yet proven equivalent to the exact block unitaries. It may not carry a gate row until an equivalence check passes."
+  }
+}

@@ -50,7 +50,16 @@ from su2qc.twin import twin
 # Preregistered constants (R8 / predictions_C0.md).  Do not adjust.
 SESSION_TAG = "c060_p0_20260909_5"
 REPEATS = 5
-SHOTS = {0: 4000, 1: 1024}
+# R8 fixes r=1 at 1024 shots. That count was measured on this machine at 15.6 s
+# per shot (the circuit is 821,320 operations at depth 506,888 on the 133-qubit
+# target), i.e. about 22 hours for 5 x 1024, and three gate attempts were aborted
+# on it. The user lowered r=1 to 128 shots deliberately on 2026-09-09, as the
+# campaign's authority, with the cost evidence in twin-row-calibrated.json. This
+# is a recorded reduction of an acceptance number, not a silent relaxation: the
+# deviation is carried in the C0 ledger row and the C1 amendment.
+# Note the consequence, measured: the r=1 post-selection yield is 2.5%, so 128
+# shots leaves about 3.2 kept shots per repeat.
+SHOTS = {0: 4000, 1: 128}
 BASE_SEED = {0: 500, 1: 510}          # run_g4.py uses 500 + 10*r
 CONSTRUCTION_SEED = 101               # run_g4.py: twin.twin_backend(seed=101)
 BOOTSTRAP_N_BOOT = 2000

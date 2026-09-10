@@ -1,0 +1,85 @@
+[32m.[0m[32m.[0m[31mF[0m[31mF[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[31m                                                                [100%][0m
+=================================== FAILURES ===================================
+[31m[1m_____________________ test_r0_variance_matches_multinomial _____________________[0m
+
+    [0m[94mdef[39;49;00m[90m [39;49;00m[92mtest_r0_variance_matches_multinomial[39;49;00m():[90m[39;49;00m
+    [90m    [39;49;00m[33m"""R8(b)/(c) at r = 0."""[39;49;00m[90m[39;49;00m
+>       _assert_variance([94m0[39;49;00m)[90m[39;49;00m
+
+[1m[31mruns/campaign_v060/tests/gate_C0/test_twin_variance.py[0m:300: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+r = 0
+
+    [0m[94mdef[39;49;00m[90m [39;49;00m[92m_assert_variance[39;49;00m(r):[90m[39;49;00m
+        row = _evidence()[[96mstr[39;49;00m(r)][90m[39;49;00m
+        lo, hi = RATIO_BAND[90m[39;49;00m
+        bad = [][90m[39;49;00m
+        checked = [94m0[39;49;00m[90m[39;49;00m
+        [94mfor[39;49;00m key, obs [95min[39;49;00m row[[33m"[39;49;00m[33mobservables[39;49;00m[33m"[39;49;00m].items():[90m[39;49;00m
+            [94mif[39;49;00m obs[[33m"[39;49;00m[33mVar_s[39;49;00m[33m"[39;49;00m] <= [94m0.0[39;49;00m:[90m[39;49;00m
+                [94mcontinue[39;49;00m          [90m# R8(c): structurally empty, never a failure[39;49;00m[90m[39;49;00m
+            checked += [94m1[39;49;00m[90m[39;49;00m
+            [94mif[39;49;00m [95mnot[39;49;00m lo <= obs[[33m"[39;49;00m[33mratio[39;49;00m[33m"[39;49;00m] <= hi:[90m[39;49;00m
+                bad.append([90m[39;49;00m
+                    [33mf[39;49;00m[33m"[39;49;00m[33m{[39;49;00mkey[33m}[39;49;00m[33m: two_sigma/2=[39;49;00m[33m{[39;49;00mobs[[33m'[39;49;00m[33mtwo_sigma[39;49;00m[33m'[39;49;00m][90m [39;49;00m/[90m [39;49;00m[94m2.0[39;49;00m[33m:[39;49;00m[33m.6g[39;49;00m[33m}[39;49;00m[33m [39;49;00m[33m"[39;49;00m[90m[39;49;00m
+                    [33mf[39;49;00m[33m"[39;49;00m[33mpredicted_se=[39;49;00m[33m{[39;49;00mobs[[33m'[39;49;00m[33mpredicted_se[39;49;00m[33m'[39;49;00m][33m:[39;49;00m[33m.6g[39;49;00m[33m}[39;49;00m[33m [39;49;00m[33m"[39;49;00m[90m[39;49;00m
+                    [33mf[39;49;00m[33m"[39;49;00m[33mratio=[39;49;00m[33m{[39;49;00mobs[[33m'[39;49;00m[33mratio[39;49;00m[33m'[39;49;00m][33m:[39;49;00m[33m.4g[39;49;00m[33m}[39;49;00m[33m Var_s=[39;49;00m[33m{[39;49;00mobs[[33m'[39;49;00m[33mVar_s[39;49;00m[33m'[39;49;00m][33m:[39;49;00m[33m.6g[39;49;00m[33m}[39;49;00m[33m"[39;49;00m)[90m[39;49;00m
+        [94massert[39;49;00m checked > [94m0[39;49;00m, ([90m[39;49;00m
+            [33mf[39;49;00m[33m"[39;49;00m[33mr=[39;49;00m[33m{[39;49;00mr[33m}[39;49;00m[33m: no observable had Var_s > 0; the multinomial prediction is [39;49;00m[33m"[39;49;00m[90m[39;49;00m
+            [33mf[39;49;00m[33m"[39;49;00m[33mdegenerate everywhere, so V10 cannot be evaluated. [39;49;00m[33m"[39;49;00m[90m[39;49;00m
+            [33mf[39;49;00m[33m"[39;49;00m[33mstructurally empty: [39;49;00m[33m{[39;49;00mrow[[33m'[39;49;00m[33mstructurally_empty[39;49;00m[33m'[39;49;00m][33m}[39;49;00m[33m"[39;49;00m)[90m[39;49;00m
+>       [94massert[39;49;00m [95mnot[39;49;00m bad, ([90m[39;49;00m
+            [33mf[39;49;00m[33m"[39;49;00m[33mr=[39;49;00m[33m{[39;49;00mr[33m}[39;49;00m[33m: [39;49;00m[33m{[39;49;00m[96mlen[39;49;00m(bad)[33m}[39;49;00m[33m of [39;49;00m[33m{[39;49;00mchecked[33m}[39;49;00m[33m Var_s > 0 observables outside the [39;49;00m[33m"[39;49;00m[90m[39;49;00m
+            [33mf[39;49;00m[33m"[39;49;00m[33mfactor-2 band (N_kept_mean=[39;49;00m[33m{[39;49;00mrow[[33m'[39;49;00m[33mN_kept_mean[39;49;00m[33m'[39;49;00m][33m}[39;49;00m[33m, [39;49;00m[33m"[39;49;00m[90m[39;49;00m
+            [33mf[39;49;00m[33m"[39;49;00m[33myield=[39;49;00m[33m{[39;49;00mrow[[33m'[39;49;00m[33myield_mean[39;49;00m[33m'[39;49;00m][33m:[39;49;00m[33m.4f[39;49;00m[33m}[39;49;00m[33m): [39;49;00m[33m"[39;49;00m + [33m"[39;49;00m[33m; [39;49;00m[33m"[39;49;00m.join(bad))[90m[39;49;00m
+[1m[31mE       AssertionError: r=0: 1 of 13 Var_s > 0 observables outside the factor-2 band (N_kept_mean=2553.4, yield=0.6383): dC: two_sigma/2=6.61723e-05 predicted_se=0.000277875 ratio=0.2381 Var_s=0.00123343[0m
+[1m[31mE       assert not ['dC: two_sigma/2=6.61723e-05 predicted_se=0.000277875 ratio=0.2381 Var_s=0.00123343'][0m
+
+[1m[31mruns/campaign_v060/tests/gate_C0/test_twin_variance.py[0m:275: AssertionError
+[31m[1m_____________________ test_r1_variance_matches_multinomial _____________________[0m
+
+    [0m[94mdef[39;49;00m[90m [39;49;00m[92mtest_r1_variance_matches_multinomial[39;49;00m():[90m[39;49;00m
+    [90m    [39;49;00m[33m"""R8(b)/(c) at r = 1."""[39;49;00m[90m[39;49;00m
+>       _assert_variance([94m1[39;49;00m)[90m[39;49;00m
+
+[1m[31mruns/campaign_v060/tests/gate_C0/test_twin_variance.py[0m:305: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+r = 1
+
+    [0m[94mdef[39;49;00m[90m [39;49;00m[92m_assert_variance[39;49;00m(r):[90m[39;49;00m
+        row = _evidence()[[96mstr[39;49;00m(r)][90m[39;49;00m
+        lo, hi = RATIO_BAND[90m[39;49;00m
+        bad = [][90m[39;49;00m
+        checked = [94m0[39;49;00m[90m[39;49;00m
+        [94mfor[39;49;00m key, obs [95min[39;49;00m row[[33m"[39;49;00m[33mobservables[39;49;00m[33m"[39;49;00m].items():[90m[39;49;00m
+            [94mif[39;49;00m obs[[33m"[39;49;00m[33mVar_s[39;49;00m[33m"[39;49;00m] <= [94m0.0[39;49;00m:[90m[39;49;00m
+                [94mcontinue[39;49;00m          [90m# R8(c): structurally empty, never a failure[39;49;00m[90m[39;49;00m
+            checked += [94m1[39;49;00m[90m[39;49;00m
+            [94mif[39;49;00m [95mnot[39;49;00m lo <= obs[[33m"[39;49;00m[33mratio[39;49;00m[33m"[39;49;00m] <= hi:[90m[39;49;00m
+                bad.append([90m[39;49;00m
+                    [33mf[39;49;00m[33m"[39;49;00m[33m{[39;49;00mkey[33m}[39;49;00m[33m: two_sigma/2=[39;49;00m[33m{[39;49;00mobs[[33m'[39;49;00m[33mtwo_sigma[39;49;00m[33m'[39;49;00m][90m [39;49;00m/[90m [39;49;00m[94m2.0[39;49;00m[33m:[39;49;00m[33m.6g[39;49;00m[33m}[39;49;00m[33m [39;49;00m[33m"[39;49;00m[90m[39;49;00m
+                    [33mf[39;49;00m[33m"[39;49;00m[33mpredicted_se=[39;49;00m[33m{[39;49;00mobs[[33m'[39;49;00m[33mpredicted_se[39;49;00m[33m'[39;49;00m][33m:[39;49;00m[33m.6g[39;49;00m[33m}[39;49;00m[33m [39;49;00m[33m"[39;49;00m[90m[39;49;00m
+                    [33mf[39;49;00m[33m"[39;49;00m[33mratio=[39;49;00m[33m{[39;49;00mobs[[33m'[39;49;00m[33mratio[39;49;00m[33m'[39;49;00m][33m:[39;49;00m[33m.4g[39;49;00m[33m}[39;49;00m[33m Var_s=[39;49;00m[33m{[39;49;00mobs[[33m'[39;49;00m[33mVar_s[39;49;00m[33m'[39;49;00m][33m:[39;49;00m[33m.6g[39;49;00m[33m}[39;49;00m[33m"[39;49;00m)[90m[39;49;00m
+        [94massert[39;49;00m checked > [94m0[39;49;00m, ([90m[39;49;00m
+            [33mf[39;49;00m[33m"[39;49;00m[33mr=[39;49;00m[33m{[39;49;00mr[33m}[39;49;00m[33m: no observable had Var_s > 0; the multinomial prediction is [39;49;00m[33m"[39;49;00m[90m[39;49;00m
+            [33mf[39;49;00m[33m"[39;49;00m[33mdegenerate everywhere, so V10 cannot be evaluated. [39;49;00m[33m"[39;49;00m[90m[39;49;00m
+            [33mf[39;49;00m[33m"[39;49;00m[33mstructurally empty: [39;49;00m[33m{[39;49;00mrow[[33m'[39;49;00m[33mstructurally_empty[39;49;00m[33m'[39;49;00m][33m}[39;49;00m[33m"[39;49;00m)[90m[39;49;00m
+>       [94massert[39;49;00m [95mnot[39;49;00m bad, ([90m[39;49;00m
+            [33mf[39;49;00m[33m"[39;49;00m[33mr=[39;49;00m[33m{[39;49;00mr[33m}[39;49;00m[33m: [39;49;00m[33m{[39;49;00m[96mlen[39;49;00m(bad)[33m}[39;49;00m[33m of [39;49;00m[33m{[39;49;00mchecked[33m}[39;49;00m[33m Var_s > 0 observables outside the [39;49;00m[33m"[39;49;00m[90m[39;49;00m
+            [33mf[39;49;00m[33m"[39;49;00m[33mfactor-2 band (N_kept_mean=[39;49;00m[33m{[39;49;00mrow[[33m'[39;49;00m[33mN_kept_mean[39;49;00m[33m'[39;49;00m][33m}[39;49;00m[33m, [39;49;00m[33m"[39;49;00m[90m[39;49;00m
+            [33mf[39;49;00m[33m"[39;49;00m[33myield=[39;49;00m[33m{[39;49;00mrow[[33m'[39;49;00m[33myield_mean[39;49;00m[33m'[39;49;00m][33m:[39;49;00m[33m.4f[39;49;00m[33m}[39;49;00m[33m): [39;49;00m[33m"[39;49;00m + [33m"[39;49;00m[33m; [39;49;00m[33m"[39;49;00m.join(bad))[90m[39;49;00m
+[1m[31mE       AssertionError: r=1: 1 of 11 Var_s > 0 observables outside the factor-2 band (N_kept_mean=2.6, yield=0.0203): P_BBbar: two_sigma/2=0.17197 predicted_se=0.0660713 ratio=2.603 Var_s=0.0710059[0m
+[1m[31mE       assert not ['P_BBbar: two_sigma/2=0.17197 predicted_se=0.0660713 ratio=2.603 Var_s=0.0710059'][0m
+
+[1m[31mruns/campaign_v060/tests/gate_C0/test_twin_variance.py[0m:275: AssertionError
+[33m=============================== warnings summary ===============================[0m
+runs/campaign_v060/tests/gate_C0/test_twin_variance.py::test_r0_five_distinct
+  /home/digimonk/Projects/SU2ZX_Foundation_Code_Package/SU2ZX/runs/section8_v0.5.0_20260907T0628Z/src/su2qc/circuits/strang_l12.py:156: DeprecationWarning: The class ``qiskit.circuit.library.generalized_gates.diagonal.Diagonal`` is deprecated as of Qiskit 2.1. It will be removed in Qiskit 3.0. Use DiagonalGate instead.
+    qc.append(Diagonal(diag), range(NQ))
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+[36m[1m=========================== short test summary info ============================[0m
+[31mFAILED[0m runs/campaign_v060/tests/gate_C0/test_twin_variance.py::[1mtest_r0_variance_matches_multinomial[0m - AssertionError: r=0: 1 of 13 Var_s > 0 observables outside the factor-2 ban...
+[31mFAILED[0m runs/campaign_v060/tests/gate_C0/test_twin_variance.py::[1mtest_r1_variance_matches_multinomial[0m - AssertionError: r=1: 1 of 11 Var_s > 0 observables outside the factor-2 ban...

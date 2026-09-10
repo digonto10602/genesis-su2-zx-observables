@@ -3,10 +3,12 @@
   "gates": {
     "C0": {
       "status": "partial",
-      "utc": "2026-09-09T23:23:57.700443+00:00",
+      "utc": "2026-09-10T15:26:42.164591+00:00",
       "evidence": "runs/campaign_v060/sessions/c060_p0_20260909_5",
       "failed": [
-        "V10 twin variance: r=1 shot count not met on cost"
+        "V10 variance band at r=0: dC ratio 0.2381, open finding",
+        "V10 variance band at r=1: not evaluable at 2.6 kept shots",
+        "Empty-repeat bootstrap contamination (open finding)"
       ],
       "cleanliness": "pass at commit d683118"
     },
@@ -43,7 +45,7 @@
     "backend": null,
     "job_ids": []
   },
-  "next_action": "Decide the r=1 shot count deliberately at C1 (lower it, move to the cheaper simulator path, or budget ~39 h of compute), rerun V10 r=1, then close C0. C2 rows V2, V4, V6 untouched.",
+  "next_action": "Fix bootstrap to exclude zero-kept repeats and persist per-repeat observables and Var_s; diagnose the r=0 dC shortfall with that data; prove the structured synthesis equivalent to unlock a 20x cheaper r=1; then close C0 and amend C1 per v0.6.4 R22.",
   "baseline": "d66d02b31d7ce466303502d661fc1ed394000796",
   "preservation_policy": "User approved preserve unrelated changes; C0 remains blocked on cleanliness."
 }
